@@ -16,6 +16,6 @@ namespace Air_3550
         public DbSet<Route> Routes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite(@"Data Source=C:\air3550.db");
+            => options.UseSqlite(@"Data Source=air3550.db");
     }
 }
