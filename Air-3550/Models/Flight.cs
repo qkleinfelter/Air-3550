@@ -6,7 +6,7 @@ namespace Air_3550.Models
 {
     public class Flight
     {
-        public int FlightID { get; set; }
+        public int FlightId { get; set; }
         public Airport Origin { get; set; }
         public Airport Destination { get; set; }
         public Plane PlaneType { get; set; }

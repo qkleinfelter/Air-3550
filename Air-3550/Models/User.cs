@@ -6,12 +6,13 @@ namespace Air_3550.Models
 {
     public class User
     {
+        public int UserId { get; set; }
         public int CustomerNumber { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public List<Roles> UserRoles { get; set; } = new List<Roles>();
+        public Role UserRole { get; set; }
         public string CreditCardNumber { get; set; }
         public int PointsUsed { get; set; }
         public int PointsAvailable { get; set; }

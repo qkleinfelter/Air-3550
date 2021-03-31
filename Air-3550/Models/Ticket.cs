@@ -6,7 +6,7 @@ namespace Air_3550.Models
 {
     public class Ticket
     {
-        public User Customer { get; set; }
+        public int TicketId { get; set; }
         public Flight ConnectedFlight { get; set; }
         public Route ConnectedRoute { get; set; }
         public int Price { get; set; }
