@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Air_3550.Models
@@ -10,8 +11,11 @@ namespace Air_3550.Models
         public Flight ConnectedFlight { get; set; }
         public Route ConnectedRoute { get; set; }
         public int Price { get; set; }
+        [Required]
         public string PaymentType { get; set; }
+        [Required]
         public DateTime DepartureDate { get; set; }
+        [Required]
         public DateTime ArrivalDate { get; set; }
     }
 }
