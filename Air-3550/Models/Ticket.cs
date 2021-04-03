@@ -8,8 +8,8 @@ namespace Air_3550.Models
     public class Ticket
     {
         public int TicketId { get; set; }
-        public Flight ConnectedFlight { get; set; }
-        public Route ConnectedRoute { get; set; }
+        [Required]
+        public Flight Flight { get; set; }
         public int Price { get; set; }
         [Required]
         public string PaymentType { get; set; }
@@ -17,5 +17,7 @@ namespace Air_3550.Models
         public DateTime DepartureDate { get; set; }
         [Required]
         public DateTime ArrivalDate { get; set; }
+        [Required]
+        public Trip Trip { get; set; }
     }
 }

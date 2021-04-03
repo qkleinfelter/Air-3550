@@ -16,5 +16,6 @@ namespace Air_3550.Models
         public Plane PlaneType { get; set; }
         public int Cost { get; set; }
         public int TicketsPurchased { get; set; }
+        public int FlightNumber { get; set; }
     }
 }

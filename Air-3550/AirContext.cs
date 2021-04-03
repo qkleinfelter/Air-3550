@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Air_3550
@@ -13,7 +14,7 @@ namespace Air_3550
         public DbSet<Plane> Planes { get; set; }
         public DbSet<Airport> Airports { get; set; }
         public DbSet<Flight> Flights { get; set; }
-        public DbSet<Route> Routes { get; set; }
+        public DbSet<Trip> Trips { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

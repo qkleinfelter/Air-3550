@@ -5,16 +5,14 @@ using System.Text;
 
 namespace Air_3550.Models
 {
-    public class Route
+    public class Trip
     {
-        public int RouteId { get; set; }
+        public int TripId { get; set; }
         [Required]
-        public List<Flight> Flights { get; set; } = new List<Flight>();
+        public List<Ticket> Tickets { get; set; } = new List<Ticket>();
         [Required]
         public Airport Origin { get; set; }
         [Required]
         public Airport Destination { get; set; }
-        [Required]
-        public List<Airport> Connections { get; set; } = new List<Airport>();
     }
 }
