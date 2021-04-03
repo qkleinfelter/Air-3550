@@ -23,34 +23,36 @@ namespace Air_3550.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AirportCode")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("AirportId1")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Latitude")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("Longitude")
-                        .HasColumnType("REAL");
-
-                    b.Property<int?>("RouteId")
+                    b.Property<int>("Elevation")
                         .HasColumnType("INTEGER");
 
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("Decimal(8,6)");
+
+                    b.Property<decimal>("Longitude")
+                        .HasColumnType("Decimal(9,6)");
+
                     b.Property<string>("State")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("AirportId");
 
                     b.HasIndex("AirportId1");
-
-                    b.HasIndex("RouteId");
 
                     b.ToTable("Airports");
                 });
@@ -67,13 +69,13 @@ namespace Air_3550.Migrations
                     b.Property<int?>("DestinationAirportId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("FlightNumber")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("OriginAirportId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("PlaneTypePlaneId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("RouteId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TicketsPurchased")
@@ -86,8 +88,6 @@ namespace Air_3550.Migrations
                     b.HasIndex("OriginAirportId");
 
                     b.HasIndex("PlaneTypePlaneId");
-
-                    b.HasIndex("RouteId");
 
                     b.ToTable("Flights");
                 });
@@ -105,32 +105,12 @@ namespace Air_3550.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Model")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("PlaneId");
 
                     b.ToTable("Planes");
-                });
-
-            modelBuilder.Entity("Air_3550.Models.Route", b =>
-                {
-                    b.Property<int>("RouteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("DestinationAirportId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("OriginAirportId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("RouteId");
-
-                    b.HasIndex("DestinationAirportId");
-
-                    b.HasIndex("OriginAirportId");
-
-                    b.ToTable("Routes");
                 });
 
             modelBuilder.Entity("Air_3550.Models.Ticket", b =>
@@ -142,43 +122,50 @@ namespace Air_3550.Migrations
                     b.Property<DateTime>("ArrivalDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ConnectedFlightFlightId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ConnectedRouteRouteId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("DepartureDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("FlightId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("PaymentType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("UserId2")
+                    b.Property<int>("TripId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("TicketId");
 
-                    b.HasIndex("ConnectedFlightFlightId");
+                    b.HasIndex("FlightId");
 
-                    b.HasIndex("ConnectedRouteRouteId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasIndex("UserId2");
+                    b.HasIndex("TripId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("Air_3550.Models.Trip", b =>
+                {
+                    b.Property<int>("TripId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DestinationAirportId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("OriginAirportId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("TripId");
+
+                    b.HasIndex("DestinationAirportId");
+
+                    b.HasIndex("OriginAirportId");
+
+                    b.ToTable("Trips");
                 });
 
             modelBuilder.Entity("Air_3550.Models.User", b =>
@@ -187,32 +174,13 @@ namespace Air_3550.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("HashedPass")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CreditBalance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("CreditCardNumber")
+                    b.Property<string>("LoginId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("CustomerNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("PointsAvailable")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PointsUsed")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserRole")
                         .HasColumnType("INTEGER");
@@ -227,10 +195,6 @@ namespace Air_3550.Migrations
                     b.HasOne("Air_3550.Models.Airport", null)
                         .WithMany("ConnectedAirports")
                         .HasForeignKey("AirportId1");
-
-                    b.HasOne("Air_3550.Models.Route", null)
-                        .WithMany("Connections")
-                        .HasForeignKey("RouteId");
                 });
 
             modelBuilder.Entity("Air_3550.Models.Flight", b =>
@@ -247,10 +211,6 @@ namespace Air_3550.Migrations
                         .WithMany()
                         .HasForeignKey("PlaneTypePlaneId");
 
-                    b.HasOne("Air_3550.Models.Route", null)
-                        .WithMany("Flights")
-                        .HasForeignKey("RouteId");
-
                     b.Navigation("Destination");
 
                     b.Navigation("Origin");
@@ -258,7 +218,24 @@ namespace Air_3550.Migrations
                     b.Navigation("PlaneType");
                 });
 
-            modelBuilder.Entity("Air_3550.Models.Route", b =>
+            modelBuilder.Entity("Air_3550.Models.Ticket", b =>
+                {
+                    b.HasOne("Air_3550.Models.Flight", "Flight")
+                        .WithMany()
+                        .HasForeignKey("FlightId");
+
+                    b.HasOne("Air_3550.Models.Trip", "Trip")
+                        .WithMany("Tickets")
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Flight");
+
+                    b.Navigation("Trip");
+                });
+
+            modelBuilder.Entity("Air_3550.Models.Trip", b =>
                 {
                     b.HasOne("Air_3550.Models.Airport", "Destination")
                         .WithMany()
@@ -273,52 +250,14 @@ namespace Air_3550.Migrations
                     b.Navigation("Origin");
                 });
 
-            modelBuilder.Entity("Air_3550.Models.Ticket", b =>
-                {
-                    b.HasOne("Air_3550.Models.Flight", "ConnectedFlight")
-                        .WithMany()
-                        .HasForeignKey("ConnectedFlightFlightId");
-
-                    b.HasOne("Air_3550.Models.Route", "ConnectedRoute")
-                        .WithMany()
-                        .HasForeignKey("ConnectedRouteRouteId");
-
-                    b.HasOne("Air_3550.Models.User", null)
-                        .WithMany("TicketsBooked")
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("Air_3550.Models.User", null)
-                        .WithMany("TicketsCanceled")
-                        .HasForeignKey("UserId1");
-
-                    b.HasOne("Air_3550.Models.User", null)
-                        .WithMany("TicketsTaken")
-                        .HasForeignKey("UserId2");
-
-                    b.Navigation("ConnectedFlight");
-
-                    b.Navigation("ConnectedRoute");
-                });
-
             modelBuilder.Entity("Air_3550.Models.Airport", b =>
                 {
                     b.Navigation("ConnectedAirports");
                 });
 
-            modelBuilder.Entity("Air_3550.Models.Route", b =>
+            modelBuilder.Entity("Air_3550.Models.Trip", b =>
                 {
-                    b.Navigation("Connections");
-
-                    b.Navigation("Flights");
-                });
-
-            modelBuilder.Entity("Air_3550.Models.User", b =>
-                {
-                    b.Navigation("TicketsBooked");
-
-                    b.Navigation("TicketsCanceled");
-
-                    b.Navigation("TicketsTaken");
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }
