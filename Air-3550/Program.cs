@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace Air_3550
@@ -7,7 +8,11 @@ namespace Air_3550
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using (var db = new AirContext())
+            {
+                db.Database.Migrate();
+            }
+            Console.WriteLine("Database Migrated.");
             using (var db = new AirContext())
             {
                 Console.WriteLine("Querying Airports");
@@ -19,7 +24,7 @@ namespace Air_3550
                 Console.WriteLine(toledoExpress.Longitude);
                 Console.WriteLine(toledoExpress.Elevation);
             }
-            
+
         }
     }
 }
