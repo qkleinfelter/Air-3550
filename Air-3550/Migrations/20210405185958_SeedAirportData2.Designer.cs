@@ -3,14 +3,16 @@ using System;
 using Air_3550;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Air_3550.Migrations
 {
     [DbContext(typeof(AirContext))]
-    partial class AirContextModelSnapshot : ModelSnapshot
+    [Migration("20210405185958_SeedAirportData2")]
+    partial class SeedAirportData2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

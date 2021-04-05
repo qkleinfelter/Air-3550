@@ -3,14 +3,16 @@ using System;
 using Air_3550;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Air_3550.Migrations
 {
     [DbContext(typeof(AirContext))]
-    partial class AirContextModelSnapshot : ModelSnapshot
+    [Migration("20210405183516_SeedAirportData1")]
+    partial class SeedAirportData1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,112 +62,13 @@ namespace Air_3550.Migrations
                         new
                         {
                             AirportId = 1,
-                            AirportCode = "CLE",
-                            City = "Cleveland",
+                            AirportCode = "TOL",
+                            City = "Toledo",
                             Country = "USA",
-                            Elevation = 791,
-                            Latitude = 41.411667m,
-                            Longitude = -81.849722m,
+                            Elevation = 684,
+                            Latitude = 41.586806m,
+                            Longitude = -83.807833m,
                             State = "Ohio"
-                        },
-                        new
-                        {
-                            AirportId = 2,
-                            AirportCode = "ATL",
-                            City = "Atlanta",
-                            Country = "USA",
-                            Elevation = 1027,
-                            Latitude = 33.636667m,
-                            Longitude = -84.428056m,
-                            State = "Georgia"
-                        },
-                        new
-                        {
-                            AirportId = 3,
-                            AirportCode = "LAX",
-                            City = "Los Angeles",
-                            Country = "USA",
-                            Elevation = 125,
-                            Latitude = 33.9425m,
-                            Longitude = -118.408056m,
-                            State = "California"
-                        },
-                        new
-                        {
-                            AirportId = 4,
-                            AirportCode = "MDW",
-                            City = "Chicago",
-                            Country = "USA",
-                            Elevation = 620,
-                            Latitude = 41.786111m,
-                            Longitude = -87.7525m,
-                            State = "Illinois"
-                        },
-                        new
-                        {
-                            AirportId = 5,
-                            AirportCode = "DAL",
-                            City = "Dallas",
-                            Country = "USA",
-                            Elevation = 486,
-                            Latitude = 32.847222m,
-                            Longitude = -96.851667m,
-                            State = "Texas"
-                        },
-                        new
-                        {
-                            AirportId = 6,
-                            AirportCode = "DEN",
-                            City = "Denver",
-                            Country = "USA",
-                            Elevation = 5430,
-                            Latitude = 39.861667m,
-                            Longitude = -104.673056m,
-                            State = "Colorado"
-                        },
-                        new
-                        {
-                            AirportId = 7,
-                            AirportCode = "LGA",
-                            City = "New York",
-                            Country = "USA",
-                            Elevation = 19,
-                            Latitude = 40.775m,
-                            Longitude = -73.875m,
-                            State = "New York"
-                        },
-                        new
-                        {
-                            AirportId = 8,
-                            AirportCode = "MIA",
-                            City = "Miami",
-                            Country = "USA",
-                            Elevation = 9,
-                            Latitude = 25.793333m,
-                            Longitude = -80.290556m,
-                            State = "Florida"
-                        },
-                        new
-                        {
-                            AirportId = 9,
-                            AirportCode = "SEA",
-                            City = "Seattle",
-                            Country = "USA",
-                            Elevation = 433,
-                            Latitude = 47.448889m,
-                            Longitude = -122.309444m,
-                            State = "Washington"
-                        },
-                        new
-                        {
-                            AirportId = 10,
-                            AirportCode = "BNA",
-                            City = "Nashville",
-                            Country = "USA",
-                            Elevation = 599,
-                            Latitude = 36.126667m,
-                            Longitude = -86.681944m,
-                            State = "Tennessee"
                         });
                 });
 
