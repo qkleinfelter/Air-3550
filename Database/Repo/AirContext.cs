@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Air_3550
+namespace Air_3550.Repo
 {
-    class AirContext : DbContext
+    public class AirContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
