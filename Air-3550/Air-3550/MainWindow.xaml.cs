@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Air_3550.Repo;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -30,7 +32,26 @@ namespace Air_3550
 
         private void myButton_Click(object sender, RoutedEventArgs e)
         {
+            string text = "";
+            using (var db = new AirContext())
+            {
+                db.Airports.ForEachAsync(airport =>
+                {
+                    text += (airport.AirportCode + ", " + airport.City + "\n");
+                });
+
+                db.Planes.ForEachAsync(plane =>
+                {
+                    text += (plane.Model + " has max seats " + plane.MaxSeats + " and max distance " + plane.MaxDistance + "\n");
+                });
+
+                db.Users.ForEachAsync(user =>
+                {
+                    text += (user.LoginId + " has role " + user.UserRole + "\n");
+                });
+            }
             myButton.Content = "Clicked";
+            testTextBlock.Text = text;
         }
     }
 }
