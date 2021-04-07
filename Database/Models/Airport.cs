@@ -30,8 +30,13 @@ namespace Air_3550.Models
          * based on this stackoverflow: https://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude/16794680#16794680
          * returns the distance in meters for now, will need to adjust for our use case
          */
-        public double calcDistanceBetweenAirports(Airport other)
+        public double DistanceToOtherAirport(Airport other)
         {
+            static double toRadians(double degrees)
+            {
+                return (Math.PI / 180) * degrees;
+            }
+
             int R = 6371; // Radius of the earth
             double elevation1 = this.Elevation / 3.281; // converts our elevation in feet to meters
             double elevation2 = other.Elevation / 3.281; // converts our other airport's elevation in feet to meters
@@ -54,11 +59,6 @@ namespace Air_3550.Models
             distance = Math.Pow(distance, 2) + Math.Pow(height, 2);
 
             return Math.Sqrt(distance);
-        }
-
-        public static double toRadians(double degrees)
-        {
-            return (Math.PI / 180) * degrees;
         }
     }
 }
