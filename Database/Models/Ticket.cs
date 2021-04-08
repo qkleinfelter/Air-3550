@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Database.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Air_3550.Models
         public Flight Flight { get; set; }
         public int Price { get; set; }
         [Required]
-        public string PaymentType { get; set; }
+        public PaymentType PaymentType { get; set; }
         [Required]
         public DateTime DepartureDate { get; set; }
         [Required]
