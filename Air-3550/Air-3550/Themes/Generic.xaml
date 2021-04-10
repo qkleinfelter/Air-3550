@@ -7,9 +7,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:AirportSuggest">
-                    <Grid Width="100" Height="100" Background="{TemplateBinding Background}">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{TemplateBinding Label}" />
-                    </Grid>
+                    <AutoSuggestBox Width="200" AutomationProperties.Name="Basic AutoSuggestbox" 
+                                        PlaceholderText="{TemplateBinding Label}"
+                                        x:Name="SuggestBox"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
