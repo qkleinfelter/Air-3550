@@ -8,11 +8,11 @@
     mc:Ignorable="d">
 
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
-        <local:AirportSuggest x:Name="originPicker" Label="Origin Airport"/>
-        <local:AirportSuggest x:Name="destPicker" Label="Destination Airport"/>
-        <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Header="Departure" Margin="3"/>
-        <CalendarDatePicker x:Name="returnPicker" PlaceholderText="Returning Date" Header="Return" Margin="3"/>
-        <Button x:Name="searchButton" Click="searchButton_Click">Search</Button>
+        <local:AirportSuggest x:Name="originPicker" Label="Origin Airport" Margin="3"/>
+        <local:AirportSuggest x:Name="destPicker" Label="Destination Airport" Margin="3"/>
+        <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3"/>
+        <CalendarDatePicker x:Name="returnPicker" PlaceholderText="Returning Date" Margin="3"/>
+        <Button x:Name="searchButton" Click="searchButton_Click" Margin="3">Search</Button>
         <TextBlock x:Name="testTextBlock"></TextBlock>
     </StackPanel>
 </Window>
