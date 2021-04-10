@@ -32,25 +32,7 @@ namespace Air_3550
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            string text = "";
-            using (var db = new AirContext())
-            {
-                db.Airports.ForEachAsync(airport =>
-                {
-                    text += (airport.AirportCode + ", " + airport.City + "\n");
-                });
-
-                db.Planes.ForEachAsync(plane =>
-                {
-                    text += (plane.Model + " has max seats " + plane.MaxSeats + " and max distance " + plane.MaxDistance + "\n");
-                });
-
-                db.Users.ForEachAsync(user =>
-                {
-                    text += (user.LoginId + " has role " + user.UserRole + "\n");
-                });
-            }
-            testTextBlock.Text = text;
+            searchButton.Content = "Searched!";
         }
     }
 }

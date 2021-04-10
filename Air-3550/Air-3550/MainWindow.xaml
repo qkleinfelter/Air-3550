@@ -13,6 +13,5 @@
         <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3"/>
         <CalendarDatePicker x:Name="returnPicker" PlaceholderText="Returning Date" Margin="3"/>
         <Button x:Name="searchButton" Click="searchButton_Click" Margin="3">Search</Button>
-        <TextBlock x:Name="testTextBlock"></TextBlock>
     </StackPanel>
 </Window>

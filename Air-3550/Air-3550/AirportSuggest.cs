@@ -77,6 +77,7 @@ namespace Air_3550
                 {
                     suitableItems.Add("No Results Found");
                 }
+                suitableItems.Sort();
                 sender.ItemsSource = suitableItems;
             }
         }
@@ -87,6 +88,7 @@ namespace Air_3550
             {
                 var airports = await db.Airports.ToListAsync();
                 AirportNames.AddRange(airports.Select(airport => airport.City + " (" + airport.AirportCode + ")"));
+                AirportNames.Sort();
             }
         }
 
