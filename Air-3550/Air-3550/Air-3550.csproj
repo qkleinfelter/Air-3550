@@ -19,4 +19,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Database\Database.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 </Project>

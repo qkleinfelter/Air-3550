@@ -30,7 +30,7 @@ namespace Air_3550
             this.InitializeComponent();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        private void searchButton_Click(object sender, RoutedEventArgs e)
         {
             string text = "";
             using (var db = new AirContext())
@@ -50,7 +50,6 @@ namespace Air_3550
                     text += (user.LoginId + " has role " + user.UserRole + "\n");
                 });
             }
-            myButton.Content = "Clicked";
             testTextBlock.Text = text;
         }
     }
