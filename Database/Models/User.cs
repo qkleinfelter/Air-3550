@@ -14,5 +14,6 @@ namespace Air_3550.Models
         public string HashedPass { get; set; }
         [Required]
         public Role UserRole { get; set; }
+        public CustomerInfo CustInfo { get; set; }
     }
 }

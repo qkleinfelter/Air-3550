@@ -5,11 +5,10 @@ using System.Text;
 
 namespace Air_3550.Models
 {
-    class CustomerInfo
+    public class CustomerInfo
     {
-        public int CustInfoId { get; set; }
-        [Required]
-        public User User { get; set; }
+        public int CustomerInfoId { get; set; }
+
         [Required]
         public string Name { get; set; }
         [Required]
