@@ -50,6 +50,14 @@ namespace Air_3550
             }
             m_window = new MainWindow();
             m_window.Activate();
+
+            // Newb with this stuff... comment out above m_window code
+            // and uncomment below m_window code to view login form.
+            // Nothing is functional yet.  Learning curve high so far.
+
+            //m_window = new LoginWindow();
+            //m_window.Activate();
+
         }
 
         private Window m_window;
