@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Text;
+using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,7 +32,21 @@ namespace Air_3550.Pages
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            loginButton.Content = "Clicked!!";
+            //get user password
+            string userInput = passwordBox.Password.ToString();
+
+            // Using built-in Cryptography class to produce SHA512 hash of passwords.
+            using (SHA512 sha512Hash = SHA512.Create())
+            {
+                // Have to go from String to byte array
+                byte[] inputBytes = Encoding.UTF8.GetBytes(userInput);
+                byte[] hashBytes = sha512Hash.ComputeHash(inputBytes);
+                string hash = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
+
+                //For necessary output to communicate to user.
+                outputBlock.Text = "Hash is: " + hash.ToLower();
+            }
+
         }
     }
 }
