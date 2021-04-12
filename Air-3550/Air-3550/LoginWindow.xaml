@@ -7,10 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <RelativePanel  Width="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <RelativePanel  Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" >
         <TextBox x:Name="userID" Header="Enter your UserID:" PlaceholderText="UserID" />
         <PasswordBox x:Name="passwordBox" Width="300" Header="Password" PlaceholderText="Enter your password" PasswordChar="*" RelativePanel.Below="userID" />
-        <Button x:Name="login" Content="Login" RelativePanel.Below="passwordBox" />
-        <Button x:Name="createAccount" Content="Create Account" RelativePanel.Below="passwordBox" RelativePanel.RightOf="login" />
+        <Button x:Name="loginButton" Click="loginButton_Click" RelativePanel.Below="passwordBox">Login</Button>
+        <Button x:Name="createAccountButton" Content="Create Account" RelativePanel.Below="passwordBox" RelativePanel.RightOf="loginButton" />
     </RelativePanel>
 </Window>
