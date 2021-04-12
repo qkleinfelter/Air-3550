@@ -1,4 +1,5 @@
-﻿using Air_3550.Repo;
+﻿using Air_3550.Pages;
+using Air_3550.Repo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -49,14 +50,20 @@ namespace Air_3550
                 db.Database.Migrate();
             }
             m_window = new MainWindow();
+
+            Frame frame = m_window.Content as Frame;
+            if (frame == null)
+            {
+                frame = new Frame();
+                m_window.Content = frame;
+            }
+
+            if (frame.Content == null)
+            {
+                frame.Navigate(typeof(MainPage));
+            }
+
             m_window.Activate();
-
-            // Newb with this stuff... comment out above m_window code
-            // and uncomment below m_window code to view login form.
-            // Nothing is functional yet.  Learning curve high so far.
-
-            //m_window = new LoginWindow();
-            //m_window.Activate();
 
         }
         private Window m_window;

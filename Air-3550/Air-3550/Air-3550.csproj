@@ -9,7 +9,8 @@
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="LoginWindow.xaml" />
+    <None Remove="Pages\LoginPage.xaml" />
+    <None Remove="Pages\MainPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,13 +25,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="LoginWindow.xaml">
+    <Page Update="Pages\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 
   <ItemGroup>
     <Page Update="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

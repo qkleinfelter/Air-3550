@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Air_3550.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Air_3550"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+        <local:AirportSuggest x:Name="originPicker" Label="Origin Airport" Margin="3"/>
+        <local:AirportSuggest x:Name="destPicker" Label="Destination Airport" Margin="3"/>
+        <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3"/>
+        <CalendarDatePicker x:Name="returnPicker" PlaceholderText="Returning Date" Margin="3"/>
+        <Button x:Name="searchButton" Click="searchButton_Click" Margin="3">Search</Button>
+        <Button x:Name="loginNavigator" Click="loginNavigator_Click" Margin="3">Login</Button>
+    </StackPanel>
+</Page>
