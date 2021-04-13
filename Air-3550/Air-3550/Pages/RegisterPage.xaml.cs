@@ -27,5 +27,10 @@ namespace Air_3550.Pages
         {
             this.InitializeComponent();
         }
+
+        private void backButton_Click(Object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
+        }
     }
 }

@@ -20,6 +20,7 @@
         <TextBox PlaceholderText="Credit Card Number" x:Name="CreditCardInput" RelativePanel.Below="PhoneInput" Margin="3" Width="300"/>
         <PasswordBox PlaceholderText="Password" x:Name="PasswordInput" RelativePanel.Below="CreditCardInput" Margin="3" Width="300"/>
         <PasswordBox PlaceholderText="Confirm Password" x:Name="ConfirmPasswordInput" RelativePanel.Below="PasswordInput" Margin="3" Width="300"/>
-        <Button Content="Create Account" x:Name="createAccountButton" RelativePanel.Below="ConfirmPasswordInput" Margin="3"/>
+        <Button Content="Create Account" x:Name="createAccountButton" RelativePanel.Below="ConfirmPasswordInput" Margin="3" Width="147"/>
+        <Button Content="Back to Home" x:Name="backButton" RelativePanel.Below="ConfirmPasswordInput" RelativePanel.RightOf="createAccountButton" Margin="3" Width="147" Click="backButton_Click"/>
     </RelativePanel>
 </Page>
