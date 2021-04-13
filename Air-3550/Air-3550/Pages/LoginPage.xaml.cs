@@ -48,5 +48,10 @@ namespace Air_3550.Pages
             }
 
         }
+
+        private void createAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(RegisterPage));
+        }
     }
 }
