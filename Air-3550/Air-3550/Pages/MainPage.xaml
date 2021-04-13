@@ -8,12 +8,17 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
-        <local:AirportSuggest x:Name="originPicker" Label="Origin Airport" Margin="3"/>
-        <local:AirportSuggest x:Name="destPicker" Label="Destination Airport" Margin="3"/>
-        <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3"/>
-        <CalendarDatePicker x:Name="returnPicker" PlaceholderText="Returning Date" Margin="3"/>
-        <Button x:Name="searchButton" Click="searchButton_Click" Margin="3">Search</Button>
-        <Button x:Name="loginNavigator" Click="loginNavigator_Click" Margin="3">Login</Button>
-    </StackPanel>
+    <RelativePanel>
+        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true" RelativePanel.AlignVerticalCenterWithPanel="true">
+            <TextBlock Text="Air-3550" FontSize="56" FontFamily="Sans-Serif" x:Name="titleText"/>
+            <StackPanel x:Name="stack" Orientation="Horizontal" HorizontalAlignment="Center">
+                <local:AirportSuggest x:Name="originPicker" Label="Origin Airport" Margin="3" VerticalAlignment="Bottom"/>
+                <local:AirportSuggest x:Name="destPicker" Label="Destination Airport" Margin="3" VerticalAlignment="Bottom"/>
+                <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3" VerticalAlignment="Bottom"/>
+                <CalendarDatePicker x:Name="returnPicker" PlaceholderText="Returning Date" Margin="3" VerticalAlignment="Bottom"/>
+                <Button x:Name="searchButton" Click="searchButton_Click" Margin="3" VerticalAlignment="Bottom">Search</Button>
+            </StackPanel>
+        </StackPanel>
+        <Button x:Name="loginNavigator" Click="loginNavigator_Click" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="true">Login</Button>
+    </RelativePanel>
 </Page>

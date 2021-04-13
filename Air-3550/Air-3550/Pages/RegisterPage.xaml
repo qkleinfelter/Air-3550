@@ -18,6 +18,8 @@
         <TextBox PlaceholderText="Phone Number" x:Name="PhoneInput" RelativePanel.Below="ZipInput" Margin="3" Width="195"/>
         <NumberBox PlaceholderText="Age" x:Name="AgeInput" RelativePanel.RightOf="PhoneInput" RelativePanel.Below="ZipInput" Margin="3" Width="100"/>
         <TextBox PlaceholderText="Credit Card Number" x:Name="CreditCardInput" RelativePanel.Below="PhoneInput" Margin="3" Width="300"/>
-        <Button Content="Create Account" x:Name="createAccountButton" RelativePanel.Below="CreditCardInput" Margin="3"/>
+        <PasswordBox PlaceholderText="Password" x:Name="PasswordInput" RelativePanel.Below="CreditCardInput" Margin="3" Width="300"/>
+        <PasswordBox PlaceholderText="Confirm Password" x:Name="ConfirmPasswordInput" RelativePanel.Below="PasswordInput" Margin="3" Width="300"/>
+        <Button Content="Create Account" x:Name="createAccountButton" RelativePanel.Below="ConfirmPasswordInput" Margin="3"/>
     </RelativePanel>
 </Page>
