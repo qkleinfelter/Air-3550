@@ -15,6 +15,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Database.Utiltities;
+using Microsoft.UI.Xaml.Media.Animation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -47,6 +48,8 @@ namespace Air_3550.Pages
             } else
             {
                 outputBlock.Text = "";
+                // Once they're logged in, send them back to the main page
+                Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
         }
 
