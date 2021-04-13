@@ -9,6 +9,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="Register" FontSize="48" x:Name="RegisterText"/>
+        <TextBlock Text="Register" FontSize="48" x:Name="RegisterText" Margin="3"/>
+        <TextBox PlaceholderText="Full Name" x:Name="NameInput" RelativePanel.Below="RegisterText" Margin="3" Width="300"/>
+        <TextBox PlaceholderText="Address" x:Name="AddressInput" RelativePanel.Below="NameInput" Margin="3" Width="300"/>
+        <TextBox PlaceholderText="City" x:Name="CityInput" RelativePanel.Below="AddressInput" Margin="3" Width="195"/>
+        <TextBox PlaceholderText="State" x:Name="StateInput" RelativePanel.RightOf="CityInput" RelativePanel.Below="AddressInput" Margin="3" Width="100"/>
+        <TextBox PlaceholderText="Zip Code" x:Name="ZipInput" RelativePanel.Below="StateInput" Margin="3" Width="300"/>
+        <TextBox PlaceholderText="Phone Number" x:Name="PhoneInput" RelativePanel.Below="ZipInput" Margin="3" Width="195"/>
+        <NumberBox PlaceholderText="Age" x:Name="AgeInput" RelativePanel.RightOf="PhoneInput" RelativePanel.Below="ZipInput" Margin="3" Width="100"/>
+        <TextBox PlaceholderText="Credit Card Number" x:Name="CreditCardInput" RelativePanel.Below="PhoneInput" Margin="3" Width="300"/>
+        <Button Content="Create Account" x:Name="createAccountButton" RelativePanel.Below="CreditCardInput" Margin="3"/>
     </RelativePanel>
 </Page>
