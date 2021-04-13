@@ -14,6 +14,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Database.Utiltities;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -33,20 +34,11 @@ namespace Air_3550.Pages
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             //get user password
-            string userInput = passwordBox.Password.ToString();
-
-            // Using built-in Cryptography class to produce SHA512 hash of passwords.
-            using (SHA512 sha512Hash = SHA512.Create())
-            {
-                // Have to go from String to byte array
-                byte[] inputBytes = Encoding.UTF8.GetBytes(userInput);
-                byte[] hashBytes = sha512Hash.ComputeHash(inputBytes);
-                string hash = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
-
-                //For necessary output to communicate to user.
-                outputBlock.Text = "Hash is: " + hash.ToLower();
-            }
-
+            string userIdInput = userID.Text.ToString();
+            string userPasswordInput = passwordBox.Password.ToString();
+            string hashed = PasswordHandler.HashPassword(userPasswordInput);
+            bool accountCorrect = PasswordHandler.CompareHashedToStored(userIdInput, hashed);
+            outputBlock.Text = "Account correct: " + accountCorrect;
         }
 
         private void createAccountButton_Click(object sender, RoutedEventArgs e)
