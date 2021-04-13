@@ -21,8 +21,7 @@ namespace Air_3550.Models
         public string Zip { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
-        [Required]
-        public DateTime DateOfBirth { get; set; }
+        public int Age { get; set; }
         [Required]
         public string CreditCardNumber { get; set; }
         public int PointsUsed { get; set; }
