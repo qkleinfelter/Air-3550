@@ -16,6 +16,6 @@
         <Button x:Name="resetPasswordButton" Content="Reset Password" RelativePanel.Below="passwordBox" RelativePanel.RightOf="loginButton" Margin="3" Width="112"/>
         <Button x:Name="createAccountButton" Click="createAccountButton_Click" Content="Create Account" RelativePanel.Below="passwordBox" RelativePanel.RightOf="resetPasswordButton" Margin="3" Width="112"/>
 
-        <TextBlock x:Name="outputBlock" RelativePanel.Below="loginButton" />
+        <TextBlock x:Name="outputBlock" RelativePanel.Below="loginButton" Foreground="OrangeRed" FontSize="18"/>
     </RelativePanel>
 </Page>

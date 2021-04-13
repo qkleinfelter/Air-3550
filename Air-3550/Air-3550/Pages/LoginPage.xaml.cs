@@ -38,7 +38,16 @@ namespace Air_3550.Pages
             string userPasswordInput = passwordBox.Password.ToString();
             string hashed = PasswordHandler.HashPassword(userPasswordInput);
             bool accountCorrect = PasswordHandler.CompareHashedToStored(userIdInput, hashed);
-            outputBlock.Text = "Account correct: " + accountCorrect;
+            if (!accountCorrect)
+            {
+                // For security reasons, we always display the same message
+                // so that users cannot brute force to determine login ids
+                // the extra space on the left is for formatting reasons
+                outputBlock.Text = " Username or Password is incorrect!";
+            } else
+            {
+                outputBlock.Text = "";
+            }
         }
 
         private void createAccountButton_Click(object sender, RoutedEventArgs e)
