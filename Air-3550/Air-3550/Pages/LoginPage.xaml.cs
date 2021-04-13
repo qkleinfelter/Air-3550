@@ -16,15 +16,13 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Database.Utiltities;
 using Microsoft.UI.Xaml.Media.Animation;
+using Air_3550.Repo;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Air_3550.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class LoginPage : Page
     {
         public LoginPage()
@@ -48,6 +46,12 @@ namespace Air_3550.Pages
             } else
             {
                 outputBlock.Text = "";
+                using (var db = new AirContext())
+                {
+                    var user = db.Users.Where(dbuser => dbuser.LoginId == userIdInput).FirstOrDefault();
+                    UserSession.user = user;
+                    UserSession.userLoggedIn = true;
+                }
                 // Once they're logged in, send them back to the main page
                 Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }

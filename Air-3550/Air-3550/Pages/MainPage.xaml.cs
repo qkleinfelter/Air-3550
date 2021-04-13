@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Database.Utiltities;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -26,6 +27,10 @@ namespace Air_3550.Pages
         public MainPage()
         {
             this.InitializeComponent();
+            if (UserSession.userLoggedIn)
+            {
+                loginNavigator.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)

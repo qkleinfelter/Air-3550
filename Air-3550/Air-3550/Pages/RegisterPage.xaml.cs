@@ -18,9 +18,6 @@ using Windows.Foundation.Collections;
 
 namespace Air_3550.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class RegisterPage : Page
     {
         public RegisterPage()
