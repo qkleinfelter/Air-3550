@@ -103,12 +103,42 @@ namespace Air_3550.Pages
             return true;
         }
 
+        int MakeUserID()
+        {
+            // Make 6-digit random int without leading 0s
+            // Instantiate random number generator using system-supplied value as seed.
+            var rand = new Random();
+
+            // First digit must be between 1-9 inclusive.
+            int userID = rand.Next(0, 10) * 100000;
+
+            // Next five digits can be between 0-9 inclusive.
+            int multiplyBy = 10000;
+            for (int i = 0; i < 5; i++)
+            {
+                userID += (rand.Next(10) * multiplyBy);
+                multiplyBy /= 10;
+            }
+
+            return userID;
+
+            //still need to validate userID is unique to database with some type of loop
+        }
+
         private void createAccountButton_Click(Object sender, RoutedEventArgs e)
         {
             // Input validation.
             if (ValidateInput())
             {
-                outputBlock.Text = "Thanks for doing your data part!";
+                outputBlock.Text = "";
+
+                // Get Random UserID
+
+                //printing for now to test, bout to head to work...
+                // sometimes get 5-digit number, have to test further...
+                int userID = MakeUserID();
+                outputBlock.Text = userID.ToString();
+
             }
         }
     }
