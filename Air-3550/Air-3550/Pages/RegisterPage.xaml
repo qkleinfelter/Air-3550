@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="Register" FontSize="48" x:Name="RegisterText" Margin="3"/>
+        <TextBlock Text="Register" FontSize="48" x:Name="RegisterText" Margin="3" />
         <TextBox PlaceholderText="Full Name" x:Name="NameInput" RelativePanel.Below="RegisterText" Margin="3" Width="300"/>
         <TextBox PlaceholderText="Address" x:Name="AddressInput" RelativePanel.Below="NameInput" Margin="3" Width="300"/>
         <TextBox PlaceholderText="City" x:Name="CityInput" RelativePanel.Below="AddressInput" Margin="3" Width="195"/>
@@ -20,7 +20,9 @@
         <TextBox PlaceholderText="Credit Card Number" x:Name="CreditCardInput" RelativePanel.Below="PhoneInput" Margin="3" Width="300"/>
         <PasswordBox PlaceholderText="Password" x:Name="PasswordInput" RelativePanel.Below="CreditCardInput" Margin="3" Width="300"/>
         <PasswordBox PlaceholderText="Confirm Password" x:Name="ConfirmPasswordInput" RelativePanel.Below="PasswordInput" Margin="3" Width="300"/>
-        <Button Content="Create Account" x:Name="createAccountButton" RelativePanel.Below="ConfirmPasswordInput" Margin="3" Width="147"/>
+        <Button Content="Create Account" x:Name="createAccountButton" RelativePanel.Below="ConfirmPasswordInput" Margin="3" Width="147" Click="createAccountButton_Click" />
         <Button Content="Back to Home" x:Name="backButton" RelativePanel.Below="ConfirmPasswordInput" RelativePanel.RightOf="createAccountButton" Margin="3" Width="147" Click="backButton_Click"/>
+
+        <TextBlock x:Name="outputBlock" RelativePanel.Below="createAccountButton" Foreground="OrangeRed" FontSize="18"/>
     </RelativePanel>
 </Page>
