@@ -37,5 +37,14 @@ namespace Database.Utiltities
             }
             return false;
         }
+
+        public static void AddUserToDB(User user)
+        {
+            using (var db = new AirContext())
+            {
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
+        }
     }
 }

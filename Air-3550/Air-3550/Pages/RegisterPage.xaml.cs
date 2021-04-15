@@ -13,6 +13,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Database.Utiltities;
+using Database.Models;
+using Air_3550.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -136,6 +138,29 @@ namespace Air_3550.Pages
 
                 //printing for now to test, bout to head to work...
                 int userID = MakeUserID();
+
+                CustomerInfo customerInfo = new CustomerInfo()
+                {
+                    Name = NameInput.Text,
+                    Address = AddressInput.Text,
+                    City = CityInput.Text,
+                    State = StateInput.Text,
+                    Zip = ZipInput.Text,
+                    PhoneNumber = PhoneInput.Text,
+                    Age = (int) AgeInput.Value,
+                    CreditCardNumber = CreditCardInput.Text
+                };
+
+                User user = new User()
+                {
+                    LoginId = userID.ToString(),
+                    HashedPass = PasswordHandler.HashPassword(PasswordInput.Password),
+                    UserRole = Role.CUSTOMER,
+                    CustInfo = customerInfo
+                };
+
+                UserUtilities.AddUserToDB(user);
+
                 outputInfo.Title = "Account Creation Successful!";
                 outputInfo.Message = $"Your Login ID is: {userID.ToString()}, please remember it for future logins!";
                 outputInfo.Severity = InfoBarSeverity.Success;
