@@ -9,6 +9,16 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel>
-        <TextBlock x:Name="titleText" FontFamily="Sans-Serif" FontSize="54" Text="My Account"/>
+        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true" RelativePanel.AlignVerticalCenterWithPanel="true">
+            <TextBlock x:Name="titleText" FontFamily="Sans-Serif" FontSize="56" Text="My Account"/>
+        </StackPanel>
+        <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">
+            <DropDownButton.Flyout>
+                <MenuFlyout Placement="Bottom">
+                    <MenuFlyoutItem Text="Change Account Info" Click="changeAccountInfoButton_Click"/>
+                    <MenuFlyoutItem Text="Logout" Click="logoutNavigator_Click"/>
+                </MenuFlyout>
+            </DropDownButton.Flyout>
+        </DropDownButton>
     </RelativePanel>
 </Page>
