@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Database.Utiltities;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -109,12 +110,19 @@ namespace Air_3550.Pages
             // Instantiate random number generator using system-supplied value as seed.
             var rand = new Random();
 
-            // Random 6-digit number
-            int userID = rand.Next(99999, 1000000);
+            int userID;
+            while (true)
+            {
+                // Random 6-digit number, .next is inclusive on minimum & exclusive on max
+                userID = rand.Next(100000, 1000000);
+                if (!UserUtilities.LoginIDExists(userID))
+                {
+                    // If the login id doesn't exist, then break out of the while loop and return
+                    break;
+                }
+            }
 
             return userID;
-
-            //still need to validate userID is unique to database with some type of loop
         }
 
         private void createAccountButton_Click(Object sender, RoutedEventArgs e)
