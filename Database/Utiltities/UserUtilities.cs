@@ -25,21 +25,14 @@ namespace Database.Utiltities
             }
         }
 
-        public static bool LoginIDExists(int loginId)
+        public static bool LoginIDExists(string loginId)
         {
             using (var db = new AirContext())
             {
-                // i know theres a better way to do this but c# was giving me weird expression tree errors
-                // that i cant be asked to figure out right now, so i'm using this garbage method
-                var users = db.Users;
-                foreach (var dbuser in users)
+                var user = db.Users.SingleOrDefault(dbuser => dbuser.LoginId == loginId);
+                if (user != null)
                 {
-                    int id;
-                    bool success = int.TryParse(dbuser.LoginId, out id);
-                    if (success && id == loginId)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;

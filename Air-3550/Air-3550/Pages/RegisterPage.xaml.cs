@@ -115,7 +115,7 @@ namespace Air_3550.Pages
             {
                 // Random 6-digit number, .next is inclusive on minimum & exclusive on max
                 userID = rand.Next(100000, 1000000);
-                if (!UserUtilities.LoginIDExists(userID))
+                if (!UserUtilities.LoginIDExists(userID.ToString()))
                 {
                     // If the login id doesn't exist, then break out of the while loop and return
                     break;
@@ -136,7 +136,10 @@ namespace Air_3550.Pages
 
                 //printing for now to test, bout to head to work...
                 int userID = MakeUserID();
-                outputBlock.Text = userID.ToString();
+                outputInfo.Title = "Account Creation Successful!";
+                outputInfo.Message = $"Your Login ID is: {userID.ToString()}, please remember it for future logins!";
+                outputInfo.Severity = InfoBarSeverity.Success;
+                outputInfo.IsOpen = true;
 
             }
         }

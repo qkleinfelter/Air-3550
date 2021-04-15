@@ -24,5 +24,6 @@
         <Button Content="Back to Home" x:Name="backButton" RelativePanel.Below="ConfirmPasswordInput" RelativePanel.RightOf="createAccountButton" Margin="3" Width="147" Click="backButton_Click"/>
 
         <TextBlock x:Name="outputBlock" RelativePanel.Below="createAccountButton" Foreground="OrangeRed" FontSize="18"/>
+        <InfoBar x:Name="outputInfo" RelativePanel.Below="createAccountButton" IsOpen="False" Width="300" Margin="3"/>
     </RelativePanel>
 </Page>
