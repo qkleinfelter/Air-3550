@@ -1,5 +1,4 @@
-﻿using Database.Utiltities;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -14,24 +13,23 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
+
 namespace Air_3550.Pages
 {
-    public sealed partial class AccountPage : Page
+    public sealed partial class ChangeAccountInfoPage : Page
     {
-        public AccountPage()
+        public ChangeAccountInfoPage()
         {
             this.InitializeComponent();
         }
 
-        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        private void updateAccountInfo_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ChangeAccountInfoPage));
+
         }
 
-        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            UserSession.user = null;
-            UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
         }
     }

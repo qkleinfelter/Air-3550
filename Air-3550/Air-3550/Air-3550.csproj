@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Pages\AccountPage.xaml" />
+    <None Remove="Pages\ChangeAccountInfoPage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
     <None Remove="Pages\MainPage.xaml" />
     <None Remove="Pages\RegisterPage.xaml" />
@@ -24,6 +25,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Database\Database.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\ChangeAccountInfoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
