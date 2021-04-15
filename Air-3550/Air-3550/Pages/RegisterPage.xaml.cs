@@ -106,7 +106,7 @@ namespace Air_3550.Pages
             return true;
         }
 
-        int MakeUserID()
+        private int MakeUserID()
         {
             // Make 6-digit random int without leading 0s
             // Instantiate random number generator using system-supplied value as seed.
@@ -139,7 +139,7 @@ namespace Air_3550.Pages
                 //printing for now to test, bout to head to work...
                 int userID = MakeUserID();
 
-                CustomerInfo customerInfo = new CustomerInfo()
+                CustomerInfo customerInfo = new()
                 {
                     Name = NameInput.Text,
                     Address = AddressInput.Text,
@@ -151,7 +151,7 @@ namespace Air_3550.Pages
                     CreditCardNumber = CreditCardInput.Text
                 };
 
-                User user = new User()
+                User user = new()
                 {
                     LoginId = userID.ToString(),
                     HashedPass = PasswordHandler.HashPassword(PasswordInput.Password),
@@ -162,7 +162,7 @@ namespace Air_3550.Pages
                 UserUtilities.AddUserToDB(user);
 
                 outputInfo.Title = "Account Creation Successful!";
-                outputInfo.Message = $"Your Login ID is: {userID.ToString()}, please remember it for future logins!";
+                outputInfo.Message = $"Your Login ID is: {userID}, please remember it for future logins!";
                 outputInfo.Severity = InfoBarSeverity.Success;
                 outputInfo.IsOpen = true;
 

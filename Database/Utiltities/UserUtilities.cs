@@ -17,12 +17,10 @@ namespace Database.Utiltities
 
         public static void AwardCredit(User user, int amount)
         {
-            using (var db = new AirContext())
-            {
-                var customerInfo = db.Users.Where(dbuser => dbuser.UserId == user.UserId).FirstOrDefault().CustInfo;
-                if (customerInfo != null)
-                    customerInfo.CreditBalance += amount;
-            }
+            using var db = new AirContext();
+            var customerInfo = db.Users.Where(dbuser => dbuser.UserId == user.UserId).FirstOrDefault().CustInfo;
+            if (customerInfo != null)
+                customerInfo.CreditBalance += amount;
         }
 
         public static bool LoginIDExists(string loginId)
@@ -40,11 +38,9 @@ namespace Database.Utiltities
 
         public static void AddUserToDB(User user)
         {
-            using (var db = new AirContext())
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-            }
+            using var db = new AirContext();
+            db.Users.Add(user);
+            db.SaveChanges();
         }
     }
 }

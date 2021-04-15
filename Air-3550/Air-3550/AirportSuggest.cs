@@ -39,7 +39,7 @@ namespace Air_3550
 
         public bool HasLabelValue { get; set; }
 
-        public List<string> AirportNames = new List<string>();
+        public List<string> AirportNames = new();
 
         private static void OnLabelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -59,37 +59,33 @@ namespace Air_3550
         {
             var suitableItems = new List<string>();
             var splitText = sender.Text.ToLower().Split(" ");
-            using (var db = new AirContext())
+            using var db = new AirContext();
+            var airports = db.Airports;
+            foreach (var airport in airports)
             {
-                var airports = db.Airports;
-                foreach (var airport in airports)
+                var found = splitText.All((key) =>
                 {
-                    var found = splitText.All((key) =>
-                    {
-                        return airport.City.ToLower().Contains(key) || airport.AirportCode.ToLower().Contains(key);
-                    });
-                    if (found)
-                    {
-                        suitableItems.Add(airport.City + " (" + airport.AirportCode + ")");
-                    }
-                }
-                if (suitableItems.Count == 0)
+                    return airport.City.ToLower().Contains(key) || airport.AirportCode.ToLower().Contains(key);
+                });
+                if (found)
                 {
-                    suitableItems.Add("No Results Found");
+                    suitableItems.Add(airport.City + " (" + airport.AirportCode + ")");
                 }
-                suitableItems.Sort();
-                sender.ItemsSource = suitableItems;
             }
+            if (suitableItems.Count == 0)
+            {
+                suitableItems.Add("No Results Found");
+            }
+            suitableItems.Sort();
+            sender.ItemsSource = suitableItems;
         }
 
         private async void FillSuggestions(object sender, RoutedEventArgs args)
         {
-            using (var db = new AirContext())
-            {
-                var airports = await db.Airports.ToListAsync();
-                AirportNames.AddRange(airports.Select(airport => airport.City + " (" + airport.AirportCode + ")"));
-                AirportNames.Sort();
-            }
+            using var db = new AirContext();
+            var airports = await db.Airports.ToListAsync();
+            AirportNames.AddRange(airports.Select(airport => airport.City + " (" + airport.AirportCode + ")"));
+            AirportNames.Sort();
         }
 
         protected override void OnApplyTemplate()

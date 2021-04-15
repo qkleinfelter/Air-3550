@@ -13,15 +13,13 @@ namespace Database.Utiltities
         public static string HashPassword(string password)
         {
             // Using built-in Cryptography class to produce SHA512 hash of passwords.
-            using (SHA512 sha512Hash = SHA512.Create())
-            {
-                // Have to go from String to byte array
-                byte[] inputBytes = Encoding.UTF8.GetBytes(password);
-                byte[] hashBytes = sha512Hash.ComputeHash(inputBytes);
-                string hash = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
+            using SHA512 sha512Hash = SHA512.Create();
+            // Have to go from String to byte array
+            byte[] inputBytes = Encoding.UTF8.GetBytes(password);
+            byte[] hashBytes = sha512Hash.ComputeHash(inputBytes);
+            string hash = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
 
-                return hash.ToLower();
-            }
+            return hash.ToLower();
         }
 
         public static bool CompareHashedToStored(string loginID, string hashedPassword)
