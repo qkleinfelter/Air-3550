@@ -19,9 +19,6 @@ using Windows.Foundation.Collections;
 
 namespace Air_3550.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
@@ -30,6 +27,7 @@ namespace Air_3550.Pages
             if (UserSession.userLoggedIn)
             {
                 loginNavigator.Visibility = Visibility.Collapsed;
+                accountNavigator.Visibility = Visibility.Visible;
             }
         }
 
@@ -41,6 +39,11 @@ namespace Air_3550.Pages
         private void loginNavigator_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(LoginPage));
+        }
+
+        private void accountNavigator_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AccountPage));
         }
     }
 }

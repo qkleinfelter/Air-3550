@@ -20,5 +20,6 @@
             </StackPanel>
         </StackPanel>
         <Button x:Name="loginNavigator" Click="loginNavigator_Click" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="true">Login</Button>
+        <Button x:Name="accountNavigator" Click="accountNavigator_Click" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="true" Visibility="Collapsed">My Account</Button>
     </RelativePanel>
 </Page>
