@@ -34,19 +34,17 @@ namespace Air_3550.Controls
                 if (IsRegister)
                 {
                     TitleText.Text = "Register";
-                    createAccountButton.Visibility = Visibility.Visible;
-                    updateInfoButton.Visibility = Visibility.Collapsed;
+                    confirmButton.Content = "Create Account";
                 }
                 else
                 {
                     TitleText.Text = "Update Account Info";
-                    createAccountButton.Visibility = Visibility.Collapsed;
-                    updateInfoButton.Visibility = Visibility.Visible;
+                    confirmButton.Content = "Update Information";
                 }
             };
         }
 
-        private void createAccountButton_Click(Object sender, RoutedEventArgs e)
+        private void confirmButton_Click(Object sender, RoutedEventArgs e)
         {
             // Input validation.
             if (ValidateInput())
@@ -183,11 +181,6 @@ namespace Air_3550.Controls
             }
 
             return userID;
-        }
-
-        private void updateInfoButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
