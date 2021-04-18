@@ -15,6 +15,6 @@
         <Button x:Name="loginButton" Click="loginButton_Click" Content="Login" RelativePanel.Below="passwordBox" Margin="3" Width="147"/>
         <Button x:Name="createAccountButton" Click="createAccountButton_Click" Content="Create Account" RelativePanel.Below="passwordBox" RelativePanel.RightOf="loginButton" Margin="3" Width="147"/>
 
-        <TextBlock x:Name="outputBlock" RelativePanel.Below="loginButton" Foreground="OrangeRed" FontSize="18"/>
+        <InfoBar x:Name="outputInfo" RelativePanel.Below="loginButton" Width="300" IsOpen="False" Margin="3"/>
     </RelativePanel>
 </Page>

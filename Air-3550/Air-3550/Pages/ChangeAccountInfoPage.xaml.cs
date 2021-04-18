@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Air_3550.Controls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -21,14 +22,10 @@ namespace Air_3550.Pages
         public ChangeAccountInfoPage()
         {
             this.InitializeComponent();
+            UserInfoControl.OnNavigateParentReady += UserInfoControl_OnNavigateParentReady;
         }
 
-        private void updateAccountInfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void backButton_Click(object sender, RoutedEventArgs e)
+        private void UserInfoControl_OnNavigateParentReady(object source, EventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
         }

@@ -41,11 +41,13 @@ namespace Air_3550.Pages
             {
                 // For security reasons, we always display the same message
                 // so that users cannot brute force to determine login ids
-                // the extra space on the left is for formatting reasons
-                outputBlock.Text = " Username or Password is incorrect!";
-            } else
+                outputInfo.Title = "Bad Login";
+                outputInfo.Message = "The UserID or Password you entered is incorrect!";
+                outputInfo.Severity = InfoBarSeverity.Error;
+                outputInfo.IsOpen = true;
+            } 
+            else
             {
-                outputBlock.Text = "";
                 using (var db = new AirContext())
                 {
                     var user = db.Users.Where(dbuser => dbuser.LoginId == userIdInput).FirstOrDefault();
