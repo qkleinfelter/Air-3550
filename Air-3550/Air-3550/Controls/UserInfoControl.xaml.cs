@@ -29,14 +29,17 @@ namespace Air_3550.Controls
         {
             this.InitializeComponent();
 
-            if (IsRegister)
+            this.Loaded += (sender, e) =>
             {
-                TitleText.Text = "Register";
-            } 
-            else
-            {
-                TitleText.Text = "Update Account Info";
-            }
+                if (IsRegister)
+                {
+                    TitleText.Text = "Register";
+                }
+                else
+                {
+                    TitleText.Text = "Update Account Info";
+                }
+            };
         }
 
         private void createAccountButton_Click(Object sender, RoutedEventArgs e)
