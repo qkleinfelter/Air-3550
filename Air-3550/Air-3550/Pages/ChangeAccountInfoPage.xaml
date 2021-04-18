@@ -3,31 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Air_3550.Pages"
+    xmlns:local2="using:Air_3550.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <!-- 
-         NOTE: The better way to do this is to make a custom control that handles this big ass form, so that we can use it here and on the Register page
-         This will also allow us to do validation logic only once, I will do it at some point, but not right now.
-    -->
-    <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="Change Account Info" FontSize="48" x:Name="RegisterText" Margin="3" />
-        <TextBox PlaceholderText="Full Name" x:Name="NameInput" RelativePanel.Below="RegisterText" Margin="3" Width="300"/>
-        <TextBox PlaceholderText="Address" x:Name="AddressInput" RelativePanel.Below="NameInput" Margin="3" Width="300"/>
-        <TextBox PlaceholderText="City" x:Name="CityInput" RelativePanel.Below="AddressInput" Margin="3" Width="195"/>
-        <TextBox PlaceholderText="State" x:Name="StateInput" RelativePanel.RightOf="CityInput" RelativePanel.Below="AddressInput" Margin="3" Width="100"/>
-        <TextBox PlaceholderText="Zip Code" x:Name="ZipInput" RelativePanel.Below="StateInput" Margin="3" Width="300"/>
-        <TextBox PlaceholderText="Phone Number" x:Name="PhoneInput" RelativePanel.Below="ZipInput" Margin="3" Width="195"/>
-        <NumberBox PlaceholderText="Age" x:Name="AgeInput" RelativePanel.RightOf="PhoneInput" RelativePanel.Below="ZipInput" Margin="3" Width="100"/>
-        <TextBox PlaceholderText="Credit Card Number" x:Name="CreditCardInput" RelativePanel.Below="PhoneInput" Margin="3" Width="300"/>
-        <PasswordBox PlaceholderText="Password" x:Name="PasswordInput" RelativePanel.Below="CreditCardInput" Margin="3" Width="300"/>
-        <PasswordBox PlaceholderText="Confirm Password" x:Name="ConfirmPasswordInput" RelativePanel.Below="PasswordInput" Margin="3" Width="300"/>
-        <Button Content="Update Account" x:Name="updateAccountButton" RelativePanel.Below="ConfirmPasswordInput" Margin="3" Width="147" Click="updateAccountInfo_Click" />
-        <Button Content="Back to Home" x:Name="backButton" RelativePanel.Below="ConfirmPasswordInput" RelativePanel.RightOf="updateAccountButton" Margin="3" Width="147" Click="backButton_Click"/>
-
-        <TextBlock x:Name="outputBlock" RelativePanel.Below="updateAccountButton" Foreground="OrangeRed" FontSize="18"/>
-        <InfoBar x:Name="outputInfo" RelativePanel.Below="updateAccountButton" IsOpen="False" Width="300" Margin="3"/>
-    </RelativePanel>
+    <local2:UserInfoControl IsRegister="False"/>
 </Page>
