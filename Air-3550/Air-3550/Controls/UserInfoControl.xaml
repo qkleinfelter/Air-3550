@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock FontSize="48" x:Name="TitleText" Margin="3" />
+        <TextBlock FontSize="48" x:Name="TitleText" Margin="3"/>
         <TextBox PlaceholderText="Full Name" x:Name="NameInput" RelativePanel.Below="TitleText" Margin="3" Width="300"/>
         <TextBox PlaceholderText="Address" x:Name="AddressInput" RelativePanel.Below="NameInput" Margin="3" Width="300"/>
         <TextBox PlaceholderText="City" x:Name="CityInput" RelativePanel.Below="AddressInput" Margin="3" Width="195"/>

@@ -46,41 +46,13 @@ namespace Air_3550.Controls
 
         private void confirmButton_Click(Object sender, RoutedEventArgs e)
         {
-            // Input validation.
-            if (ValidateInput())
+            if (IsRegister)
             {
-                outputBlock.Text = "";
-
-                // Get Random UserID
-                int userID = MakeUserID();
-
-                CustomerInfo customerInfo = new()
-                {
-                    Name = NameInput.Text,
-                    Address = AddressInput.Text,
-                    City = CityInput.Text,
-                    State = StateInput.Text,
-                    Zip = ZipInput.Text,
-                    PhoneNumber = PhoneInput.Text,
-                    Age = (int)AgeInput.Value,
-                    CreditCardNumber = CreditCardInput.Text
-                };
-
-                User user = new()
-                {
-                    LoginId = userID.ToString(),
-                    HashedPass = PasswordHandler.HashPassword(PasswordInput.Password),
-                    UserRole = Role.CUSTOMER,
-                    CustInfo = customerInfo
-                };
-
-                UserUtilities.AddUserToDB(user);
-
-                outputInfo.Title = "Account Creation Successful!";
-                outputInfo.Message = $"Your Login ID is: {userID}, please remember it for future logins!";
-                outputInfo.Severity = InfoBarSeverity.Success;
-                outputInfo.IsOpen = true;
-
+                HandleNewAccount();
+            }
+            else
+            {
+                HandleUpdateAccount();
             }
         }
 
@@ -181,6 +153,54 @@ namespace Air_3550.Controls
             }
 
             return userID;
+        }
+
+        private void HandleNewAccount()
+        {
+            // Input validation.
+            if (ValidateInput())
+            {
+                outputBlock.Text = "";
+
+                // Get Random UserID
+                int userID = MakeUserID();
+
+                CustomerInfo customerInfo = new()
+                {
+                    Name = NameInput.Text,
+                    Address = AddressInput.Text,
+                    City = CityInput.Text,
+                    State = StateInput.Text,
+                    Zip = ZipInput.Text,
+                    PhoneNumber = PhoneInput.Text,
+                    Age = (int)AgeInput.Value,
+                    CreditCardNumber = CreditCardInput.Text
+                };
+
+                User user = new()
+                {
+                    LoginId = userID.ToString(),
+                    HashedPass = PasswordHandler.HashPassword(PasswordInput.Password),
+                    UserRole = Role.CUSTOMER,
+                    CustInfo = customerInfo
+                };
+
+                UserUtilities.AddUserToDB(user);
+
+                outputInfo.Title = "Account Creation Successful!";
+                outputInfo.Message = $"Your Login ID is: {userID}, please remember it for future logins!";
+                outputInfo.Severity = InfoBarSeverity.Success;
+                outputInfo.IsOpen = true;
+
+            }
+        }
+
+        private void HandleUpdateAccount()
+        {
+            outputInfo.Title = "Account Information Updated!";
+            outputInfo.Message = "Your Account Information was updated successfully!";
+            outputInfo.Severity = InfoBarSeverity.Success;
+            outputInfo.IsOpen = true;
         }
     }
 }
