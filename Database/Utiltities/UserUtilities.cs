@@ -11,11 +11,6 @@ namespace Database.Utiltities
 {
     public class UserUtilities
     {
-        public static void RegisterUser()
-        {
-
-        }
-
         public static void AwardCredit(User user, int amount)
         {
             using var db = new AirContext();
