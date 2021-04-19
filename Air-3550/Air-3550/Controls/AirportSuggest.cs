@@ -28,13 +28,25 @@ namespace Air_3550.Controls
             set => SetValue(LabelProperty, value);
         }
 
+        public string Text
+        {
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
+        }
+
         public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
             nameof(Label),
             typeof(string),
             typeof(AirportSuggest),
             new PropertyMetadata(default(string), new PropertyChangedCallback(OnLabelChanged)));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            nameof(Text),
+            typeof(string),
+            typeof(AirportSuggest),
+            new PropertyMetadata(default(string), new PropertyChangedCallback(OnTextChanged)));
 
         public bool HasLabelValue { get; set; }
+        public bool HasTextValue { get; set; }
 
         public List<string> AirportNames = new();
 
@@ -49,6 +61,20 @@ namespace Air_3550.Controls
             else
             {
                 labelControl.HasLabelValue = true;
+            }
+        }
+
+        private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            AirportSuggest textControl = d as AirportSuggest;
+            String s = e.NewValue as String;
+            if (s == string.Empty)
+            {
+                textControl.HasTextValue = false;
+            }
+            else
+            {
+                textControl.HasTextValue = true;
             }
         }
 
@@ -90,6 +116,16 @@ namespace Air_3550.Controls
             base.OnApplyTemplate();
             var autoSuggestBox = GetTemplateChild("SuggestBox") as AutoSuggestBox;
             autoSuggestBox.TextChanged += AirportSuggestBox_TextChanged;
+            autoSuggestBox.SuggestionChosen += AirportSuggestBox_SuggestionChosen;
+        }
+
+        // sadly suggestion chosen doesn't apply if you remove the suggestion,
+        // so if you select an airport and then de-select it, we still think
+        // you have it selected from our validation, we need to find a way to 
+        // handle this at some point.
+        private void AirportSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            Text = args.SelectedItem.ToString();
         }
     }
 }

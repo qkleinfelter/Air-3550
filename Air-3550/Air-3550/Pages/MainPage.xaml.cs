@@ -14,9 +14,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Air_3550.Pages
 {
     public sealed partial class MainPage : Page
@@ -29,11 +26,26 @@ namespace Air_3550.Pages
                 loginNavigator.Visibility = Visibility.Collapsed;
                 accountNavigator.Visibility = Visibility.Visible;
             }
+            // Can't select dates earlier than today
+            departurePicker.MinDate = DateTime.Now;
+            returnPicker.MinDate = DateTime.Now;
+            // or dates farther than 6 months in the future
+            departurePicker.MaxDate = DateTime.Now.AddMonths(6);
+            returnPicker.MaxDate = DateTime.Now.AddMonths(6);
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            searchButton.Content = "Searched!";
+            if (ValidateSearchParameters())
+            {
+                // valid search params, so actually search
+            }
+            else
+            {
+                OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
+            }
         }
 
         private void loginNavigator_Click(object sender, RoutedEventArgs e)
@@ -44,6 +56,20 @@ namespace Air_3550.Pages
         private void accountNavigator_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(AccountPage));
+        }
+
+        private bool ValidateSearchParameters()
+        {
+            OutputInfo.Message = "Your search could not be processed due to invalid parameters: ";
+            if (string.IsNullOrEmpty(originPicker.Text))
+            {
+                OutputInfo.Message += "\nYou must select an origin airport";
+            }
+            if (string.IsNullOrEmpty(destPicker.Text))
+            {
+                OutputInfo.Message += "\nYou must select a destination airport";
+            }
+            return false;
         }
     }
 }
