@@ -17,6 +17,7 @@ using Windows.Foundation.Collections;
 using Database.Utiltities;
 using Microsoft.UI.Xaml.Media.Animation;
 using Air_3550.Repo;
+using Microsoft.EntityFrameworkCore;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -50,7 +51,7 @@ namespace Air_3550.Pages
             {
                 using (var db = new AirContext())
                 {
-                    var user = db.Users.Where(dbuser => dbuser.LoginId == userIdInput).FirstOrDefault();
+                    var user = db.Users.Include(user => user.CustInfo).Where(dbuser => dbuser.LoginId == userIdInput).FirstOrDefault();
                     UserSession.user = user;
                     UserSession.userLoggedIn = true;
                 }

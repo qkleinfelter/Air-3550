@@ -40,6 +40,18 @@ namespace Air_3550.Controls
                 {
                     TitleText.Text = "Update Account Info";
                     confirmButton.Content = "Update Information";
+                    if (UserSession.userLoggedIn)
+                    {
+                        CustomerInfo customerInfo = UserSession.user.CustInfo;
+                        NameInput.Text = customerInfo.Name;
+                        AddressInput.Text = customerInfo.Address;
+                        CityInput.Text = customerInfo.City;
+                        StateInput.Text = customerInfo.State;
+                        ZipInput.Text = customerInfo.Zip;
+                        PhoneInput.Text = customerInfo.PhoneNumber;
+                        AgeInput.Text = customerInfo.Age.ToString();
+                        CreditCardInput.Text = customerInfo.CreditCardNumber;
+                    }
                 }
             };
         }
