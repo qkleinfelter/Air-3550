@@ -39,6 +39,10 @@ namespace Air_3550.Pages
             if (ValidateSearchParameters())
             {
                 // valid search params, so actually search
+                OutputInfo.Title = "Valid input!";
+                OutputInfo.Message = "I would have searched here but that code isn't implemented yet!";
+                OutputInfo.Severity = InfoBarSeverity.Success;
+                OutputInfo.IsOpen = true;
             }
             else
             {
@@ -60,16 +64,26 @@ namespace Air_3550.Pages
 
         private bool ValidateSearchParameters()
         {
+            // start with our return as true, it will get changed to false if either of our input parameters are bad
+            bool valid = true;
             OutputInfo.Message = "Your search could not be processed due to invalid parameters: ";
             if (string.IsNullOrEmpty(originPicker.Text))
             {
                 OutputInfo.Message += "\nYou must select an origin airport";
+                valid = false;
             }
             if (string.IsNullOrEmpty(destPicker.Text))
             {
                 OutputInfo.Message += "\nYou must select a destination airport";
+                valid = false;
             }
-            return false;
+            if (departurePicker.Date == null)
+            {
+                OutputInfo.Message += "\nYou must select a departure date!";
+                valid = false;
+            }
+            // don't validate if there is anything in the return picker, because we want to allow 1 way flights
+            return valid;
         }
     }
 }
