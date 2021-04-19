@@ -1,4 +1,5 @@
-﻿using Database.Utiltities;
+﻿using Air_3550.Models;
+using Database.Utiltities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -21,6 +22,14 @@ namespace Air_3550.Pages
         public AccountPage()
         {
             this.InitializeComponent();
+            if (UserSession.user.CustInfo != null)
+            {
+                CustomerInfo customerInfo = UserSession.user.CustInfo;
+                WelcomeText.Text = $"Welcome back {customerInfo.Name}!";
+                PointsText.Text = $"You currently have {customerInfo.PointsAvailable} points available, and overall you have used {customerInfo.PointsUsed} points.";
+                CreditText.Text = $"You currently have a credit balance of ${customerInfo.CreditBalance} with us.";
+                TicketSummaryText.Text = $"You have booked {customerInfo.TicketsBooked.ToArray().Length} tickets, of which you took {customerInfo.TicketsTaken.ToArray().Length} flights and cancelled {customerInfo.TicketsCanceled.ToArray().Length}.";
+            }
         }
 
         private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
