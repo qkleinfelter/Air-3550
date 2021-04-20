@@ -81,7 +81,36 @@ namespace Air_3550.Repo
             // for now if you're adding more flights the easiest way is to probably just leave them all as
             // a departuretime and arrival time on 2021, 5, 7 for easy adjustment later if needed
             modelBuilder.Entity<Flight>().HasData(
-                new { FlightId = 1, OriginAirportId = 10, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(12, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 1 }
+                // SEA -> DEN
+                new { FlightId = 1, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(6, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 1 },
+                new { FlightId = 2, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 35, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 2 },
+                new { FlightId = 3, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 3 },
+                new { FlightId = 4, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(18, 35, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 4 },
+                // DEN -> SEA
+                new { FlightId = 5, OriginAirportId = 6, DestinationAirportId = 9, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(6, 50, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 5 },
+                new { FlightId = 6, OriginAirportId = 6, DestinationAirportId = 9, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 30, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 6 },
+                new { FlightId = 7, OriginAirportId = 6, DestinationAirportId = 9, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(15, 55, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 7 },
+                new { FlightId = 8, OriginAirportId = 6, DestinationAirportId = 9, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(20, 55, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 8 },
+                // LAX -> DEN
+                new { FlightId = 9, OriginAirportId = 3, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(6, 5, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 9 },
+                new { FlightId = 10, OriginAirportId = 3, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(11, 55, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 10 },
+                new { FlightId = 11, OriginAirportId = 3, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 25, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 11 },
+                new { FlightId = 12, OriginAirportId = 3, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(17, 55, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 12 },
+                // DEN -> LAX
+                new { FlightId = 13, OriginAirportId = 6, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(8, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 13 },
+                new { FlightId = 14, OriginAirportId = 6, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(12, 55, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 14 },
+                new { FlightId = 15, OriginAirportId = 6, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(17, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 15 },
+                new { FlightId = 16, OriginAirportId = 6, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(20, 35, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 16 },
+                // LAX -> DAL
+                new { FlightId = 17, OriginAirportId = 3, DestinationAirportId = 5, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(6, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 17 },
+                new { FlightId = 18, OriginAirportId = 3, DestinationAirportId = 5, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(11, 40, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 18 },
+                new { FlightId = 19, OriginAirportId = 3, DestinationAirportId = 5, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 50, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 19 },
+                new { FlightId = 20, OriginAirportId = 3, DestinationAirportId = 5, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(18, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 20 },
+                // DAL -> LAX
+                new { FlightId = 21, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(7, 30, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 21 },
+                new { FlightId = 22, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 45, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 22 },
+                new { FlightId = 23, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 23 },
+                new { FlightId = 24, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(20, 50, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 24 }
             );
         }
     }
