@@ -19,5 +19,17 @@ namespace Air_3550.Models
         public int Cost { get; set; }
         public int TicketsPurchased { get; set; }
         public int FlightNumber { get; set; }
+
+        public TimeSpan GetDuration()
+        {
+            // 30 minutes flat per flight, for takeoff and landing
+            TimeSpan duration = new TimeSpan(0, 30, 0);
+            double distance = Origin.DistanceToOtherAirport(Destination); // Distance between the airports in meters
+            distance = distance / 1609; // convert meters to miles
+            double hours = distance / 500; // assuming 500mph in the air
+            double seconds = hours * 3600; // convert to seconds
+            duration.Add(new TimeSpan(0, 0, (int)seconds)); // cast seconds to an int, we lose miniscule amounts of time so don't worry about it
+            return duration;
+        }
     }
 }
