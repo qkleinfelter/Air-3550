@@ -91,6 +91,11 @@ namespace Air_3550.Pages
                 OutputInfo.Message += "\nYou must select a departure date!";
                 valid = false;
             }
+            if (departurePicker.Date > returnPicker.Date)
+            {
+                OutputInfo.Message += "\nReturning date must be later than departure date!";
+                valid = false;
+            }
             // don't validate if there is anything in the return picker, because we want to allow 1 way flights
             return valid;
         }
