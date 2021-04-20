@@ -1,5 +1,6 @@
 ﻿using Air_3550.Models;
 using Air_3550.Pages;
+using Air_3550.Repo;
 using Database.Utiltities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -153,7 +154,6 @@ namespace Air_3550.Controls
                 }
             }
             
-
             if (!valid)
             {
                 outputInfo.Severity = InfoBarSeverity.Error;
@@ -218,16 +218,53 @@ namespace Air_3550.Controls
                 outputInfo.Message = $"Your Login ID is: {userID}, please remember it for future logins!";
                 outputInfo.Severity = InfoBarSeverity.Success;
                 outputInfo.IsOpen = true;
-
             }
         }
 
         private void HandleUpdateAccount()
         {
-            outputInfo.Title = "Account Information Updated!";
-            outputInfo.Message = "Your Account Information was updated successfully!";
-            outputInfo.Severity = InfoBarSeverity.Success;
-            outputInfo.IsOpen = true;
+            // validate input
+            if (ValidateInput())
+            {
+                User currentUser;
+                CustomerInfo custInfo;
+                // Sanity check, we should never be on this page without this though
+                if (UserSession.userLoggedIn)
+                {
+                    currentUser = UserSession.user;
+                    custInfo = currentUser.CustInfo;
+                } else
+                {
+                    return;
+                }
+                custInfo.Name = NameInput.Text;
+                custInfo.Address = AddressInput.Text;
+                custInfo.City = CityInput.Text;
+                custInfo.State = StateInput.Text;
+                custInfo.Zip = ZipInput.Text;
+                custInfo.PhoneNumber = PhoneInput.Text;
+                custInfo.Age = (int)AgeInput.Value;
+                custInfo.CreditCardNumber = CreditCardInput.Text;
+                
+                if (!string.IsNullOrWhiteSpace(PasswordInput.Password) && !string.IsNullOrWhiteSpace(ConfirmPasswordInput.Password))
+                {
+                    currentUser.HashedPass = PasswordHandler.HashPassword(PasswordInput.Password);
+                }
+
+                using (var db = new AirContext())
+                {
+                    var dbuser = db.Users.Single(user => user.LoginId == currentUser.LoginId);
+                    dbuser.CustInfo = custInfo;
+                    dbuser.HashedPass = currentUser.HashedPass;
+                    db.SaveChanges();
+                }
+
+                outputInfo.Title = "Account Information Updated!";
+                outputInfo.Message = "Your Account Information was updated successfully!";
+                outputInfo.Severity = InfoBarSeverity.Success;
+                outputInfo.IsOpen = true;
+            }
+            
         }
     }
 }
