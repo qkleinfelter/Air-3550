@@ -46,8 +46,7 @@ namespace Air_3550.Pages
                 var depDate = departurePicker.Date.Value.Date; // this gets only the date portion of the departure pickers chosen date
                 var db = new AirContext();
                 var validFlights = db.Flights.Include(flight => flight.Origin).Include(flight => flight.Destination).Where(flight => (flight.Origin.AirportCode == originCode
-                                                                                                                            && (flight.Destination.AirportCode == destCode)
-                                                                                                                            && (flight.DepartureTime.Date == depDate))).ToArray();
+                                                                                                                            && (flight.Destination.AirportCode == destCode))).ToArray();
 
                 OutputInfo.Title = "Valid input!";
                 OutputInfo.Message = $"flying from {originCode} to {destCode} on {depDate}, with {validFlights.Length} flights available";

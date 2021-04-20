@@ -15,9 +15,7 @@ namespace Air_3550.Models
         [Required]
         public Plane PlaneType { get; set; }
         [Required]
-        public DateTime DepartureTime { get; set; }
-        [Required]
-        public DateTime ArrivalTime { get; set; }
+        public TimeSpan DepartureTime { get; set; }
         public int Cost { get; set; }
         public int TicketsPurchased { get; set; }
         public int FlightNumber { get; set; }
