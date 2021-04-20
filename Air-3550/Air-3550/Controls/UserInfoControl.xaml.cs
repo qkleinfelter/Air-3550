@@ -51,6 +51,8 @@ namespace Air_3550.Controls
                         PhoneInput.Text = customerInfo.PhoneNumber;
                         AgeInput.Text = customerInfo.Age.ToString();
                         CreditCardInput.Text = customerInfo.CreditCardNumber;
+                        PasswordInput.PlaceholderText = "Update Password";
+                        ConfirmPasswordInput.PlaceholderText = "Confirm Updated Password";
                     }
                 }
             };
@@ -127,23 +129,30 @@ namespace Air_3550.Controls
                 valid = false;
             }
 
-            if (string.IsNullOrWhiteSpace(PasswordInput.Password))
+            if (IsRegister || !string.IsNullOrWhiteSpace(PasswordInput.Password) || !string.IsNullOrWhiteSpace(ConfirmPasswordInput.Password))
             {
-                outputInfo.Message += "\nPlease provide a password.";
-                valid = false;
-            }
+                // If they're just updating their account info they don't need to change their password
+                // so we only require it in here
+                // however, if they have a value in either spot, then we want them to validate both again
+                if (string.IsNullOrWhiteSpace(PasswordInput.Password))
+                {
+                    outputInfo.Message += "\nPlease provide a password.";
+                    valid = false;
+                }
 
-            if (string.IsNullOrWhiteSpace(ConfirmPasswordInput.Password))
-            {
-                outputInfo.Message += "\nPlease confirm your password.";
-                valid = false;
-            }
+                if (string.IsNullOrWhiteSpace(ConfirmPasswordInput.Password))
+                {
+                    outputInfo.Message += "\nPlease confirm your password.";
+                    valid = false;
+                }
 
-            if (!(PasswordInput.Password.Equals(ConfirmPasswordInput.Password)))
-            {
-                outputInfo.Message += "\nPassords do not match.";
-                valid = false;
+                if (!(PasswordInput.Password.Equals(ConfirmPasswordInput.Password)))
+                {
+                    outputInfo.Message += "\nPassords do not match.";
+                    valid = false;
+                }
             }
+            
 
             if (!valid)
             {
