@@ -60,7 +60,7 @@ namespace Air_3550.Repo
             );
 
             // Seeding Staff Accounts
-            // note: passwords are hashed with SHA-512 by some random website, probably should check it before doing more
+            // note: passwords are hashed with SHA-512
             // currently staff passwords are the exact same as their loginid
             modelBuilder.Entity<User>().HasData(
                 new User { UserId = 1, LoginId = "marketing_manager", HashedPass = "360caebd9edb68609c0933bade3565350e59e284cc503ce61bf0eebd42fb7e5bd657a71ed1498225168757e7f1095920411cce27779e0c778ec52535deae2040", UserRole = Role.MARKETING_MANAGER },
@@ -69,6 +69,17 @@ namespace Air_3550.Repo
                 new User { UserId = 4, LoginId = "flight_manager", HashedPass = "e2289f3f3a66a81f5ffb52dff1a09cd2ae91a39eb248230d2907084679c6bacdb4a880da7835ca72003d8c37e107cf91c5f9795678303754eba1be42039bff4d", UserRole = Role.FLIGHT_MANAGER }
             );
 
+            // Seeding Flight Schedule
+            // note: we must instantiate anonymous types here otherwise we run into errors when migrating
+            // each new piece of the flight schedule should have the exact same fields as this first entry,
+            // with FlightId and FlightNumber incrementing (maybe we remove FlightNumber in the future, not sure)
+            // associated ids for airports and planes can be seen in seeding above or directly in the db
+
+            // i'm not yet sure how we want to go about this but I think an easy thing to start with would be
+            // filling out a basic flight schedule on a single day, then in code populating that exact same flight schedule
+            // out for 6 months when the application is loaded (if the flights haven't been changed)
+            // for now if you're adding more flights the easiest way is to probably just leave them all as
+            // a departuretime and arrival time on 2021, 5, 7 for easy adjustment later if needed
             modelBuilder.Entity<Flight>().HasData(
                 new { FlightId = 1, OriginAirportId = 10, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new DateTime(2021, 5, 7, 12, 0, 0), ArrivalTime = new DateTime(2021, 5, 7, 13, 25, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 1 }
             );
