@@ -1,4 +1,5 @@
-﻿using Database.Utiltities;
+﻿using Air_3550.Repo;
+using Database.Utiltities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -39,8 +40,16 @@ namespace Air_3550.Pages
             if (ValidateSearchParameters())
             {
                 // valid search params, so actually search
+                string originCode = StripAirportCode(originPicker.Text);
+                string destCode = StripAirportCode(destPicker.Text);
+
+                var db = new AirContext();
+                var validFlights = db.Flights.Where(flight => (flight.Origin.AirportCode == originCode)
+                                                        && (flight.Destination.AirportCode == destCode)
+                                                        && (flight.DepartureTime == departurePicker.Date)).ToArray();
+
                 OutputInfo.Title = "Valid input!";
-                OutputInfo.Message = "I would have searched here but that code isn't implemented yet!";
+                OutputInfo.Message = $"flying from {originCode} to {destCode}, with {validFlights.Length} flights available";
                 OutputInfo.Severity = InfoBarSeverity.Success;
                 OutputInfo.IsOpen = true;
             }
@@ -84,6 +93,11 @@ namespace Air_3550.Pages
             }
             // don't validate if there is anything in the return picker, because we want to allow 1 way flights
             return valid;
+        }
+
+        private string StripAirportCode(string full)
+        {
+            return full.Substring(full.IndexOf("(") + 1, 3);
         }
     }
 }
