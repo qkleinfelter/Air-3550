@@ -81,7 +81,7 @@ namespace Air_3550.Repo
             // for now if you're adding more flights the easiest way is to probably just leave them all as
             // a departuretime and arrival time on 2021, 5, 7 for easy adjustment later if needed
             modelBuilder.Entity<Flight>().HasData(
-                new { FlightId = 1, OriginAirportId = 10, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(0, 12, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 1 }
+                new { FlightId = 1, OriginAirportId = 10, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(12, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 1 }
             );
         }
     }
