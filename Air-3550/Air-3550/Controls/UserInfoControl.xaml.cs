@@ -75,75 +75,83 @@ namespace Air_3550.Controls
 
         private bool ValidateInput()
         {
-            outputBlock.Text = "";
+            bool valid = true;
+            outputInfo.Title = "Errors creating account!";
+            outputInfo.Message = "Please fix the following errors and try again: ";
 
             if (string.IsNullOrWhiteSpace(NameInput.Text))
             {
-                outputBlock.Text = "Please provide your full name.";
-                return false;
+                outputInfo.Message += "\nPlease provide your full name.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(AddressInput.Text))
             {
-                outputBlock.Text = "Please provide your address.";
-                return false;
+                outputInfo.Message += "\nPlease provide your address.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(CityInput.Text))
             {
-                outputBlock.Text = "Please provide your city.";
-                return false;
+                outputInfo.Message += "\nPlease provide your city.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(StateInput.Text))
             {
-                outputBlock.Text = "Please provide your state.";
-                return false;
+                outputInfo.Message += "\nPlease provide your state.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(ZipInput.Text))
             {
-                outputBlock.Text = "Please provide your zip code.";
-                return false;
+                outputInfo.Message += "\nPlease provide your zip code.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(PhoneInput.Text))
             {
-                outputBlock.Text = "Please provide your phone number.";
-                return false;
+                outputInfo.Message += "\nPlease provide your phone number.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(AgeInput.Text))
             {
-                outputBlock.Text = "Please provide your age.";
-                return false;
+                outputInfo.Message += "\nPlease provide your age.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(CreditCardInput.Text))
             {
-                outputBlock.Text = "Please provide your credit card.";
-                return false;
+                outputInfo.Message += "\nPlease provide your credit card.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(PasswordInput.Password))
             {
-                outputBlock.Text = "Please provide a password.";
-                return false;
+                outputInfo.Message += "\nPlease provide a password.";
+                valid = false;
             }
 
             if (string.IsNullOrWhiteSpace(ConfirmPasswordInput.Password))
             {
-                outputBlock.Text = "Please confirm your password.";
-                return false;
+                outputInfo.Message += "\nPlease confirm your password.";
+                valid = false;
             }
 
             if (!(PasswordInput.Password.Equals(ConfirmPasswordInput.Password)))
             {
-                outputBlock.Text = "Passords do not match.";
-                return false;
+                outputInfo.Message += "\nPassords do not match.";
+                valid = false;
             }
 
-            return true;
+            if (!valid)
+            {
+                outputInfo.Severity = InfoBarSeverity.Error;
+                outputInfo.IsOpen = true;
+            }
+
+            return valid;
         }
 
         private int MakeUserID()
@@ -172,8 +180,6 @@ namespace Air_3550.Controls
             // Input validation.
             if (ValidateInput())
             {
-                outputBlock.Text = "";
-
                 // Get Random UserID
                 int userID = MakeUserID();
 
