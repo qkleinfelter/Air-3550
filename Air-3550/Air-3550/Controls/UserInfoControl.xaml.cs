@@ -103,25 +103,25 @@ namespace Air_3550.Controls
                 valid = false;
             }
 
-            if (string.IsNullOrWhiteSpace(ZipInput.Text))
+            if (string.IsNullOrWhiteSpace(ZipInput.Text) || ZipInput.Text.Length < 5)
             {
                 outputInfo.Message += "\nPlease provide your zip code.";
                 valid = false;
             }
 
-            if (string.IsNullOrWhiteSpace(PhoneInput.Text))
+            if (string.IsNullOrWhiteSpace(PhoneInput.Text) || PhoneInput.Text.Length < 10)
             {
                 outputInfo.Message += "\nPlease provide your phone number.";
                 valid = false;
             }
 
-            if (string.IsNullOrWhiteSpace(AgeInput.Text))
+            if (string.IsNullOrWhiteSpace(AgeInput.Text) || AgeInput.Value < 0 || AgeInput.Value > 125)
             {
                 outputInfo.Message += "\nPlease provide your age.";
                 valid = false;
             }
 
-            if (string.IsNullOrWhiteSpace(CreditCardInput.Text))
+            if (string.IsNullOrWhiteSpace(CreditCardInput.Text) || CreditCardInput.Text.Length < 15)
             {
                 outputInfo.Message += "\nPlease provide your credit card.";
                 valid = false;
