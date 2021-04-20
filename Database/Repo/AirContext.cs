@@ -68,6 +68,10 @@ namespace Air_3550.Repo
                 new User { UserId = 3, LoginId = "accounting_manager", HashedPass = "ab8f196b4521a3aba1de420fe6ef552ce406d8551c3aef370f909cea85abbc77ca1d698ef31f659097eee16e365975047ff403df1aae6cc7ef54595c3ae4d172", UserRole = Role.ACCOUNTING_MANAGER },
                 new User { UserId = 4, LoginId = "flight_manager", HashedPass = "e2289f3f3a66a81f5ffb52dff1a09cd2ae91a39eb248230d2907084679c6bacdb4a880da7835ca72003d8c37e107cf91c5f9795678303754eba1be42039bff4d", UserRole = Role.FLIGHT_MANAGER }
             );
+
+            modelBuilder.Entity<Flight>().HasData(
+                new { FlightId = 1, OriginAirportId = 10, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new DateTime(2021, 5, 7, 12, 0, 0), ArrivalTime = new DateTime(2021, 5, 7, 13, 25, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 1 }
+            );
         }
     }
 }

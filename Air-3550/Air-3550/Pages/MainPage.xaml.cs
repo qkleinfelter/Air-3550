@@ -1,5 +1,6 @@
 ﻿using Air_3550.Repo;
 using Database.Utiltities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -42,14 +43,14 @@ namespace Air_3550.Pages
                 // valid search params, so actually search
                 string originCode = StripAirportCode(originPicker.Text);
                 string destCode = StripAirportCode(destPicker.Text);
-
+                var depDate = departurePicker.Date.Value.Date; // this gets only the date portion of the departure pickers chosen date
                 var db = new AirContext();
-                var validFlights = db.Flights.Where(flight => (flight.Origin.AirportCode == originCode)
-                                                        && (flight.Destination.AirportCode == destCode)
-                                                        && (flight.DepartureTime == departurePicker.Date)).ToArray();
+                var validFlights = db.Flights.Include(flight => flight.Origin).Include(flight => flight.Destination).Where(flight => (flight.Origin.AirportCode == originCode
+                                                                                                                            && (flight.Destination.AirportCode == destCode)
+                                                                                                                            && (flight.DepartureTime.Date == depDate))).ToArray();
 
                 OutputInfo.Title = "Valid input!";
-                OutputInfo.Message = $"flying from {originCode} to {destCode}, with {validFlights.Length} flights available";
+                OutputInfo.Message = $"flying from {originCode} to {destCode} on {depDate}, with {validFlights.Length} flights available";
                 OutputInfo.Severity = InfoBarSeverity.Success;
                 OutputInfo.IsOpen = true;
             }
