@@ -110,7 +110,7 @@ namespace Air_3550.Repo
                 new { FlightId = 21, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(7, 30, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 21 },
                 new { FlightId = 22, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 45, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 22 },
                 new { FlightId = 23, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 23 },
-                new { FlightId = 24, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(20, 50, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 24 }
+                new { FlightId = 24, OriginAirportId = 5, DestinationAirportId = 3, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(20, 50, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 24 },
                 // DEN -> DAL
                 new { FlightId = 25, OriginAirportId = 6, DestinationAirportId = 5, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(7, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 25 },
                 new { FlightId = 26, OriginAirportId = 6, DestinationAirportId = 5, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 40, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 26 },
@@ -180,7 +180,47 @@ namespace Air_3550.Repo
                 new { FlightId = 77, OriginAirportId = 1, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(7, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 77 },
                 new { FlightId = 78, OriginAirportId = 1, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 50, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 78 },
                 new { FlightId = 79, OriginAirportId = 1, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(15, 20, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 79 },
-                new { FlightId = 80, OriginAirportId = 1, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(19, 20, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 80 }
+                new { FlightId = 80, OriginAirportId = 1, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(19, 20, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 80 },
+                // BNA -> ATL
+                new { FlightId = 81, OriginAirportId = 10, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(8, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 81 },
+                new { FlightId = 82, OriginAirportId = 10, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(10, 40, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 82 },
+                new { FlightId = 83, OriginAirportId = 10, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 35, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 83 },
+                new { FlightId = 84, OriginAirportId = 10, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(17, 40, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 84 },
+                // ATL -> BNA
+                new { FlightId = 85, OriginAirportId = 2, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(8, 20, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 85 },
+                new { FlightId = 86, OriginAirportId = 2, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 50, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 86 },
+                new { FlightId = 87, OriginAirportId = 2, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(15, 20, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 87 },
+                new { FlightId = 88, OriginAirportId = 2, DestinationAirportId = 10, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(20, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 88 },
+                // CLE -> ATL
+                new { FlightId = 89, OriginAirportId = 1, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(8, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 89 },
+                new { FlightId = 90, OriginAirportId = 1, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 45, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 90 },
+                new { FlightId = 91, OriginAirportId = 1, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(13, 40, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 91 },
+                new { FlightId = 92, OriginAirportId = 1, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(19, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 92 },
+                // ATL -> CLE
+                new { FlightId = 93, OriginAirportId = 2, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(8, 05, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 93 },
+                new { FlightId = 94, OriginAirportId = 2, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(11, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 94 },
+                new { FlightId = 95, OriginAirportId = 2, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 05, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 95 },
+                new { FlightId = 96, OriginAirportId = 2, DestinationAirportId = 1, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(18, 30, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 96 },
+                // ATL -> LGA
+                new { FlightId = 97, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 97 },
+                new { FlightId = 98, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(11, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 98 },
+                new { FlightId = 99, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(13, 50, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 99 },
+                new { FlightId = 100, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(16, 40, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 100 },
+                // LGA -> ATL
+                new { FlightId = 101, OriginAirportId = 7, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 30, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 101 },
+                new { FlightId = 102, OriginAirportId = 7, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(11, 30, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 102 },
+                new { FlightId = 103, OriginAirportId = 7, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 0, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 103 },
+                new { FlightId = 104, OriginAirportId = 7, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(17, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 104 },
+                // ATL -> MIA
+                new { FlightId = 105, OriginAirportId = 2, DestinationAirportId = 8, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 105 },
+                new { FlightId = 106, OriginAirportId = 2, DestinationAirportId = 8, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(10, 40, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 106 },
+                new { FlightId = 107, OriginAirportId = 2, DestinationAirportId = 8, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(13, 45, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 107 },
+                new { FlightId = 108, OriginAirportId = 2, DestinationAirportId = 8, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(18, 40, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 108 },
+                // MIA -> ATL
+                new { FlightId = 109, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 30, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 109 },
+                new { FlightId = 110, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(11, 20, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 110 },
+                new { FlightId = 111, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(13, 45, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 111 },
+                new { FlightId = 112, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(17, 10, 0), Cost = 75, TicketsPurchased = 75, FlightNumber = 112 }
             );
         }
     }
