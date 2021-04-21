@@ -52,6 +52,8 @@ namespace Air_3550.Pages
                 OutputInfo.Message = $"flying from {originCode} to {destCode} on {depDate}, with {validFlights.Length} flights available";
                 OutputInfo.Severity = InfoBarSeverity.Success;
                 OutputInfo.IsOpen = true;
+
+                Frame.Navigate(typeof(FlightDisplayPage), $"{originCode},{destCode},{depDate},{returnPicker.Date.Value.Date}");
             }
             else
             {
