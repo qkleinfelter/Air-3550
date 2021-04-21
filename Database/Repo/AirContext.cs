@@ -1,4 +1,5 @@
 ﻿using Air_3550.Models;
+using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Air_3550.Repo
         public DbSet<Plane> Planes { get; set; }
         public DbSet<Airport> Airports { get; set; }
         public DbSet<Flight> Flights { get; set; }
+        public DbSet<ScheduledFlight> ScheduledFlights { get; set; }
         public DbSet<Trip> Trips { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
