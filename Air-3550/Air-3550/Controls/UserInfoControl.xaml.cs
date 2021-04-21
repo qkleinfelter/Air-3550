@@ -43,6 +43,20 @@ namespace Air_3550.Controls
                     confirmButton.Content = "Update Information";
                     if (UserSession.userLoggedIn)
                     {
+                        if (UserSession.user.UserRole != Role.CUSTOMER)
+                        {
+                            // only show password fields if they aren't a customer
+                            NameInput.Visibility = Visibility.Collapsed;
+                            AddressInput.Visibility = Visibility.Collapsed;
+                            CityInput.Visibility = Visibility.Collapsed;
+                            StateInput.Visibility = Visibility.Collapsed;
+                            ZipInput.Visibility = Visibility.Collapsed;
+                            PhoneInput.Visibility = Visibility.Collapsed;
+                            AgeInput.Visibility = Visibility.Collapsed;
+                            CreditCardInput.Visibility = Visibility.Collapsed;
+                            return;
+                        }
+
                         CustomerInfo customerInfo = UserSession.user.CustInfo;
                         NameInput.Text = customerInfo.Name;
                         AddressInput.Text = customerInfo.Address;
@@ -55,6 +69,7 @@ namespace Air_3550.Controls
                         PasswordInput.PlaceholderText = "Update Password";
                         ConfirmPasswordInput.PlaceholderText = "Confirm Updated Password";
                     }
+                    
                 }
             };
         }
@@ -81,55 +96,59 @@ namespace Air_3550.Controls
             bool valid = true;
             outputInfo.Title = "Errors creating account!";
             outputInfo.Message = "Please fix the following errors and try again: ";
-
-            if (string.IsNullOrWhiteSpace(NameInput.Text))
+            if (UserSession.userLoggedIn && UserSession.user.UserRole == Role.CUSTOMER)
             {
-                outputInfo.Message += "\nPlease provide your full name.";
-                valid = false;
-            }
+                // Don't validate these other fields if they aren't a customer
+                // because we don't show them to them
+                if (string.IsNullOrWhiteSpace(NameInput.Text))
+                {
+                    outputInfo.Message += "\nPlease provide your full name.";
+                    valid = false;
+                }
 
-            if (string.IsNullOrWhiteSpace(AddressInput.Text))
-            {
-                outputInfo.Message += "\nPlease provide your address.";
-                valid = false;
-            }
+                if (string.IsNullOrWhiteSpace(AddressInput.Text))
+                {
+                    outputInfo.Message += "\nPlease provide your address.";
+                    valid = false;
+                }
 
-            if (string.IsNullOrWhiteSpace(CityInput.Text))
-            {
-                outputInfo.Message += "\nPlease provide your city.";
-                valid = false;
-            }
+                if (string.IsNullOrWhiteSpace(CityInput.Text))
+                {
+                    outputInfo.Message += "\nPlease provide your city.";
+                    valid = false;
+                }
 
-            if (string.IsNullOrWhiteSpace(StateInput.Text))
-            {
-                outputInfo.Message += "\nPlease provide your state.";
-                valid = false;
-            }
+                if (string.IsNullOrWhiteSpace(StateInput.Text))
+                {
+                    outputInfo.Message += "\nPlease provide your state.";
+                    valid = false;
+                }
 
-            if (string.IsNullOrWhiteSpace(ZipInput.Text) || ZipInput.Text.Length < 5)
-            {
-                outputInfo.Message += "\nPlease provide your zip code.";
-                valid = false;
-            }
+                if (string.IsNullOrWhiteSpace(ZipInput.Text) || ZipInput.Text.Length < 5)
+                {
+                    outputInfo.Message += "\nPlease provide your zip code.";
+                    valid = false;
+                }
 
-            if (string.IsNullOrWhiteSpace(PhoneInput.Text) || PhoneInput.Text.Length < 10)
-            {
-                outputInfo.Message += "\nPlease provide your phone number.";
-                valid = false;
-            }
+                if (string.IsNullOrWhiteSpace(PhoneInput.Text) || PhoneInput.Text.Length < 10)
+                {
+                    outputInfo.Message += "\nPlease provide your phone number.";
+                    valid = false;
+                }
 
-            if (string.IsNullOrWhiteSpace(AgeInput.Text) || AgeInput.Value < 0 || AgeInput.Value > 125)
-            {
-                outputInfo.Message += "\nPlease provide your age.";
-                valid = false;
-            }
+                if (string.IsNullOrWhiteSpace(AgeInput.Text) || AgeInput.Value < 0 || AgeInput.Value > 125)
+                {
+                    outputInfo.Message += "\nPlease provide your age.";
+                    valid = false;
+                }
 
-            if (string.IsNullOrWhiteSpace(CreditCardInput.Text) || CreditCardInput.Text.Length < 15)
-            {
-                outputInfo.Message += "\nPlease provide your credit card.";
-                valid = false;
+                if (string.IsNullOrWhiteSpace(CreditCardInput.Text) || CreditCardInput.Text.Length < 15)
+                {
+                    outputInfo.Message += "\nPlease provide your credit card.";
+                    valid = false;
+                }
             }
-
+            
             if (IsRegister || !string.IsNullOrWhiteSpace(PasswordInput.Password) || !string.IsNullOrWhiteSpace(ConfirmPasswordInput.Password))
             {
                 // If they're just updating their account info they don't need to change their password
@@ -226,25 +245,24 @@ namespace Air_3550.Controls
             // validate input
             if (ValidateInput())
             {
-                User currentUser;
-                CustomerInfo custInfo;
-                // Sanity check, we should never be on this page without this though
+                User currentUser = null;
+                CustomerInfo custInfo = null;
                 if (UserSession.userLoggedIn)
                 {
                     currentUser = UserSession.user;
-                    custInfo = currentUser.CustInfo;
-                } else
-                {
-                    return;
+                    if (UserSession.user.UserRole == Role.CUSTOMER)
+                    {
+                        custInfo = currentUser.CustInfo;
+                        custInfo.Name = NameInput.Text;
+                        custInfo.Address = AddressInput.Text;
+                        custInfo.City = CityInput.Text;
+                        custInfo.State = StateInput.Text;
+                        custInfo.Zip = ZipInput.Text;
+                        custInfo.PhoneNumber = PhoneInput.Text;
+                        custInfo.Age = (int)AgeInput.Value;
+                        custInfo.CreditCardNumber = CreditCardInput.Text;
+                    }
                 }
-                custInfo.Name = NameInput.Text;
-                custInfo.Address = AddressInput.Text;
-                custInfo.City = CityInput.Text;
-                custInfo.State = StateInput.Text;
-                custInfo.Zip = ZipInput.Text;
-                custInfo.PhoneNumber = PhoneInput.Text;
-                custInfo.Age = (int)AgeInput.Value;
-                custInfo.CreditCardNumber = CreditCardInput.Text;
                 
                 if (!string.IsNullOrWhiteSpace(PasswordInput.Password) && !string.IsNullOrWhiteSpace(ConfirmPasswordInput.Password))
                 {
@@ -254,7 +272,8 @@ namespace Air_3550.Controls
                 using (var db = new AirContext())
                 {
                     var dbuser = db.Users.Single(user => user.LoginId == currentUser.LoginId);
-                    dbuser.CustInfo = custInfo;
+                    if (custInfo != null)
+                        dbuser.CustInfo = custInfo;
                     dbuser.HashedPass = currentUser.HashedPass;
                     db.SaveChanges();
                 }
