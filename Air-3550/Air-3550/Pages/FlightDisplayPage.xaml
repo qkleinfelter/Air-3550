@@ -10,13 +10,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <DataTemplate x:Key="FlightListViewTemplate" x:DataType="local2:Flight">
-            <RelativePanel>
+            <RelativePanel Margin="0,5,0,5">
                 <StackPanel Orientation="Horizontal" x:Name="FlightPanel">
-                    <TextBlock Text="{x:Bind Origin.City}" x:Phase="1" Margin="3" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Origin.City}" x:Phase="1" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
-                    <TextBlock Text="{x:Bind Destination.City}" x:Phase="2" Margin="3" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Destination.City}" x:Phase="2" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Account"/>
-                    <TextBlock Text="{x:Bind DepartureTime}" x:Phase="3" Margin="3" FontSize="18"/>
+                    <TextBlock Text="{x:Bind DepartureTime}" x:Phase="3" Margin="5" FontSize="18"/>
                 </StackPanel>
                 <Button RelativePanel.Below="FlightPanel" RelativePanel.AlignRightWithPanel="True" x:Name="AddFlight" Click="AddFlight_Click" Margin="3">Add Flight</Button>
             </RelativePanel>
@@ -25,7 +25,14 @@
 
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock FontFamily="Sans-Serif" FontSize="56" Text="Available Flights" x:Name="titleText"/>
-        <ListView x:Name="FlightList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="350" HorizontalAlignment="Left" RelativePanel.Below="titleText"/>
-        <Button x:Name="BackButton" RelativePanel.Below="FlightList" Width="350" Click="BackButton_Click" Margin="3">Back to Home</Button>
+        <StackPanel Orientation="Horizontal" RelativePanel.Below="titleText" x:Name="HeaderTexts">
+            <TextBlock x:Name="DepartHeader" Width="350" Text="Departing Flights" FontSize="24" Margin="3"/>
+            <TextBlock x:Name="ReturnHeader" Width="350" Text="Returning Flights" FontSize="24" Margin="3"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" RelativePanel.Below="HeaderTexts" x:Name="FlightPanels">
+            <ListView x:Name="DepartList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="350" HorizontalAlignment="Left" SelectionMode="None"/>
+            <ListView x:Name="ReturnList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="350" HorizontalAlignment="Left" SelectionMode="None"/>
+        </StackPanel>
+        <Button x:Name="BackButton" RelativePanel.Below="FlightPanels" Click="BackButton_Click" Margin="3" RelativePanel.AlignHorizontalCenterWithPanel="True">Back to Home</Button>
     </RelativePanel>
 </Page>

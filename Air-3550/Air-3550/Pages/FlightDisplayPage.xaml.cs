@@ -31,16 +31,20 @@ namespace Air_3550.Pages
 
         override protected void OnNavigatedTo(NavigationEventArgs e)
         {
+            // change this parameter to an object instead of a string i need to parse later
             var split = e.Parameter.ToString().Split(",");
             origin = split[0];
             dest = split[1];
             departDate = DateTime.Parse(split[2]);
             returnDate = DateTime.Parse(split[3]);
+            DepartHeader.Text += " - " + departDate.Date.ToShortDateString();
+            ReturnHeader.Text += " - " + returnDate.Date.ToShortDateString();
 
             // This flight list is only for the first leg of a one way, we'll need to add another list view for
             // the return trip at some point as well
-            FlightList.ItemsSource = GenerateRoutes(origin, dest, departDate);
+            DepartList.ItemsSource = GenerateRoutes(origin, dest, departDate);
             // when we have our second list for return, we will be able to run GenerateRoutes(dest, origin, returnDate);
+            ReturnList.ItemsSource = GenerateRoutes(dest, origin, returnDate);
 
         }
 
