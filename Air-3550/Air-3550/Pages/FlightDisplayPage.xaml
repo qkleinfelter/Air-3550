@@ -10,13 +10,16 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <DataTemplate x:Key="FlightListViewTemplate" x:DataType="local2:Flight">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{x:Bind Origin.City}" x:Phase="1" Margin="3" FontSize="18"/>
-                <SymbolIcon Symbol="Forward"/>
-                <TextBlock Text="{x:Bind Destination.City}" x:Phase="2" Margin="3" FontSize="18"/>
-                <SymbolIcon Symbol="Account"/>
-                <TextBlock Text="{x:Bind DepartureTime}" x:Phase="3" Margin="3" FontSize="18"/>
-            </StackPanel>
+            <RelativePanel>
+                <StackPanel Orientation="Horizontal" x:Name="FlightPanel">
+                    <TextBlock Text="{x:Bind Origin.City}" x:Phase="1" Margin="3" FontSize="18"/>
+                    <SymbolIcon Symbol="Forward"/>
+                    <TextBlock Text="{x:Bind Destination.City}" x:Phase="2" Margin="3" FontSize="18"/>
+                    <SymbolIcon Symbol="Account"/>
+                    <TextBlock Text="{x:Bind DepartureTime}" x:Phase="3" Margin="3" FontSize="18"/>
+                </StackPanel>
+                <Button RelativePanel.Below="FlightPanel" RelativePanel.AlignRightWithPanel="True" x:Name="AddFlight" Click="AddFlight_Click" Margin="3">Add Flight</Button>
+            </RelativePanel>
         </DataTemplate>
     </Page.Resources>
 

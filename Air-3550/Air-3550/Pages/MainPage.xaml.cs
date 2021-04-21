@@ -90,6 +90,11 @@ namespace Air_3550.Pages
                 OutputInfo.Message += "\nReturning date must be later than departure date!";
                 valid = false;
             }
+            if (originPicker.Text == destPicker.Text)
+            {
+                OutputInfo.Message += "\nOrigin and Destination cannot be the same!";
+                valid = false;
+            }
             // don't validate if there is anything in the return picker, because we want to allow 1 way flights
             return valid;
         }

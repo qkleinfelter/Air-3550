@@ -63,5 +63,10 @@ namespace Air_3550.Pages
         {
             Frame.Navigate(typeof(MainPage));
         }
+
+        private void AddFlight_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
