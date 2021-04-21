@@ -44,14 +44,6 @@ namespace Air_3550.Pages
                 string originCode = StripAirportCode(originPicker.Text);
                 string destCode = StripAirportCode(destPicker.Text);
                 var depDate = departurePicker.Date.Value.Date; // this gets only the date portion of the departure pickers chosen date
-                var db = new AirContext();
-                var validFlights = db.Flights.Include(flight => flight.Origin).Include(flight => flight.Destination).Where(flight => (flight.Origin.AirportCode == originCode
-                                                                                                                            && (flight.Destination.AirportCode == destCode))).ToArray();
-
-                OutputInfo.Title = "Valid input!";
-                OutputInfo.Message = $"flying from {originCode} to {destCode} on {depDate}, with {validFlights.Length} flights available";
-                OutputInfo.Severity = InfoBarSeverity.Success;
-                OutputInfo.IsOpen = true;
 
                 Frame.Navigate(typeof(FlightDisplayPage), $"{originCode},{destCode},{depDate},{returnPicker.Date.Value.Date}");
             }

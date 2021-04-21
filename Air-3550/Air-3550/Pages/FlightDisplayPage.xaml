@@ -3,13 +3,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Air_3550.Pages"
+    xmlns:local2="using:Air_3550.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <DataTemplate x:Key="FlightListViewTemplate" x:DataType="local2:Flight">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Bind Origin.City}" x:Phase="1" Margin="3" FontSize="18"/>
+                <SymbolIcon Symbol="Forward"/>
+                <TextBlock Text="{x:Bind Destination.City}" x:Phase="2" Margin="3" FontSize="18"/>
+                <SymbolIcon Symbol="Account"/>
+                <TextBlock Text="{x:Bind DepartureTime}" x:Phase="3" Margin="3" FontSize="18"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
 
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock FontFamily="Sans-Serif" FontSize="56" Text="Available Flights" x:Name="titleText"/>
-        <TextBlock x:Name="output" RelativePanel.Below="titleText"/>
+        <ListView x:Name="FlightList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="350" HorizontalAlignment="Left" RelativePanel.Below="titleText"/>
+        <Button x:Name="BackButton" RelativePanel.Below="FlightList" Width="350" Click="BackButton_Click" Margin="3">Back to Home</Button>
     </RelativePanel>
 </Page>
