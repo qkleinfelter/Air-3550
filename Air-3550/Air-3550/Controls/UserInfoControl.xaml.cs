@@ -96,7 +96,7 @@ namespace Air_3550.Controls
             bool valid = true;
             outputInfo.Title = "Errors creating account!";
             outputInfo.Message = "Please fix the following errors and try again: ";
-            if (UserSession.userLoggedIn && UserSession.user.UserRole == Role.CUSTOMER)
+            if (!(UserSession.userLoggedIn && UserSession.user.UserRole == Role.CUSTOMER))
             {
                 // Don't validate these other fields if they aren't a customer
                 // because we don't show them to them
