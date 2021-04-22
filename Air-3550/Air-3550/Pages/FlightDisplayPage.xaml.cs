@@ -20,10 +20,28 @@ namespace Air_3550.Pages
 {
     public sealed partial class FlightDisplayPage : Page
     {
-        private string origin;
-        private string dest;
-        private DateTime departDate;
-        private DateTime returnDate;
+        public class Parameters
+        {
+            public Airport origin;
+            public Airport destination;
+            public DateTime departingDate;
+            public DateTime? returningDate;
+            public Parameters(Airport originAirport, Airport destinationAirport, DateTime depart, DateTime returnD)
+            {
+                origin = originAirport;
+                destination = destinationAirport;
+                departingDate = depart;
+                returningDate = returnD;
+            }
+            public Parameters(Airport originAirport, Airport destinationAirport, DateTime depart)
+            {
+                origin = originAirport;
+                destination = destinationAirport;
+                departingDate = depart;
+                returningDate = null;
+            }
+        }
+        private Parameters passedInParams;
         public FlightDisplayPage()
         {
             this.InitializeComponent();
@@ -32,24 +50,36 @@ namespace Air_3550.Pages
         override protected void OnNavigatedTo(NavigationEventArgs e)
         {
             // change this parameter to an object instead of a string i need to parse later
-            var split = e.Parameter.ToString().Split(",");
-            origin = split[0];
-            dest = split[1];
-            departDate = DateTime.Parse(split[2]);
-            returnDate = DateTime.Parse(split[3]);
-            DepartHeader.Text += " - " + departDate.Date.ToShortDateString();
-            ReturnHeader.Text += " - " + returnDate.Date.ToShortDateString();
+            passedInParams = e.Parameter as Parameters;
+            var returningDate = passedInParams.returningDate;
+            DepartHeader.Text += " - " + passedInParams.departingDate.ToShortDateString();
 
             // This flight list is only for the first leg of a one way, we'll need to add another list view for
             // the return trip at some point as well
-            DepartList.ItemsSource = GenerateRoutes(origin, dest, departDate);
+            DepartList.ItemsSource = GenerateRoutes(passedInParams.origin, passedInParams.destination, passedInParams.departingDate);
             // when we have our second list for return, we will be able to run GenerateRoutes(dest, origin, returnDate);
-            ReturnList.ItemsSource = GenerateRoutes(dest, origin, returnDate);
+            if (returningDate != null)
+            {
+                var nonNullable = (DateTime)returningDate;
+                ReturnList.ItemsSource = GenerateRoutes(passedInParams.destination, passedInParams.origin, nonNullable);
+                ReturnHeader.Text += " - " + nonNullable.ToShortDateString();
+            }
+            else
+            {
+                ReturnHeader.Visibility = Visibility.Collapsed;
+                ReturnList.Visibility = Visibility.Collapsed;
+            }
 
         }
 
-        private List<Flight> GenerateRoutes(string originAirportCode, string destinationAirportCode, DateTime date)
+        private List<Flight> GenerateRoutes(Airport originAirport, Airport destinationAirport, DateTime? date)
         {
+            // this should never happen, but we need date to be nullable to be able to pass
+            // in our nullable returning date, so we check to make sure anyway, and just fail
+            if (date == null)
+            {
+                return new List<Flight>();
+            }
             // Right now this just generates all the one shot flights and doesn't take into account
             // scheduled flights, this is where we need to handle that generation
             // the date passed in here is also not yet used, because that will only be used with
@@ -57,8 +87,8 @@ namespace Air_3550.Pages
             var db = new AirContext();
             var validFlights = db.Flights.Include(flight => flight.Origin)
                                          .Include(flight => flight.Destination)
-                                         .Where(flight => (flight.Origin.AirportCode == originAirportCode
-                                         && (flight.Destination.AirportCode == destinationAirportCode)))
+                                         .Where(flight => (flight.Origin.AirportId == originAirport.AirportId
+                                         && (flight.Destination.AirportId == destinationAirport.AirportId)))
                                          .ToList();
             
             // My poor attempts to get exactly the flights I need...

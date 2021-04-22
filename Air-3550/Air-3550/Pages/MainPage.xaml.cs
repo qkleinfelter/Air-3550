@@ -40,12 +40,26 @@ namespace Air_3550.Pages
         {
             if (ValidateSearchParameters())
             {
+                using var db = new AirContext();
                 // valid search params, so actually search
                 string originCode = StripAirportCode(originPicker.Text);
+                var originAirport = db.Airports.Single(airport => airport.AirportCode == originCode);
                 string destCode = StripAirportCode(destPicker.Text);
-                var depDate = departurePicker.Date.Value.Date; // this gets only the date portion of the departure pickers chosen date
+                var destAirport = db.Airports.Single(airport => airport.AirportCode == destCode);
 
-                Frame.Navigate(typeof(FlightDisplayPage), $"{originCode},{destCode},{depDate},{returnPicker.Date.Value.Date}");
+                var depDate = departurePicker.Date.Value.Date; // this gets only the date portion of the departure pickers chosen date
+                FlightDisplayPage.Parameters passIn;
+                if (returnPicker.Date != null)
+                {
+                    passIn = new FlightDisplayPage.Parameters(originAirport, destAirport, depDate, returnPicker.Date.Value.Date);
+
+                }
+                else
+                {
+                    passIn = new FlightDisplayPage.Parameters(originAirport, destAirport, depDate);
+                }
+
+                Frame.Navigate(typeof(FlightDisplayPage), passIn);
             }
             else
             {
