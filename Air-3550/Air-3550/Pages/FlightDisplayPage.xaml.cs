@@ -56,12 +56,11 @@ namespace Air_3550.Pages
 
             // This flight list is only for the first leg of a one way, we'll need to add another list view for
             // the return trip at some point as well
-            DepartList.ItemsSource = GenerateRoutes(passedInParams.origin, passedInParams.destination, passedInParams.departingDate);
-            // when we have our second list for return, we will be able to run GenerateRoutes(dest, origin, returnDate);
+            DepartList.ItemsSource = GenerateRoutes(passedInParams.origin, passedInParams.destination);
             if (returningDate != null)
             {
                 var nonNullable = (DateTime)returningDate;
-                ReturnList.ItemsSource = GenerateRoutes(passedInParams.destination, passedInParams.origin, nonNullable);
+                ReturnList.ItemsSource = GenerateRoutes(passedInParams.destination, passedInParams.origin);
                 ReturnHeader.Text += " - " + nonNullable.ToShortDateString();
             }
             else
@@ -72,18 +71,10 @@ namespace Air_3550.Pages
 
         }
 
-        private List<Flight> GenerateRoutes(Airport originAirport, Airport destinationAirport, DateTime? date)
+        private List<Flight> GenerateRoutes(Airport originAirport, Airport destinationAirport)
         {
-            // this should never happen, but we need date to be nullable to be able to pass
-            // in our nullable returning date, so we check to make sure anyway, and just fail
-            if (date == null)
-            {
-                return new List<Flight>();
-            }
             // Right now this just generates all the one shot flights and doesn't take into account
             // scheduled flights, this is where we need to handle that generation
-            // the date passed in here is also not yet used, because that will only be used with
-            // the scheduled flights, and we'll need to do a little bit of joining
             var db = new AirContext();
             var validFlights = db.Flights.Include(flight => flight.Origin)
                                          .Include(flight => flight.Destination)
