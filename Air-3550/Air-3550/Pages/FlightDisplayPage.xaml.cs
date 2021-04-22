@@ -76,29 +76,33 @@ namespace Air_3550.Pages
             // Right now this just generates all the one shot flights and doesn't take into account
             // scheduled flights, this is where we need to handle that generation
             var db = new AirContext();
-            var validFlights = db.Flights.Include(flight => flight.Origin)
-                                         .Include(flight => flight.Destination)
-                                         .Where(flight => (flight.Origin.AirportId == originAirport.AirportId
-                                         && (flight.Destination.AirportId == destinationAirport.AirportId)))
-                                         .ToList();
-            
+            //var validFlights = db.Flights.Include(flight => flight.Origin)
+            //                             .Include(flight => flight.Destination)
+            //                             .Where(flight => (flight.Origin.AirportId == originAirport.AirportId
+            //                             && (flight.Destination.AirportId == destinationAirport.AirportId)))
+            //                             .ToList();
+
             // My poor attempts to get exactly the flights I need...
 
-            //var flights = db.Flights.Include(flight => flight.Origin)
-            //                        .Include(flight => flight.Destination)
-            //                        .Where(flight => (flight.Origin.AirportCode != destinationAirportCode))
-            //                        .ToList();
-            
+            //var myFlights = db.Flights.Include(flight => flight.Origin)
+            //                          .Include(flight => flight.Destination)
+            //                          .Where(flight => flight.Destination.AirportId != originAirport.AirportId)
+            //                          //.Distinct().Include(flight => originAirport.AirportId)
+            //                          //.GroupBy(x => new {x.Origin.AirportId, x.Destination.AirportCode})
+            //                          //.GroupBy(flight => originAirport.AirportId)
+            //                          .ToList();
+
+
+
             // Very close here, not sure how to get the AirportID from the originAirportCode so I can eliminate the Origin from the destination...
             // Have it down to 28, need the list down to the distinct 14 before going further...
 
             //var tempAirport = db.Airports.FromSqlRaw("SELECT AirportId WHERE AirportCode == " + originAirportCode).ToList();
             //string code = tempAirport[0].AirportCode;
-            //var myFlights = db.Flights.FromSqlRaw("SELECT * FROM flights GROUP BY OriginAirportId, " +
-            //    "DestinationAirportId WHERE DestinationAirportId != " + code).ToList();
+            var myFlights = db.Flights.FromSqlRaw("SELECT * FROM flights WHERE DestinationAirportId != " + originAirport.AirportId + " GROUP BY OriginAirportId, DestinationAirportId").ToList();
 
 
-            return validFlights;
+            return myFlights; //validFlights;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
