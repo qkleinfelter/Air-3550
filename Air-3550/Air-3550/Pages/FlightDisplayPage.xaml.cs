@@ -60,6 +60,23 @@ namespace Air_3550.Pages
                                          .Where(flight => (flight.Origin.AirportCode == originAirportCode
                                          && (flight.Destination.AirportCode == destinationAirportCode)))
                                          .ToList();
+            
+            // My poor attempts to get exactly the flights I need...
+
+            //var flights = db.Flights.Include(flight => flight.Origin)
+            //                        .Include(flight => flight.Destination)
+            //                        .Where(flight => (flight.Origin.AirportCode != destinationAirportCode))
+            //                        .ToList();
+            
+            // Very close here, not sure how to get the AirportID from the originAirportCode so I can eliminate the Origin from the destination...
+            // Have it down to 28, need the list down to the distinct 14 before going further...
+
+            //var tempAirport = db.Airports.FromSqlRaw("SELECT AirportId WHERE AirportCode == " + originAirportCode).ToList();
+            //string code = tempAirport[0].AirportCode;
+            //var myFlights = db.Flights.FromSqlRaw("SELECT * FROM flights GROUP BY OriginAirportId, " +
+            //    "DestinationAirportId WHERE DestinationAirportId != " + code).ToList();
+
+
             return validFlights;
         }
 
