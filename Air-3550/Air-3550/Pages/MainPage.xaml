@@ -11,6 +11,10 @@
     <RelativePanel>
         <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true" RelativePanel.AlignVerticalCenterWithPanel="true">
             <TextBlock Text="Air-3550" FontSize="56" FontFamily="Sans-Serif" x:Name="titleText"/>
+            <RadioButtons x:Name="RadioSelector" SelectedIndex="0" SelectionChanged="RadioSelector_SelectionChanged" MaxColumns="2">
+                <x:String>Round-Trip</x:String>
+                <x:String>One-Way</x:String>
+            </RadioButtons>
             <StackPanel x:Name="stack" Orientation="Horizontal" HorizontalAlignment="Center">
                 <local:AirportSuggest x:Name="originPicker" Label="Origin Airport" Margin="3" VerticalAlignment="Bottom"/>
                 <local:AirportSuggest x:Name="destPicker" Label="Destination Airport" Margin="3" VerticalAlignment="Bottom"/>

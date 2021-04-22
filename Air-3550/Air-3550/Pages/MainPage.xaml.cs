@@ -109,13 +109,34 @@ namespace Air_3550.Pages
                 OutputInfo.Message += "\nOrigin and Destination cannot be the same!";
                 valid = false;
             }
-            // don't validate if there is anything in the return picker, because we want to allow 1 way flights
+            if (returnPicker.IsEnabled && returnPicker.Date == null)
+            {
+                OutputInfo.Message += "\nYou must select a return date for round-trip flights!";
+                valid = false;
+            }
             return valid;
         }
 
         private string StripAirportCode(string full)
         {
             return full.Substring(full.IndexOf("(") + 1, 3);
+        }
+
+        private void RadioSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is RadioButtons radioButtons)
+            {
+                if (radioButtons.SelectedIndex == 0)
+                {
+                    // Round-Trip
+                    returnPicker.IsEnabled = true;
+                }
+                else
+                {
+                    // One-Way
+                    returnPicker.IsEnabled = false;
+                }
+            }
         }
     }
 }
