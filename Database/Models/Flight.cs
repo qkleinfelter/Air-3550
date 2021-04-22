@@ -18,6 +18,7 @@ namespace Air_3550.Models
         public TimeSpan DepartureTime { get; set; }
         public int TicketsPurchased { get; set; }
         public int FlightNumber { get; set; }
+        public bool isCanceled { get; set; }
 
         public TimeSpan GetDuration()
         {
