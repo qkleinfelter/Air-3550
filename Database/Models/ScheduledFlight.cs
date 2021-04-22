@@ -15,13 +15,5 @@ namespace Database.Models
         public Flight Flight { get; set; }
         [Required]
         public DateTime DepartureTime { get; set; }
-
-        public DateTime GetArrivalTime()
-        {
-            DateTime arrivalTime = DepartureTime;
-            TimeSpan flightDuration = Flight.GetDuration();
-            arrivalTime = arrivalTime.Add(flightDuration);
-            return arrivalTime;
-        }
     }
 }
