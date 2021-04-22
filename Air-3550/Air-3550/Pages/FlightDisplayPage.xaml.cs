@@ -114,11 +114,15 @@ namespace Air_3550.Pages
                                .Where(flight => !flight.isCanceled); // only take flights that are not canceled (by staff member)
                 // this query uses the flights query we just made to grab all flights
                 // with 2 legs, i.e. 1 connection from the db
+                TimeSpan ts = new TimeSpan(0, 40, 0);
                 var twoLeggedQuery = from flight in flights // for each flight in the flights variable
                                      where flight.Origin == originAirport // where the origin of the flight is our origin airport
                                      // join in a new flight "connection" from the flights variable, that has the same origin as our first flights destination
-                                     join connection in flights on flight.Destination equals connection.Origin 
-                                     where connection.Destination == destinationAirport // only do this where the connections destination, is the overall destination of the trip
+                                     join connection in flights on flight.Destination equals connection.Origin
+                                     where connection.Destination == destinationAirport 
+                                     //&& TimeSpan.Compare(flight.GetArrivalTime(), connection.DepartureTime.Subtract(ts)) == -1)
+                                     // only do this where the connections destination, is the overall destination of the trip and the connection departs 40 min 
+                                     // after first flight arrives
                                      select new FlightPath(flight, connection); // turn the results into a new flight path, with both the first flight and the connection
 
                 var twoLeggedFlights = twoLeggedQuery.ToList(); // turn the results of our query into a list so that we can return it nicely
@@ -138,7 +142,9 @@ namespace Air_3550.Pages
                                        join connection in flights on flight.Destination equals connection.Origin
                                        // join in a new flight "secondConnection" from the flights variable, that has the same origin as our first connections destination
                                        join secondConnection in flights on connection.Destination equals secondConnection.Origin
-                                       where secondConnection.Destination == destinationAirport // only do this where the secondConnections destination is the overall destination of the trip
+                                       where secondConnection.Destination == destinationAirport
+                                       //&& TimeSpan.Compare(connection.GetArrivalTime(), secondConnection.DepartureTime.Subtract(ts)) == -1)
+                                       // only do this where the secondConnections destination is the overall destination of the trip
                                        select new FlightPath(flight, connection, secondConnection); // turn the results into a new flight path, with all 3 flights
 
                 var threeLeggedFlights = threeLeggedQuery.ToList(); // turn the results of our query into a list so that we can return it nicely
