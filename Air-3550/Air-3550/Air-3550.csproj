@@ -10,11 +10,15 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\UserInfoControl.xaml" />
+    <None Remove="Pages\AccountingManagerPage.xaml" />
     <None Remove="Pages\AccountPage.xaml" />
     <None Remove="Pages\ChangeAccountInfoPage.xaml" />
     <None Remove="Pages\FlightDisplayPage.xaml" />
+    <None Remove="Pages\FlightManagerPage.xaml" />
+    <None Remove="Pages\LoadEngineerPage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
     <None Remove="Pages\MainPage.xaml" />
+    <None Remove="Pages\MarketingManagerPage.xaml" />
     <None Remove="Pages\RegisterPage.xaml" />
   </ItemGroup>
 
@@ -32,6 +36,30 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Database\Database.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\AccountingManagerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\MarketingManagerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\LoadEngineerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\FlightManagerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
