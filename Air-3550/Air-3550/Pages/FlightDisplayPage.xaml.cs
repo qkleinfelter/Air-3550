@@ -15,6 +15,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking.Connectivity;
+using Database.Utiltities;
 
 namespace Air_3550.Pages
 {
@@ -52,7 +54,7 @@ namespace Air_3550.Pages
             // change this parameter to an object instead of a string i need to parse later
             passedInParams = e.Parameter as Parameters;
             var returningDate = passedInParams.returningDate;
-            DepartHeader.Text += " - " + passedInParams.departingDate.ToShortDateString();
+            DepartHeader.Text = $"{passedInParams.origin.City} to {passedInParams.destination.City} - {passedInParams.departingDate.ToShortDateString()}";
 
             // This flight list is only for the first leg of a one way, we'll need to add another list view for
             // the return trip at some point as well
@@ -61,7 +63,8 @@ namespace Air_3550.Pages
             {
                 var nonNullable = (DateTime)returningDate;
                 ReturnList.ItemsSource = GenerateRoutes(passedInParams.destination, passedInParams.origin);
-                ReturnHeader.Text += " - " + nonNullable.ToShortDateString();
+                ReturnHeader.Text = $"{passedInParams.destination.City} to {passedInParams.origin.City} - {nonNullable.ToShortDateString()}";
+                PurchaseButton.Content += "s"; // "Purchase Flight" -> "Purchase Flights" if its round trip
             }
             else
             {
@@ -71,38 +74,87 @@ namespace Air_3550.Pages
 
         }
 
-        private List<Flight> GenerateRoutes(Airport originAirport, Airport destinationAirport)
+        private List<FlightPath> GenerateRoutes(Airport originAirport, Airport destinationAirport)
         {
-            // Right now this just generates all the one shot flights and doesn't take into account
-            // scheduled flights, this is where we need to handle that generation
-            var db = new AirContext();
-            //var validFlights = db.Flights.Include(flight => flight.Origin)
-            //                             .Include(flight => flight.Destination)
-            //                             .Where(flight => (flight.Origin.AirportId == originAirport.AirportId
-            //                             && (flight.Destination.AirportId == destinationAirport.AirportId)))
-            //                             .ToList();
+            // This method generates all flights with 0, 1, or 2 connections
+            // returning after it finds flights with the smallest amount of connections,
+            // because they will always be ideal
+            // This does not return a single best path to take, as we want to provide
+            // options to our consumers, so we provide ALL paths from originAirport
+            // to destinationAirport with the smallest amount of connections possible
+            // TODO: Handle layover timing, we'll need a minimum layover of 40 minutes,
+            // and we probably want a maximum layover too, to prevent the system from offering
+            // you to wait overnight
+            
+            using (var db = new AirContext())
+            {
+                // This query grabs all direct flights, comments follow inline
+                var direct = db.Flights // on the entire flights table of the db
+                               .Include(flight => flight.Origin) // ensure that we have access to the origin airports info later
+                               .Include(flight => flight.Destination) // ensure that we have access to the destination airports info later
+                               .Where(flight => !flight.isCanceled // only take flights that are not canceled (by staff member)
+                               && flight.Origin == originAirport // the origin of the flight should match the origin airport passed in
+                               && flight.Destination == destinationAirport) // and the destination airports should match
+                               .ToList(); // then turn it into a list
 
-            // My poor attempts to get exactly the flights I need...
+                if (direct.Count > 0)
+                {
+                    // If we have direct flights, they will literally always be better
+                    // than non-direct in both cost and time so we can just return them and not
+                    // calculate any worse flights
+                    // also convert them to a FlightPath with a single flight, so that
+                    // we can display them properly
+                    return direct.Select(flight => new FlightPath(flight)).ToList();
+                }
 
-            //var myFlights = db.Flights.Include(flight => flight.Origin)
-            //                          .Include(flight => flight.Destination)
-            //                          .Where(flight => flight.Destination.AirportId != originAirport.AirportId)
-            //                          //.Distinct().Include(flight => originAirport.AirportId)
-            //                          //.GroupBy(x => new {x.Origin.AirportId, x.Destination.AirportCode})
-            //                          //.GroupBy(flight => originAirport.AirportId)
-            //                          .ToList();
+                // this query grabs all non canceled flights from the db
+                var flights = db.Flights // on the entire flights table of the db
+                               .Include(flight => flight.Origin) // ensure that we have access to the origin airports info later
+                               .Include(flight => flight.Destination) // ensure that we have access to the destination airports info later
+                               .Where(flight => !flight.isCanceled); // only take flights that are not canceled (by staff member)
+                // this query uses the flights query we just made to grab all flights
+                // with 2 legs, i.e. 1 connection from the db
+                var twoLeggedQuery = from flight in flights // for each flight in the flights variable
+                                     where flight.Origin == originAirport // where the origin of the flight is our origin airport
+                                     // join in a new flight "connection" from the flights variable, that has the same origin as our first flights destination
+                                     join connection in flights on flight.Destination equals connection.Origin 
+                                     where connection.Destination == destinationAirport // only do this where the connections destination, is the overall destination of the trip
+                                     select new FlightPath(flight, connection); // turn the results into a new flight path, with both the first flight and the connection
 
+                var twoLeggedFlights = twoLeggedQuery.ToList(); // turn the results of our query into a list so that we can return it nicely
+                if (twoLeggedFlights.Count > 0)
+                {
+                    // Again if we have 2 legged flights, they will always be better 
+                    // than 3 legged flights in cost & time, so we can return them
+                    // and not calculate any worse flights
+                    return twoLeggedFlights;
+                }
+                
+                // this query uses the flights query we made earlier to grab all flights
+                // with 3 legs, i.e. 2 connections from the db
+                var threeLeggedQuery = from flight in flights // for each flight in the flights variable
+                                       where flight.Origin == originAirport // where the origin of our flight is our origin airport
+                                       // join in a new flight "connection" from the flights variable, that has the same origin as our first flights destination
+                                       join connection in flights on flight.Destination equals connection.Origin
+                                       // join in a new flight "secondConnection" from the flights variable, that has the same origin as our first connections destination
+                                       join secondConnection in flights on connection.Destination equals secondConnection.Origin
+                                       where secondConnection.Destination == destinationAirport // only do this where the secondConnections destination is the overall destination of the trip
+                                       select new FlightPath(flight, connection, secondConnection); // turn the results into a new flight path, with all 3 flights
 
+                var threeLeggedFlights = threeLeggedQuery.ToList(); // turn the results of our query into a list so that we can return it nicely
+                if (threeLeggedFlights.Count > 0)
+                {
+                    // Finally return our 3 legged flights
+                    return threeLeggedFlights;
+                }
+            }
 
-            // Very close here, not sure how to get the AirportID from the originAirportCode so I can eliminate the Origin from the destination...
-            // Have it down to 28, need the list down to the distinct 14 before going further...
-
-            //var tempAirport = db.Airports.FromSqlRaw("SELECT AirportId WHERE AirportCode == " + originAirportCode).ToList();
-            //string code = tempAirport[0].AirportCode;
-            var myFlights = db.Flights.FromSqlRaw("SELECT * FROM flights WHERE DestinationAirportId != " + originAirport.AirportId + " GROUP BY OriginAirportId, DestinationAirportId").ToList();
-
-
-            return myFlights; //validFlights;
+            // if we made it out of the algorithm without returning, then that means
+            // that it is not possible to get from originAirport to destinationAirport 
+            // with 2 or fewer connections.
+            // according to the specifications of this project, we cannot have more
+            // than 2 connections, so we return a blank list
+            return new List<FlightPath>();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -110,7 +162,7 @@ namespace Air_3550.Pages
             Frame.Navigate(typeof(MainPage));
         }
 
-        private void AddFlight_Click(object sender, RoutedEventArgs e)
+        private void PurchaseButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

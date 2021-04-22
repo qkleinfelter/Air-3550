@@ -3,22 +3,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Air_3550.Pages"
-    xmlns:local2="using:Air_3550.Models"
+    xmlns:local2="using:Database.Utiltities"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-        <DataTemplate x:Key="FlightListViewTemplate" x:DataType="local2:Flight">
+        <DataTemplate x:Key="FlightListViewTemplate" x:DataType="local2:FlightPath">
             <RelativePanel Margin="0,5,0,5">
                 <StackPanel Orientation="Horizontal" x:Name="FlightPanel">
-                    <TextBlock Text="{x:Bind Origin.City}" x:Phase="1" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind DepartureTime}" x:Phase="1" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
-                    <TextBlock Text="{x:Bind Destination.City}" x:Phase="2" Margin="5" FontSize="18"/>
-                    <SymbolIcon Symbol="Account"/>
-                    <TextBlock Text="{x:Bind DepartureTime}" x:Phase="3" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind ArrivalTime}" x:Phase="2" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind FormattedStops}" x:Phase="3" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind FormattedDuration}" x:Phase="4" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Price}" x:Phase="5" Margin="5" FontSize="18"/>
                 </StackPanel>
-                <Button RelativePanel.Below="FlightPanel" RelativePanel.AlignRightWithPanel="True" x:Name="AddFlight" Click="AddFlight_Click" Margin="3">Add Flight</Button>
             </RelativePanel>
         </DataTemplate>
     </Page.Resources>
@@ -26,13 +26,14 @@
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock FontFamily="Sans-Serif" FontSize="56" Text="Available Flights" x:Name="titleText"/>
         <StackPanel Orientation="Horizontal" RelativePanel.Below="titleText" x:Name="HeaderTexts">
-            <TextBlock x:Name="DepartHeader" Width="350" Text="Departing Flights" FontSize="24" Margin="3"/>
-            <TextBlock x:Name="ReturnHeader" Width="350" Text="Returning Flights" FontSize="24" Margin="3"/>
+            <TextBlock x:Name="DepartHeader" Width="600" FontSize="24" Margin="3"/>
+            <TextBlock x:Name="ReturnHeader" Width="600" FontSize="24" Margin="3"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" RelativePanel.Below="HeaderTexts" x:Name="FlightPanels">
-            <ListView x:Name="DepartList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="350" HorizontalAlignment="Left" SelectionMode="None"/>
-            <ListView x:Name="ReturnList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="350" HorizontalAlignment="Left" SelectionMode="None"/>
+            <ListView x:Name="DepartList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single"/>
+            <ListView x:Name="ReturnList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single"/>
         </StackPanel>
-        <Button x:Name="BackButton" RelativePanel.Below="FlightPanels" Click="BackButton_Click" Margin="3" RelativePanel.AlignHorizontalCenterWithPanel="True">Back to Home</Button>
+        <Button x:Name="BackButton" RelativePanel.Below="FlightPanels" Click="BackButton_Click" Margin="3">Back to Home</Button>
+        <Button x:Name="PurchaseButton" RelativePanel.Below="FlightPanels" RelativePanel.RightOf="BackButton" Margin="3" Click="PurchaseButton_Click">Purchase Flight</Button>
     </RelativePanel>
 </Page>
