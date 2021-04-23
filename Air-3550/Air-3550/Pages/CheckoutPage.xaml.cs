@@ -32,6 +32,7 @@ namespace Air_3550.Pages
         private Parameters passedInParams;
         private int leavingPathCost = 0;
         private int returningPathCost = 0;
+        private CustomerInfo custInfo = null;
         public CheckoutPage()
         {
             this.InitializeComponent();
@@ -47,11 +48,20 @@ namespace Air_3550.Pages
             outputInfo.IsOpen = true;
             leavingPathCost = int.Parse(passedInParams.leavingPath.Price.Substring(1));
             returningPathCost = int.Parse(passedInParams.returningPath.Price.Substring(1));
+            custInfo = UserSession.user.CustInfo;
             DisplayInfo();
         }
         
         private void DisplayInfo()
         {
+            if (custInfo.CreditBalance >= leavingPathCost + returningPathCost)
+            {
+                useCredit.Visibility = Visibility.Visible;
+            }
+            if (custInfo.PointsAvailable >= 100 * (leavingPathCost + returningPathCost))
+            {
+                usePoints.Visibility = Visibility.Visible;
+            }
             int numFlights = passedInParams.leavingPath.flights.Count;
             Airport origin = passedInParams.leavingPath.flights[0].Origin;
             Airport dest = passedInParams.leavingPath.flights[numFlights - 1].Destination;
@@ -68,7 +78,7 @@ namespace Air_3550.Pages
             returnInfo.Text += $"\nPrice: ${returningPathCost}";
 
             summaryInfo.Text = "Summary:";
-            summaryInfo.Text += $"Total Cost: {leavingPathCost + returningPathCost}";
+            summaryInfo.Text += $"\nTotal Cost: ${leavingPathCost + returningPathCost}";
         }
 
         private void useCredit_Click(object sender, RoutedEventArgs e)
