@@ -220,7 +220,17 @@ namespace Air_3550.Repo
                 new { FlightId = 109, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(9, 30, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 109, isCanceled = false },
                 new { FlightId = 110, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(11, 20, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 110, isCanceled = false },
                 new { FlightId = 111, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(13, 45, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 111, isCanceled = false },
-                new { FlightId = 112, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(17, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 112, isCanceled = false }
+                new { FlightId = 112, OriginAirportId = 8, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(17, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 112, isCanceled = false },
+                // ATL -> DAL
+                new { FlightId = 113, OriginAirportId = 2, DestinationAirportId = 5, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(7, 45, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 113, isCanceled = false },
+                new { FlightId = 114, OriginAirportId = 2, DestinationAirportId = 5, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(9, 20, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 114, isCanceled = false },
+                new { FlightId = 115, OriginAirportId = 2, DestinationAirportId = 5, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(13, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 115, isCanceled = false },
+                new { FlightId = 116, OriginAirportId = 2, DestinationAirportId = 5, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(17, 20, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 116, isCanceled = false },
+                // DAL -> ATL
+                new { FlightId = 117, OriginAirportId = 5, DestinationAirportId = 2, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(8, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 117, isCanceled = false },
+                new { FlightId = 118, OriginAirportId = 5, DestinationAirportId = 2, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(10, 15, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 118, isCanceled = false },
+                new { FlightId = 119, OriginAirportId = 5, DestinationAirportId = 2, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(14, 45, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 119, isCanceled = false },
+                new { FlightId = 120, OriginAirportId = 5, DestinationAirportId = 2, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(18, 20, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 120, isCanceled = false }
             );
         }
     }
