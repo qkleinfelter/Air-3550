@@ -2,13 +2,24 @@
     x:Class="Air_3550.Pages.MarketingManagerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Air_3550.Pages"
+    xmlns:local="using:Air_3550.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <RelativePanel>
+        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true" RelativePanel.AlignVerticalCenterWithPanel="true">
+            <TextBlock x:Name="Title" FontFamily="Sans-Serif" FontSize="56" Text="Marketing Manager" Margin="2"/>
+            <TextBlock x:Name="selectflight" FontFamily="Sans-Serif" FontSize="18" Text="Please select airport and date" Margin="2"/>
+            <StackPanel x:Name="stack" Orientation="Horizontal" HorizontalAlignment="Center">
+                <local:AirportSuggest x:Name="originPicker" Label="Airport" Margin="3" VerticalAlignment="Bottom"/>
+                <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3" VerticalAlignment="Bottom"/>
+                <Button x:Name="searchButton" Click="searchButton_Click" Margin="3" VerticalAlignment="Bottom">Search</Button>
+            </StackPanel>
 
-    </Grid>
+
+        </StackPanel>
+
+    </RelativePanel>
 </Page>

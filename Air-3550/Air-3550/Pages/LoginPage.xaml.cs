@@ -54,9 +54,19 @@ namespace Air_3550.Pages
                     var user = db.Users.Include(user => user.CustInfo).Where(dbuser => dbuser.LoginId == userIdInput).FirstOrDefault();
                     UserSession.user = user;
                     UserSession.userLoggedIn = true;
+
+                    if (user.UserRole == Role.MARKETING_MANAGER)
+                    {
+                        Frame.Navigate(typeof(MarketingManagerPage));
+                    }
+                    else
+                    {
+                        Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                    }
                 }
                 // Once they're logged in, send them back to the main page
-                Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                
+                //Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
         }
 
