@@ -11,5 +11,11 @@
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock x:Name="titleText" FontSize="56" FontFamily="Sans-Serif" Text="Checkout"/>
         <InfoBar x:Name="outputInfo" IsOpen="False" RelativePanel.Below="titleText"/>
+        <TextBlock x:Name="departInfo" FontSize="24" RelativePanel.Below="outputInfo"/>
+        <TextBlock x:Name="returnInfo" FontSize="24" RelativePanel.Below="departInfo"/>
+        <TextBlock x:Name="summaryInfo" FontSize="24" RelativePanel.Below="returnInfo"/>
+        <Button x:Name="useCredit" RelativePanel.Below="summaryInfo" Click="useCredit_Click" Visibility="Collapsed">Make Purchase with Credit</Button>
+        <Button x:Name="usePoints" RelativePanel.Below="summaryInfo" Click="usePoints_Click" Visibility="Collapsed" RelativePanel.RightOf="useCredit">Make Purchase with Points</Button>
+        <Button x:Name="useCreditCard" RelativePanel.Below="summaryInfo" Click="useCreditCard_Click" RelativePanel.RightOf="usePoints">Make Purchase with Credit Card</Button>
     </RelativePanel>
 </Page>
