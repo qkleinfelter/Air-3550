@@ -28,7 +28,7 @@ namespace Air_3550.Models
             distance = distance / 1609; // convert meters to miles
             double hours = distance / 500; // assuming 500mph in the air
             double seconds = hours * 3600; // convert to seconds
-            duration.Add(new TimeSpan(0, 0, (int)seconds)); // cast seconds to an int, we lose miniscule amounts of time so don't worry about it
+            duration = duration.Add(new TimeSpan(0, 0, (int)seconds)); // cast seconds to an int, we lose miniscule amounts of time so don't worry about it
             return duration;
         }
 

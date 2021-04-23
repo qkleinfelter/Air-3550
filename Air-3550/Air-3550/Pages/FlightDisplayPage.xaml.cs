@@ -126,6 +126,43 @@ namespace Air_3550.Pages
                                      select new FlightPath(flight, connection); // turn the results into a new flight path, with both the first flight and the connection
 
                 var twoLeggedFlights = twoLeggedQuery.ToList(); // turn the results of our query into a list so that we can return it nicely
+
+                var toRemoveTwo = new List<FlightPath>();
+                for (int i = 0; i < twoLeggedFlights.Count; i++)
+                {
+                    FlightPath route = twoLeggedFlights[i];
+                    Flight f1 = route.flights[0];
+                    Flight f2 = route.flights[1];
+                    TimeSpan f1Arrive = f1.GetArrivalTime();
+                    TimeSpan minLayover = new TimeSpan(0, 40, 0); // 40 minute minimum layover
+                    TimeSpan maxLayover = new TimeSpan(8, 0, 0); // 8 hour maximum layover -- not in specification, but will make for nicer trips
+                    if (f1Arrive > f2.DepartureTime)
+                    {
+                        // Arrival time is after departure of the other flight
+                        toRemoveTwo.Add(route);
+                        continue;
+                    }
+
+                    if (f2.DepartureTime - f1.GetArrivalTime() < minLayover)
+                    {
+                        // Arrival time is less than 40 minutes before next flight would take off, so we don't offer
+                        toRemoveTwo.Add(route);
+                        continue;
+                    }
+
+                    if (f2.DepartureTime - f1.GetArrivalTime() > maxLayover)
+                    {
+                        // Arrival time is more than 8 hours before next flight would take off, so we don't offer
+                        toRemoveTwo.Add(route);
+                        continue;
+                    }
+                }
+
+                foreach (FlightPath spot in toRemoveTwo)
+                {
+                    twoLeggedFlights.Remove(spot);
+                }
+
                 if (twoLeggedFlights.Count > 0)
                 {
                     // Again if we have 2 legged flights, they will always be better 
@@ -148,6 +185,47 @@ namespace Air_3550.Pages
                                        select new FlightPath(flight, connection, secondConnection); // turn the results into a new flight path, with all 3 flights
 
                 var threeLeggedFlights = threeLeggedQuery.ToList(); // turn the results of our query into a list so that we can return it nicely
+                var toRemoveThree = new List<FlightPath>();
+                for (int i = 0; i < threeLeggedFlights.Count; i++)
+                {
+                    FlightPath route = threeLeggedFlights[i];
+                    Flight f1 = route.flights[0];
+                    Flight f2 = route.flights[1];
+                    Flight f3 = route.flights[2];
+                    TimeSpan f1Arrive = f1.GetArrivalTime();
+                    TimeSpan f2Arrive = f2.GetArrivalTime();
+                    TimeSpan minLayover = new TimeSpan(0, 40, 0); // 40 minute minimum layover
+                    TimeSpan maxLayover = new TimeSpan(8, 0, 0); // 8 hour maximum layover -- not in specification, but will make for nicer trips
+                    if (f1Arrive > f2.DepartureTime || f2Arrive > f3.DepartureTime)
+                    {
+                        // Arrival time is after departure of the other flight
+                        // on either leg, so we remove
+                        toRemoveThree.Add(route);
+                        continue;
+                    }
+
+                    if (f2.DepartureTime - f1Arrive < minLayover || f3.DepartureTime - f2Arrive < minLayover)
+                    {
+                        // Arrival time is less than 40 minutes before next flight would take off, so we don't offer
+                        // on either leg
+                        toRemoveThree.Add(route);
+                        continue;
+                    }
+
+                    if (f2.DepartureTime - f1Arrive > maxLayover || f3.DepartureTime - f2Arrive > maxLayover)
+                    {
+                        // Arrival time is more than 8 hours before next flight would take off, so we don't offer
+                        // on either leg
+                        toRemoveThree.Add(route);
+                        continue;
+                    }
+                }
+
+                foreach (FlightPath spot in toRemoveThree)
+                {
+                    threeLeggedFlights.Remove(spot);
+                }
+
                 if (threeLeggedFlights.Count > 0)
                 {
                     // Finally return our 3 legged flights
