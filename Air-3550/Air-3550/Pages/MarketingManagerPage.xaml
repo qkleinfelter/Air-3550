@@ -17,9 +17,11 @@
                 <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3" VerticalAlignment="Bottom"/>
                 <Button x:Name="searchButton" Click="searchButton_Click" Margin="3" VerticalAlignment="Bottom">Search</Button>
             </StackPanel>
+            <InfoBar x:Name="OutputInfo" IsOpen="False" Margin="3"/>
 
 
         </StackPanel>
+        
 
     </RelativePanel>
 </Page>

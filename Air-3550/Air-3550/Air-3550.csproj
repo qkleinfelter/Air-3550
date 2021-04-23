@@ -19,6 +19,7 @@
     <None Remove="Pages\LoginPage.xaml" />
     <None Remove="Pages\MainPage.xaml" />
     <None Remove="Pages\MarketingManagerPage.xaml" />
+    <None Remove="Pages\MMSelectPlanePage.xaml" />
     <None Remove="Pages\RegisterPage.xaml" />
   </ItemGroup>
 
@@ -36,6 +37,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Database\Database.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\MMSelectPlanePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

@@ -106,5 +106,6 @@ namespace Database.Utiltities
                 return "$" + CostHandler.PriceListOfFlights(flights) / 100;
             }
         }
+
     }
 }
