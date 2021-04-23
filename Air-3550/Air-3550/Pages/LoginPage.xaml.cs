@@ -59,6 +59,10 @@ namespace Air_3550.Pages
                     {
                         Frame.Navigate(typeof(MarketingManagerPage));
                     }
+                    else if (user.UserRole == Role.LOAD_ENGINEER)
+                    {
+                        Frame.Navigate(typeof(LoadEngineerPage));
+                    }
                     else
                     {
                         Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
