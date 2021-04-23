@@ -13,6 +13,7 @@
     <None Remove="Pages\AccountingManagerPage.xaml" />
     <None Remove="Pages\AccountPage.xaml" />
     <None Remove="Pages\ChangeAccountInfoPage.xaml" />
+    <None Remove="Pages\CheckoutPage.xaml" />
     <None Remove="Pages\FlightDisplayPage.xaml" />
     <None Remove="Pages\FlightManagerPage.xaml" />
     <None Remove="Pages\LoadEngineerPage.xaml" />
@@ -37,6 +38,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Database\Database.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\CheckoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

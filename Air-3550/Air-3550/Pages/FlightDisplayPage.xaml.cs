@@ -231,7 +231,11 @@ namespace Air_3550.Pages
             // that it is not possible to get from originAirport to destinationAirport 
             // with 2 or fewer connections.
             // according to the specifications of this project, we cannot have more
-            // than 2 connections, so we return a blank list
+            // than 2 connections, so we error out and return a blank list
+            outputInfo.Title = "No flights available!";
+            outputInfo.Message = "Unfortunately, we don't have any flights available on this route at this time, sorry.";
+            outputInfo.Severity = InfoBarSeverity.Error;
+            outputInfo.IsOpen = true;
             return new List<FlightPath>();
         }
 
@@ -242,7 +246,13 @@ namespace Air_3550.Pages
 
         private void PurchaseButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var departRoute = DepartList.SelectedItem as FlightPath;
+            FlightPath returnRoute = null;
+            if (passedInParams.returningDate != null)
+            {
+                returnRoute = ReturnList.SelectedItem as FlightPath;
+            }
+            Frame.Navigate(typeof(CheckoutPage), new CheckoutPage.Parameters(departRoute, returnRoute));
         }
     }
 }

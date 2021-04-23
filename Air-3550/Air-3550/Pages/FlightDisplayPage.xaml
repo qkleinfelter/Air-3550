@@ -29,7 +29,8 @@
             <TextBlock x:Name="DepartHeader" Width="600" FontSize="24" Margin="3"/>
             <TextBlock x:Name="ReturnHeader" Width="600" FontSize="24" Margin="3"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" RelativePanel.Below="HeaderTexts" x:Name="FlightPanels">
+        <InfoBar x:Name="outputInfo" Width="600" RelativePanel.Below="HeaderTexts" Margin="3" IsOpen="False"/>
+        <StackPanel Orientation="Horizontal" RelativePanel.Below="outputInfo" x:Name="FlightPanels">
             <ListView x:Name="DepartList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single"/>
             <ListView x:Name="ReturnList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single"/>
         </StackPanel>
