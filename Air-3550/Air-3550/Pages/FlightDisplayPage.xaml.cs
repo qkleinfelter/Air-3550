@@ -82,10 +82,10 @@ namespace Air_3550.Pages
             // This does not return a single best path to take, as we want to provide
             // options to our consumers, so we provide ALL paths from originAirport
             // to destinationAirport with the smallest amount of connections possible
-            // TODO: Handle layover timing, we'll need a minimum layover of 40 minutes,
-            // and we probably want a maximum layover too, to prevent the system from offering
-            // you to wait overnight
-            
+
+            TimeSpan minLayover = new TimeSpan(0, 40, 0); // 40 minute minimum layover
+            TimeSpan maxLayover = new TimeSpan(8, 0, 0); // 8 hour maximum layover -- not in specification, but will make for nicer trips
+
             using (var db = new AirContext())
             {
                 // This query grabs all direct flights, comments follow inline
@@ -134,8 +134,6 @@ namespace Air_3550.Pages
                     Flight f1 = route.flights[0];
                     Flight f2 = route.flights[1];
                     TimeSpan f1Arrive = f1.GetArrivalTime();
-                    TimeSpan minLayover = new TimeSpan(0, 40, 0); // 40 minute minimum layover
-                    TimeSpan maxLayover = new TimeSpan(8, 0, 0); // 8 hour maximum layover -- not in specification, but will make for nicer trips
                     if (f1Arrive > f2.DepartureTime)
                     {
                         // Arrival time is after departure of the other flight
@@ -194,8 +192,7 @@ namespace Air_3550.Pages
                     Flight f3 = route.flights[2];
                     TimeSpan f1Arrive = f1.GetArrivalTime();
                     TimeSpan f2Arrive = f2.GetArrivalTime();
-                    TimeSpan minLayover = new TimeSpan(0, 40, 0); // 40 minute minimum layover
-                    TimeSpan maxLayover = new TimeSpan(8, 0, 0); // 8 hour maximum layover -- not in specification, but will make for nicer trips
+                    
                     if (f1Arrive > f2.DepartureTime || f2Arrive > f3.DepartureTime)
                     {
                         // Arrival time is after departure of the other flight
