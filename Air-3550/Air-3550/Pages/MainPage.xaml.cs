@@ -114,6 +114,11 @@ namespace Air_3550.Pages
                 OutputInfo.Message += "\nYou must select a return date for round-trip flights!";
                 valid = false;
             }
+            if (!UserSession.userLoggedIn)
+            {
+                OutputInfo.Message += "\nYou must be logged in to search for flights";
+                valid = false;
+            }
             return valid;
         }
 
