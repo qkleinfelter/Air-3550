@@ -34,6 +34,8 @@ namespace Air_3550.Pages
         {
             if (ValidateAddParameters())
             {
+
+
                 // may not need this stuff later
                 OutputInfo.Title = "Valid Input!";
                 OutputInfo.Severity = InfoBarSeverity.Success;
@@ -64,7 +66,8 @@ namespace Air_3550.Pages
                 OutputInfo.Message += "\nYou must select a destination airport";
                 valid = false;
             }
-            if (originPickerAdd.Text == destPickerAdd.Text)
+            // Don't want this displaying with both fields blank
+            if (valid == true && originPickerAdd.Text == destPickerAdd.Text)
             {
                 OutputInfo.Message += "\nOrigin and destination airports must be different";
                 valid = false;
