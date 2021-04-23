@@ -59,9 +59,11 @@ namespace Air_3550.Pages
         {
             using( var db = new AirContext())
             {
+                //query database for flights with correct origin and departure date
                 var MMFlights = db.Flights
                                   .Include(flight => flight.Origin)
                                   .Include(flight => flight.Destination)
+                                  .Include(flight => flight.PlaneType)
                                   .Where(flight => !flight.isCanceled
                                   && flight.Origin == originAirport)
                                   .ToList();
@@ -69,6 +71,25 @@ namespace Air_3550.Pages
             }
         }
 
+        private void B737_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void B747_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void B757_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void B777_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MarketingManagerPage));

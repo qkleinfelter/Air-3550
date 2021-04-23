@@ -13,11 +13,22 @@
         <DataTemplate x:Key="FlightListViewTemplate" x:DataType="local2:FlightPath">
             <RelativePanel Margin="0,5,0,5">
                 <StackPanel Orientation="Horizontal" x:Name="FlightPanel">
-                    <TextBlock Text="{x:Bind DepartureTime}" x:Phase="1" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind DestinationPort}" x:Phase="1" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind DepartureTime}" x:Phase="2" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
-                    <TextBlock Text="{x:Bind ArrivalTime}" x:Phase="2" Margin="5" FontSize="18"/>
-                    
-                    
+                    <TextBlock Text="{x:Bind ArrivalTime}" x:Phase="3" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Plane}" x:Phase="4" Margin="5" FontSize="18"/>
+                    <DropDownButton x:Name="plane" Content="Change Plane">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem Click="B737_Click" Text="Boeing 737 MAX"/>
+                                <MenuFlyoutItem Click="B747_Click" Text="Boeing 747"/>
+                                <MenuFlyoutItem Click="B757_Click" Text="Boeing 757"/>
+                                <MenuFlyoutItem Click="B777_Click" Text="Boeing 777"/>
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+
                 </StackPanel>
             </RelativePanel>
         </DataTemplate>

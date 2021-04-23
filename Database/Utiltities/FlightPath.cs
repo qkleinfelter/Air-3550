@@ -111,9 +111,17 @@ namespace Database.Utiltities
         {
             get
             {
-                return flights.First().PlaneType.Model;
+                return flights[0].PlaneType.Model;
             }
+            
         }
 
+        public string DestinationPort
+        {
+            get
+            {
+                return flights[0].Destination.AirportCode;
+            }
+        }
     }
 }
