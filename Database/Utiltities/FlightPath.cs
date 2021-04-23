@@ -107,5 +107,13 @@ namespace Database.Utiltities
             }
         }
 
+        public string Plane
+        {
+            get
+            {
+                return flights.First().PlaneType.Model;
+            }
+        }
+
     }
 }

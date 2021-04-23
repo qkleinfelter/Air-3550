@@ -35,7 +35,7 @@ namespace Air_3550.Pages
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            /*
+            
             if (ValidateSearchParameters())
             {
                 using var db = new AirContext();
@@ -45,13 +45,13 @@ namespace Air_3550.Pages
                 
 
                 var depDate = departurePicker.Date.Value.Date; // this gets only the date portion of the departure pickers chosen date
-                FlightDisplayPage.Parameters passIn;
+                MMSelectPlanePage.MMParameters passIn;
                 
-                passIn = new FlightDisplayPage.Parameters(originAirport, null, depDate);
+                passIn = new MMSelectPlanePage.MMParameters(originAirport, depDate);
 
                 
 
-                Frame.Navigate(typeof(FlightDisplayPage), passIn);
+                Frame.Navigate(typeof(MMSelectPlanePage), passIn);
             }
             else
             {
@@ -59,7 +59,7 @@ namespace Air_3550.Pages
                 OutputInfo.Severity = InfoBarSeverity.Error;
                 OutputInfo.IsOpen = true;
             }
-            */
+            
         }
 
         private string StripAirportCode(string full)

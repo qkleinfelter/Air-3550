@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Air_3550.Models;
+using Air_3550.Repo;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -12,6 +15,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking.Connectivity;
+using Database.Utiltities;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -23,12 +28,50 @@ namespace Air_3550.Pages
     /// </summary>
     public sealed partial class MMSelectPlanePage : Page
     {
-        private FlightDisplayPage.Parameters MMParams;
+        public class MMParameters
+        {
+            public Airport origin;
+            public DateTime departDate;
+
+            public MMParameters(Airport departPort, DateTime depart)
+            {
+                origin = departPort;
+                departDate = depart;
+            }
+        }
+        private MMParameters passedMMParams;
         
         public MMSelectPlanePage()
         {
             this.InitializeComponent();
         }
 
+        override protected void OnNavigatedTo(NavigationEventArgs e)
+        {
+            passedMMParams = e.Parameter as MMParameters;
+
+            DepartHeader.Text = $"{passedMMParams.origin.City} : {passedMMParams.departDate.ToShortDateString()}";
+
+            DepartList.ItemsSource = generateFlights(passedMMParams.origin);
+        }
+
+        private List<FlightPath> generateFlights(Airport originAirport)
+        {
+            using( var db = new AirContext())
+            {
+                var MMFlights = db.Flights
+                                  .Include(flight => flight.Origin)
+                                  .Include(flight => flight.Destination)
+                                  .Where(flight => !flight.isCanceled
+                                  && flight.Origin == originAirport)
+                                  .ToList();
+                return MMFlights.Select(flight => new FlightPath(flight)).ToList();
+            }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MarketingManagerPage));
+        }
     }
 }

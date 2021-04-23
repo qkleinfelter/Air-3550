@@ -16,10 +16,24 @@
                     <TextBlock Text="{x:Bind DepartureTime}" x:Phase="1" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
                     <TextBlock Text="{x:Bind ArrivalTime}" x:Phase="2" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:Bind FormattedStops}" x:Phase="3" Margin="5" FontSize="18"/>
+                    
                     
                 </StackPanel>
             </RelativePanel>
         </DataTemplate>
     </Page.Resources>
+
+    <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock FontFamily="Sans-Serif" FontSize="56" Text="Available Flights" x:Name="titleText"/>
+        <StackPanel Orientation="Horizontal" RelativePanel.Below="titleText" x:Name="HeaderTexts">
+            <TextBlock x:Name="DepartHeader" Width="600" FontSize="24" Margin="3"/>
+            
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" RelativePanel.Below="HeaderTexts" x:Name="FlightPanels">
+            <ListView x:Name="DepartList" ItemTemplate="{StaticResource FlightListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single"/>
+            
+        </StackPanel>
+        <Button x:Name="BackButton" RelativePanel.Below="FlightPanels" Click="BackButton_Click" Margin="3">Back</Button>
+        
+    </RelativePanel>
 </Page>
