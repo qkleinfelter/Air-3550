@@ -29,5 +29,52 @@ namespace Air_3550.Pages
         {
             this.InitializeComponent();
         }
+
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ValidateAddParameters())
+            {
+                // may not need this stuff later
+                OutputInfo.Title = "Valid Input!";
+                OutputInfo.Severity = InfoBarSeverity.Success;
+
+                OutputInfo.Message = "We can work with your data!";
+            }
+            else
+            {
+                OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
+            }
+
+        }
+
+        private bool ValidateAddParameters()
+        {
+            // start with our return as true, it will get changed to false if either of our input parameters are bad
+            bool valid = true;
+            OutputInfo.Message = "Your search could not be processed due to invalid parameters: ";
+            if (string.IsNullOrEmpty(originPickerAdd.Text))
+            {
+                OutputInfo.Message += "\nYou must select an origin airport";
+                valid = false;
+            }
+            if (string.IsNullOrEmpty(destPickerAdd.Text))
+            {
+                OutputInfo.Message += "\nYou must select a destination airport";
+                valid = false;
+            }
+            if (originPickerAdd.Text == destPickerAdd.Text)
+            {
+                OutputInfo.Message += "\nOrigin and destination airports must be different";
+                valid = false;
+            }
+            if (!timePickerAdd.SelectedTime.HasValue)
+            {
+                OutputInfo.Message += "\nYou must select a valid time";
+                valid = false;
+            }
+            return valid;
+        }
     }
 }

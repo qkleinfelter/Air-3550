@@ -19,10 +19,10 @@
             </StackPanel>
             <TextBlock x:Name="addflights" FontFamily="Sans-Serif" FontSize="18" Text="Add routes" Margin="2"/>
             <StackPanel x:Name="stack2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <local:AirportSuggest x:Name="originPicker2" Label="Origin Airport" Margin="3" VerticalAlignment="Bottom"/>
-                <local:AirportSuggest x:Name="destPicker2" Label="Destination Airport" Margin="3" VerticalAlignment="Bottom"/>
-                <TimePicker ClockIdentifier="24HourClock" Margin="3" VerticalAlignment="Bottom"/>
-                <Button x:Name="addButton"  Margin="3" VerticalAlignment="Bottom">Add</Button>
+                <local:AirportSuggest x:Name="originPickerAdd" Label="Origin Airport" Margin="3" VerticalAlignment="Bottom"/>
+                <local:AirportSuggest x:Name="destPickerAdd" Label="Destination Airport" Margin="3" VerticalAlignment="Bottom"/>
+                <TimePicker x:Name="timePickerAdd" ClockIdentifier="24HourClock" Margin="3" VerticalAlignment="Bottom"/>
+                <Button x:Name="addButton" Click="addButton_Click" Margin="3" VerticalAlignment="Bottom">Add</Button>
             </StackPanel>
 
             <InfoBar x:Name="OutputInfo" IsOpen="False" Margin="3"/>
