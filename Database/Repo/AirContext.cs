@@ -74,12 +74,6 @@ namespace Air_3550.Repo
             // each new piece of the flight schedule should have the exact same fields as this first entry,
             // with FlightId and FlightNumber incrementing (maybe we remove FlightNumber in the future, not sure)
             // associated ids for airports and planes can be seen in seeding above or directly in the db
-
-            // i'm not yet sure how we want to go about this but I think an easy thing to start with would be
-            // filling out a basic flight schedule on a single day, then in code populating that exact same flight schedule
-            // out for 6 months when the application is loaded (if the flights haven't been changed)
-            // for now if you're adding more flights the easiest way is to probably just leave them all as
-            // a departuretime and arrival time on 2021, 5, 7 for easy adjustment later if needed
             modelBuilder.Entity<Flight>().HasData(
                 // SEA -> DEN
                 new { FlightId = 1, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(6, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 1, isCanceled = false },

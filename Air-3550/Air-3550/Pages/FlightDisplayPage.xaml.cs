@@ -96,15 +96,33 @@ namespace Air_3550.Pages
                                && flight.Origin == originAirport // the origin of the flight should match the origin airport passed in
                                && flight.Destination == destinationAirport) // and the destination airports should match
                                .ToList(); // then turn it into a list
+                var directPaths = direct.Select(flight => new FlightPath(flight)).ToList();
+                var toRemoveOne = new List<FlightPath>();
+                for (int i = 0; i < directPaths.Count; i++)
+                {
+                    var f1 = directPaths[i].flights[0];
+                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f1.FlightId);
+                    if (sf1 != null && sf1.TicketsPurchased >= sf1.Flight.PlaneType.MaxSeats)
+                    {
+                        // Flight 1 already exists in db & is full
+                        toRemoveOne.Add(directPaths[i]);
+                        continue;
+                    }
+                }
 
-                if (direct.Count > 0)
+                foreach (FlightPath spot in toRemoveOne)
+                {
+                    directPaths.Remove(spot);
+                }
+
+                if (directPaths.Count > 0)
                 {
                     // If we have direct flights, they will literally always be better
                     // than non-direct in both cost and time so we can just return them and not
                     // calculate any worse flights
                     // also convert them to a FlightPath with a single flight, so that
                     // we can display them properly
-                    return direct.Select(flight => new FlightPath(flight)).ToList();
+                    return directPaths;
                 }
 
                 // this query grabs all non canceled flights from the db
@@ -149,6 +167,21 @@ namespace Air_3550.Pages
                     if (f2.DepartureTime - f1.GetArrivalTime() > maxLayover)
                     {
                         // Arrival time is more than 8 hours before next flight would take off, so we don't offer
+                        toRemoveTwo.Add(route);
+                        continue;
+                    }
+
+                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f1.FlightId);
+                    var sf2 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f2.FlightId);
+                    if (sf1 != null && sf1.TicketsPurchased >= sf1.Flight.PlaneType.MaxSeats)
+                    {
+                        // Flight 1 already exists in db & is full
+                        toRemoveTwo.Add(route);
+                        continue;
+                    }
+                    if (sf2 != null && sf2.TicketsPurchased >= sf2.Flight.PlaneType.MaxSeats)
+                    {
+                        // Flight 2 already exists in db & is full
                         toRemoveTwo.Add(route);
                         continue;
                     }
@@ -210,6 +243,28 @@ namespace Air_3550.Pages
                     {
                         // Arrival time is more than 8 hours before next flight would take off, so we don't offer
                         // on either leg
+                        toRemoveThree.Add(route);
+                        continue;
+                    }
+
+                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f1.FlightId);
+                    var sf2 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f2.FlightId);
+                    var sf3 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f3.FlightId);
+                    if (sf1 != null && sf1.TicketsPurchased >= sf1.Flight.PlaneType.MaxSeats)
+                    {
+                        // Flight 1 already exists in db & is full
+                        toRemoveThree.Add(route);
+                        continue;
+                    }
+                    if (sf2 != null && sf2.TicketsPurchased >= sf2.Flight.PlaneType.MaxSeats)
+                    {
+                        // Flight 2 already exists in db & is full
+                        toRemoveThree.Add(route);
+                        continue;
+                    }
+                    if (sf3 != null && sf3.TicketsPurchased >= sf3.Flight.PlaneType.MaxSeats)
+                    {
+                        // Flight 3 already exists in db & is full
                         toRemoveThree.Add(route);
                         continue;
                     }
