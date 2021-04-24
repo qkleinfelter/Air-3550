@@ -30,12 +30,6 @@ namespace Air_3550.Pages
         public LoadEngineerPage()
         {
             this.InitializeComponent();
-
-            //if (UserSession.userLoggedIn)
-            //{
-            //    loginNavigator.Visibility = Visibility.Collapsed;
-            //    accountNavigator.Visibility = Visibility.Visible;
-            //}
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
