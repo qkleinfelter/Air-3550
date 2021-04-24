@@ -28,10 +28,6 @@ namespace Air_3550.Models
         public int PointsAvailable { get; set; }
         public int CreditBalance { get; set; }
         [Required]
-        public List<Ticket> TicketsBooked { get; set; } = new List<Ticket>();
-        [Required]
-        public List<Ticket> TicketsTaken { get; set; } = new List<Ticket>();
-        [Required]
-        public List<Ticket> TicketsCanceled { get; set; } = new List<Ticket>();
+        public List<Trip> Trips { get; set; } = new List<Trip>();
     }
 }

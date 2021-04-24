@@ -38,6 +38,16 @@ namespace Database.Utiltities
             }
         }
 
+        public static void UseCredit(User user, int amount)
+        {
+            using var db = new AirContext();
+            var customerInfo = db.Users.Include(user => user.CustInfo).Where(dbuser => dbuser.UserId == user.UserId).FirstOrDefault().CustInfo;
+            if (customerInfo != null)
+            {
+                customerInfo.CreditBalance -= amount;
+            }
+        }
+
         public static bool LoginIDExists(string loginId)
         {
             using (var db = new AirContext())

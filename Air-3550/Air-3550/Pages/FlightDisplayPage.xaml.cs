@@ -103,12 +103,13 @@ namespace Air_3550.Pages
         private void PurchaseButton_Click(object sender, RoutedEventArgs e)
         {
             var departRoute = DepartList.SelectedItem as FlightPath;
-            FlightPath returnRoute = null;
+            FlightPath returnRoute = null;           
             if (passedInParams.returningDate != null)
             {
                 returnRoute = ReturnList.SelectedItem as FlightPath;
             }
-            Frame.Navigate(typeof(CheckoutPage), new CheckoutPage.Parameters(departRoute, returnRoute));
+            Frame.Navigate(typeof(CheckoutPage), new CheckoutPage.Parameters(departRoute, returnRoute, passedInParams.departingDate, passedInParams.returningDate));
+
         }
     }
 }

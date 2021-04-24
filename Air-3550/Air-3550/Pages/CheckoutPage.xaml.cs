@@ -1,5 +1,8 @@
 ﻿using Air_3550.Models;
+using Air_3550.Repo;
+using Database.Models;
 using Database.Utiltities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,16 +26,22 @@ namespace Air_3550.Pages
         {
             public FlightPath leavingPath;
             public FlightPath? returningPath;
-            public Parameters(FlightPath depart, FlightPath returning)
+            public DateTime departingDate;
+            public DateTime? returningDate;
+            public Parameters(FlightPath depart, FlightPath returning, DateTime depDate, DateTime? retDate)
             {
                 leavingPath = depart;
                 returningPath = returning;
+                departingDate = depDate;
+                returningDate = retDate;
             }
         }
         private Parameters passedInParams;
         private int leavingPathCost = 0;
         private int returningPathCost = 0;
         private CustomerInfo custInfo = null;
+        private bool oneWay;
+        private int totalCost = 0;
         public CheckoutPage()
         {
             this.InitializeComponent();
@@ -42,23 +51,21 @@ namespace Air_3550.Pages
         {
             base.OnNavigatedTo(e);
             passedInParams = e.Parameter as Parameters;
-            outputInfo.Title = "Flight Path debug";
-            outputInfo.Message = $"{passedInParams.leavingPath.DepartureTime} -> {passedInParams.leavingPath.ArrivalTime} & {passedInParams.returningPath.DepartureTime} -> {passedInParams.returningPath.ArrivalTime}";
-            outputInfo.Severity = InfoBarSeverity.Informational;
-            outputInfo.IsOpen = true;
             leavingPathCost = int.Parse(passedInParams.leavingPath.Price.Substring(1));
-            returningPathCost = int.Parse(passedInParams.returningPath.Price.Substring(1));
+            oneWay = !int.TryParse(passedInParams.returningPath.Price.Substring(1), out returningPathCost);
             custInfo = UserSession.user.CustInfo;
             DisplayInfo();
         }
         
         private void DisplayInfo()
         {
-            if (custInfo.CreditBalance >= leavingPathCost + returningPathCost)
+            totalCost = oneWay ? leavingPathCost : leavingPathCost + returningPathCost;
+
+            if (custInfo.CreditBalance >= totalCost)
             {
                 useCredit.Visibility = Visibility.Visible;
             }
-            if (custInfo.PointsAvailable >= 100 * (leavingPathCost + returningPathCost))
+            if (custInfo.PointsAvailable >= 100 * (totalCost))
             {
                 usePoints.Visibility = Visibility.Visible;
             }
@@ -71,29 +78,36 @@ namespace Air_3550.Pages
             departInfo.Text += $"\nWith stops: {passedInParams.leavingPath.FormattedStops}";
             departInfo.Text += $"\nPrice: ${leavingPathCost}";
 
-            returnInfo.Text = "Returning Flight Information:";
-            returnInfo.Text += $"\nFrom {dest.City} to {origin.City}";
-            returnInfo.Text += $"\nTotal Flight Duration: {passedInParams.returningPath.FormattedDuration}";
-            returnInfo.Text += $"\nWith stops: {passedInParams.returningPath.FormattedStops}";
-            returnInfo.Text += $"\nPrice: ${returningPathCost}";
-
+            if (!oneWay)
+            {
+                returnInfo.Text = "Returning Flight Information:";
+                returnInfo.Text += $"\nFrom {dest.City} to {origin.City}";
+                returnInfo.Text += $"\nTotal Flight Duration: {passedInParams.returningPath.FormattedDuration}";
+                returnInfo.Text += $"\nWith stops: {passedInParams.returningPath.FormattedStops}";
+                returnInfo.Text += $"\nPrice: ${returningPathCost}";
+            }
+            
             summaryInfo.Text = "Summary:";
-            summaryInfo.Text += $"\nTotal Cost: ${leavingPathCost + returningPathCost}";
+            summaryInfo.Text += $"\nTotal Cost: ${totalCost}";
+
+            userInfo.Text = $"Your balances: Credit: ${custInfo.CreditBalance}, Points: {custInfo.PointsAvailable}";
         }
 
         private void useCredit_Click(object sender, RoutedEventArgs e)
         {
-
+            UserUtilities.UseCredit(UserSession.user, totalCost);
+            TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_BALANCE, oneWay);
         }
 
         private void usePoints_Click(object sender, RoutedEventArgs e)
         {
-
+            UserUtilities.UsePoints(UserSession.user, 100 * totalCost);
+            TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.POINTS, oneWay);
         }
 
         private void useCreditCard_Click(object sender, RoutedEventArgs e)
         {
-
+            TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_CARD, oneWay);
         }
     }
 }

@@ -10,12 +10,12 @@
 
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock x:Name="titleText" FontSize="56" FontFamily="Sans-Serif" Text="Checkout"/>
-        <InfoBar x:Name="outputInfo" IsOpen="False" RelativePanel.Below="titleText"/>
-        <TextBlock x:Name="departInfo" FontSize="24" RelativePanel.Below="outputInfo" Margin="3"/>
-        <TextBlock x:Name="returnInfo" FontSize="24" RelativePanel.Below="departInfo" Margin="3"/>
-        <TextBlock x:Name="summaryInfo" FontSize="24" RelativePanel.Below="returnInfo" Margin="3"/>
-        <Button x:Name="useCredit" RelativePanel.Below="summaryInfo" Click="useCredit_Click" Visibility="Collapsed" Margin="3">Make Purchase with Credit</Button>
-        <Button x:Name="usePoints" RelativePanel.Below="summaryInfo" Click="usePoints_Click" Visibility="Collapsed" RelativePanel.RightOf="useCredit" Margin="3">Make Purchase with Points</Button>
-        <Button x:Name="useCreditCard" RelativePanel.Below="summaryInfo" Click="useCreditCard_Click" RelativePanel.RightOf="usePoints" Margin="3">Make Purchase with Credit Card</Button>
+        <TextBlock x:Name="departInfo" FontSize="24" RelativePanel.Below="titleText" Margin="5"/>
+        <TextBlock x:Name="returnInfo" FontSize="24" RelativePanel.Below="departInfo" Margin="5"/>
+        <TextBlock x:Name="summaryInfo" FontSize="24" RelativePanel.Below="returnInfo" Margin="5"/>
+        <TextBlock x:Name="userInfo" FontSize="18" RelativePanel.Below="summaryInfo" Margin="5"/>
+        <Button x:Name="useCredit" RelativePanel.Below="userInfo" Click="useCredit_Click" Visibility="Collapsed" Margin="3">Make Purchase with Credit</Button>
+        <Button x:Name="usePoints" RelativePanel.Below="userInfo" Click="usePoints_Click" Visibility="Collapsed" RelativePanel.RightOf="useCredit" Margin="3">Make Purchase with Points</Button>
+        <Button x:Name="useCreditCard" RelativePanel.Below="userInfo" Click="useCreditCard_Click" RelativePanel.RightOf="usePoints" Margin="3">Make Purchase with Credit Card</Button>
     </RelativePanel>
 </Page>
