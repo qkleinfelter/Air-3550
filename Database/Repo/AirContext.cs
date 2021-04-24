@@ -77,7 +77,12 @@ namespace Air_3550.Repo
             modelBuilder.Entity<Flight>().HasData(
                 // SEA -> DEN
                 new { FlightId = 1, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(6, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 1, isCanceled = false },
+                new { FlightId = 121, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(7, 20, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 121, isCanceled = false },
+                new { FlightId = 122, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(8, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 122, isCanceled = false },
                 new { FlightId = 2, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(9, 35, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 2, isCanceled = false },
+                new { FlightId = 123, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(10, 15, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 123, isCanceled = false },
+                new { FlightId = 124, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(11, 40, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 124, isCanceled = false },
+                new { FlightId = 125, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(12, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 125, isCanceled = false },
                 new { FlightId = 3, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(14, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 3, isCanceled = false },
                 new { FlightId = 4, OriginAirportId = 9, DestinationAirportId = 6, PlaneTypePlaneId = 1, DepartureTime = new TimeSpan(18, 35, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 4, isCanceled = false },
                 // DEN -> SEA
@@ -137,7 +142,11 @@ namespace Air_3550.Repo
                 new { FlightId = 48, OriginAirportId = 10, DestinationAirportId = 6, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(17, 50, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 48, isCanceled = false },
                 // DEN -> ATL
                 new { FlightId = 49, OriginAirportId = 6, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(7, 0, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 49, isCanceled = false },
+                new { FlightId = 126, OriginAirportId = 6, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(8, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 126, isCanceled = false },
                 new { FlightId = 50, OriginAirportId = 6, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(9, 15, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 50, isCanceled = false },
+                new { FlightId = 127, OriginAirportId = 6, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(10, 30, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 127, isCanceled = false },
+                new { FlightId = 128, OriginAirportId = 6, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(11, 20, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 128, isCanceled = false },
+                new { FlightId = 129, OriginAirportId = 6, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(12, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 129, isCanceled = false },
                 new { FlightId = 51, OriginAirportId = 6, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(14, 30, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 51, isCanceled = false },
                 new { FlightId = 52, OriginAirportId = 6, DestinationAirportId = 2, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(18, 40, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 52, isCanceled = false },
                 // ATL -> DEN
@@ -197,7 +206,9 @@ namespace Air_3550.Repo
                 new { FlightId = 96, OriginAirportId = 2, DestinationAirportId = 1, PlaneTypePlaneId = 2, DepartureTime = new TimeSpan(18, 30, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 96, isCanceled = false },
                 // ATL -> LGA
                 new { FlightId = 97, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(9, 0, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 97, isCanceled = false },
+                new { FlightId = 130, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(10, 20, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 130, isCanceled = false },
                 new { FlightId = 98, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(11, 10, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 98, isCanceled = false },
+                new { FlightId = 131, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(12, 30, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 131, isCanceled = false },
                 new { FlightId = 99, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(13, 50, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 99, isCanceled = false },
                 new { FlightId = 100, OriginAirportId = 2, DestinationAirportId = 7, PlaneTypePlaneId = 4, DepartureTime = new TimeSpan(16, 40, 0), Cost = -1, TicketsPurchased = 0, FlightNumber = 100, isCanceled = false },
                 // LGA -> ATL
