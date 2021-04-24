@@ -58,11 +58,11 @@ namespace Air_3550.Pages
 
             // This flight list is only for the first leg of a one way, we'll need to add another list view for
             // the return trip at some point as well
-            DepartList.ItemsSource = GenerateRoutes(passedInParams.origin, passedInParams.destination);
+            DepartList.ItemsSource = GenerateRoutes(passedInParams.origin, passedInParams.destination, passedInParams.departingDate);
             if (returningDate != null)
             {
                 var nonNullable = (DateTime)returningDate;
-                ReturnList.ItemsSource = GenerateRoutes(passedInParams.destination, passedInParams.origin);
+                ReturnList.ItemsSource = GenerateRoutes(passedInParams.destination, passedInParams.origin, nonNullable);
                 ReturnHeader.Text = $"{passedInParams.destination.City} to {passedInParams.origin.City} - {nonNullable.ToShortDateString()}";
                 PurchaseButton.Content += "s"; // "Purchase Flight" -> "Purchase Flights" if its round trip
             }
@@ -74,7 +74,7 @@ namespace Air_3550.Pages
 
         }
 
-        private List<FlightPath> GenerateRoutes(Airport originAirport, Airport destinationAirport)
+        private List<FlightPath> GenerateRoutes(Airport originAirport, Airport destinationAirport, DateTime date)
         {
             // This method generates all flights with 0, 1, or 2 connections
             // returning after it finds flights with the smallest amount of connections,
@@ -101,7 +101,7 @@ namespace Air_3550.Pages
                 for (int i = 0; i < directPaths.Count; i++)
                 {
                     var f1 = directPaths[i].flights[0];
-                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f1.FlightId);
+                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).Where(sf => sf.Flight.FlightId == f1.FlightId).SingleOrDefault(sf => sf.DepartureTime.Date == date);
                     if (sf1 != null && sf1.TicketsPurchased >= sf1.Flight.PlaneType.MaxSeats)
                     {
                         // Flight 1 already exists in db & is full
@@ -171,8 +171,8 @@ namespace Air_3550.Pages
                         continue;
                     }
 
-                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f1.FlightId);
-                    var sf2 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f2.FlightId);
+                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).Where(sf => sf.Flight.FlightId == f1.FlightId).SingleOrDefault(sf => sf.DepartureTime.Date == date);
+                    var sf2 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).Where(sf => sf.Flight.FlightId == f2.FlightId).SingleOrDefault(sf => sf.DepartureTime.Date == date);
                     if (sf1 != null && sf1.TicketsPurchased >= sf1.Flight.PlaneType.MaxSeats)
                     {
                         // Flight 1 already exists in db & is full
@@ -247,9 +247,9 @@ namespace Air_3550.Pages
                         continue;
                     }
 
-                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f1.FlightId);
-                    var sf2 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f2.FlightId);
-                    var sf3 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).SingleOrDefault(sf => sf.Flight.FlightId == f3.FlightId);
+                    var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).Where(sf => sf.Flight.FlightId == f1.FlightId).SingleOrDefault(sf => sf.DepartureTime.Date == date);
+                    var sf2 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).Where(sf => sf.Flight.FlightId == f2.FlightId).SingleOrDefault(sf => sf.DepartureTime.Date == date);
+                    var sf3 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).Where(sf => sf.Flight.FlightId == f3.FlightId).SingleOrDefault(sf => sf.DepartureTime.Date == date);
                     if (sf1 != null && sf1.TicketsPurchased >= sf1.Flight.PlaneType.MaxSeats)
                     {
                         // Flight 1 already exists in db & is full
