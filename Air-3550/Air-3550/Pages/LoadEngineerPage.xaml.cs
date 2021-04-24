@@ -1,6 +1,7 @@
 ﻿using Air_3550.Models;
 using Air_3550.Repo;
 using Database.Utiltities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -50,25 +51,40 @@ namespace Air_3550.Pages
                 var destAirport = db.Airports.Single(Airport => Airport.AirportCode == destCode);
                 TimeSpan selectedTime = (TimeSpan)timePickerAdd.SelectedTime;
 
-                Flight flight = new()
+                // Make sure that this isn't a new route
+                if (EnsureExistingRoute(originAirport, destAirport))
                 {
-                    Origin = originAirport,
-                    Destination = destAirport,
-                    //PlaneType = ,
-                    DepartureTime = selectedTime
-                };
-                db.Flights.Add(flight);
-                db.SaveChanges();
+                    // Add new flight
+                    Flight flight = new()
+                    {
+                        Origin = originAirport,
+                        Destination = destAirport,
+                        //PlaneType = ,
+                        DepartureTime = selectedTime
+                    };
+                    db.Flights.Add(flight);
+                    db.SaveChanges();
+
+                    OutputInfo.Message = $"Flight was successfully added!";
+
+                    // may not need this stuff later
+                    OutputInfo.Title = "Success!";
+                    OutputInfo.Severity = InfoBarSeverity.Success;
+                    OutputInfo.IsOpen = true;
+                }
+                else
+                {
+                    OutputInfo.Message = $"Talk to your manager if you really think we should add a brand new route.";
+
+                    OutputInfo.Title = "Route Doesn't Exist!";
+                    OutputInfo.Severity = InfoBarSeverity.Error;
+                    OutputInfo.IsOpen = true;
+                }
 
 
 
 
-                OutputInfo.Message = $"Flight was successfully added!";
-
-                // may not need this stuff later
-                OutputInfo.Title = "Valid Input!";
-                OutputInfo.Severity = InfoBarSeverity.Success;
-                OutputInfo.IsOpen = true;
+                
             }
             else
             {
@@ -77,6 +93,30 @@ namespace Air_3550.Pages
                 OutputInfo.IsOpen = true;
             }
 
+        }
+
+        private bool EnsureExistingRoute(Airport originAirport, Airport destinationAirport)
+        {
+            using (var db = new AirContext())
+            {
+                // This query grabs all direct flights, comments follow inline
+                var direct = db.Flights // on the entire flights table of the db
+                               .Include(flight => flight.Origin) // ensure that we have access to the origin airports info later
+                               .Include(flight => flight.Destination) // ensure that we have access to the destination airports info later
+                               .Where(flight => !flight.isCanceled // only take flights that are not canceled (by staff member)
+                               && flight.Origin == originAirport // the origin of the flight should match the origin airport passed in
+                               && flight.Destination == destinationAirport) // and the destination airports should match
+                               .ToList(); // then turn it into a list
+
+                // If there are flights at this point, they are existing routes.
+                // This makes them safe to add new flights.
+                if (direct.Count > 0)
+                {
+                    
+                    return true;
+                }
+                return false;
+            }
         }
 
         private bool ValidateAddParameters()
