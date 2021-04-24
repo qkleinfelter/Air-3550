@@ -1,4 +1,5 @@
-﻿using Air_3550.Repo;
+﻿using Air_3550.Models;
+using Air_3550.Repo;
 using Database.Utiltities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -34,13 +35,34 @@ namespace Air_3550.Pages
         {
             if (ValidateAddParameters())
             {
+                // get data from GUI and add flight
+                using var db = new AirContext();
+                
+                string originCode = StripAirportCode(originPickerAdd.Text);
+                string destCode = StripAirportCode(destPickerAdd.Text);
+                var originAirport = db.Airports.Single(Airport => Airport.AirportCode == originCode);
+                var destAirport = db.Airports.Single(Airport => Airport.AirportCode == destCode);
+                TimeSpan selectedTime = (TimeSpan)timePickerAdd.SelectedTime;
 
+                Flight flight = new()
+                {
+                    Origin = originAirport,
+                    Destination = destAirport,
+                    //PlaneType = ,
+                    DepartureTime = selectedTime
+                };
+                db.Flights.Add(flight);
+                db.SaveChanges();
+
+
+
+
+                OutputInfo.Message = $"Flight was successfully added!";
 
                 // may not need this stuff later
                 OutputInfo.Title = "Valid Input!";
                 OutputInfo.Severity = InfoBarSeverity.Success;
-
-                OutputInfo.Message = "We can work with your data!";
+                OutputInfo.IsOpen = true;
             }
             else
             {
@@ -78,6 +100,11 @@ namespace Air_3550.Pages
                 valid = false;
             }
             return valid;
+        }
+
+        private string StripAirportCode(string full)
+        {
+            return full.Substring(full.IndexOf("(") + 1, 3);
         }
     }
 }
