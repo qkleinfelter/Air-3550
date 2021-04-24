@@ -1,4 +1,5 @@
 ﻿using Air_3550.Controls;
+using Database.Utiltities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -27,7 +28,29 @@ namespace Air_3550.Pages
 
         private void UserInfoControl_OnNavigateParentReady(object source, EventArgs e)
         {
-            Frame.Navigate(typeof(MainPage));
+            if (UserSession.user.UserRole == Role.CUSTOMER)
+            {
+                Frame.Navigate(typeof(MainPage));
+            }
+            else if (UserSession.user.UserRole == Role.LOAD_ENGINEER)
+            {
+                Frame.Navigate(typeof(LoadEngineerPage));
+            }
+            else if (UserSession.user.UserRole == Role.MARKETING_MANAGER)
+            {
+                Frame.Navigate(typeof(MarketingManagerPage));
+            }
+            else if (UserSession.user.UserRole == Role.ACCOUNTING_MANAGER)
+            {
+                Frame.Navigate(typeof(AccountingManagerPage));
+            }
+            else
+            {
+                // Needs to be FlightManagerPage when it exists...
+                Frame.Navigate(typeof(MainPage));
+            }
+
+
         }
     }
 }

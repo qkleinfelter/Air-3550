@@ -29,6 +29,12 @@ namespace Air_3550.Pages
         public LoadEngineerPage()
         {
             this.InitializeComponent();
+
+            //if (UserSession.userLoggedIn)
+            //{
+            //    loginNavigator.Visibility = Visibility.Collapsed;
+            //    accountNavigator.Visibility = Visibility.Visible;
+            //}
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -100,6 +106,18 @@ namespace Air_3550.Pages
                 valid = false;
             }
             return valid;
+        }
+
+        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ChangeAccountInfoPage));
+        }
+
+        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        {
+            UserSession.user = null;
+            UserSession.userLoggedIn = false;
+            Frame.Navigate(typeof(MainPage));
         }
 
         private string StripAirportCode(string full)
