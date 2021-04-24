@@ -3,14 +3,16 @@ using System;
 using Air_3550.Repo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(AirContext))]
-    partial class AirContextModelSnapshot : ModelSnapshot
+    [Migration("20210424220531_AddFlightIdToScheduledFlight")]
+    partial class AddFlightIdToScheduledFlight
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1644,10 +1646,10 @@ namespace Database.Migrations
                     b.Property<int?>("CustomerInfoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DestinationAirportId")
+                    b.Property<int?>("DestinationAirportId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("OriginAirportId")
+                    b.Property<int?>("OriginAirportId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("TripId");
@@ -1789,15 +1791,11 @@ namespace Database.Migrations
 
                     b.HasOne("Air_3550.Models.Airport", "Destination")
                         .WithMany()
-                        .HasForeignKey("DestinationAirportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DestinationAirportId");
 
                     b.HasOne("Air_3550.Models.Airport", "Origin")
                         .WithMany()
-                        .HasForeignKey("OriginAirportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OriginAirportId");
 
                     b.Navigation("Destination");
 

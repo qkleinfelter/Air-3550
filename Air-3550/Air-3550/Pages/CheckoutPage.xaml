@@ -10,7 +10,8 @@
 
     <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock x:Name="titleText" FontSize="56" FontFamily="Sans-Serif" Text="Checkout"/>
-        <TextBlock x:Name="departInfo" FontSize="24" RelativePanel.Below="titleText" Margin="5"/>
+        <InfoBar x:Name="successBar" IsOpen="False" RelativePanel.Below="titleText"/>
+        <TextBlock x:Name="departInfo" FontSize="24" RelativePanel.Below="successBar" Margin="5"/>
         <TextBlock x:Name="returnInfo" FontSize="24" RelativePanel.Below="departInfo" Margin="5"/>
         <TextBlock x:Name="summaryInfo" FontSize="24" RelativePanel.Below="returnInfo" Margin="5"/>
         <TextBlock x:Name="userInfo" FontSize="18" RelativePanel.Below="summaryInfo" Margin="5"/>

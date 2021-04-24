@@ -11,6 +11,7 @@ namespace Database.Models
     public class ScheduledFlight
     {
         public int ScheduledFlightId { get; set; }
+        public int FlightId { get; set; }
         [Required]
         public Flight Flight { get; set; }
         [Required]

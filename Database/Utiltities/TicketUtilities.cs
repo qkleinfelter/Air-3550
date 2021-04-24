@@ -20,9 +20,10 @@ namespace Database.Utiltities
         public static List<Ticket> CreateListOfTickets(FlightPath path, PaymentType paymentType, DateTime date)
         {
             var scheduledFlights = new List<ScheduledFlight>();
-            foreach (Flight flight in path.flights)
+
+            using (var db = new AirContext())
             {
-                using (var db = new AirContext())
+                foreach (Flight flight in path.flights)
                 {
                     // see if a scheduled flight exists for this flight on this day already
                     var sf = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).Where(sf => sf.Flight.FlightId == flight.FlightId).SingleOrDefault(sf => sf.DepartureTime.Date == date);
@@ -36,8 +37,8 @@ namespace Database.Utiltities
                         // Otherwise, we need to make a scheduled flight for it
                         var sfNew = new ScheduledFlight
                         {
-                            Flight = flight,
-                            DepartureTime = date,
+                            FlightId = flight.FlightId,
+                            DepartureTime = date.Add(flight.DepartureTime),
                             TicketsPurchased = 1
                         };
                         // add it to our list
@@ -47,28 +48,25 @@ namespace Database.Utiltities
                         db.SaveChanges();
                     }
                 }
-            }
 
-            var tickets = new List<Ticket>();
-            foreach (ScheduledFlight sf in scheduledFlights)
-            {
-                // Now we need to make a ticket for each scheduled flight
-                var ticket = new Ticket
+                var tickets = new List<Ticket>();
+                foreach (ScheduledFlight sf in scheduledFlights)
                 {
-                    Flight = sf,
-                    PaymentType = paymentType
-                };
-                // add it to our list to return
-                tickets.Add(ticket);
-                // and add it to the db
-                using (var db = new AirContext())
-                {
+                    // Now we need to make a ticket for each scheduled flight
+                    var ticket = new Ticket
+                    {
+                        Flight = sf,
+                        PaymentType = paymentType
+                    };
+                    // add it to our list to return
+                    tickets.Add(ticket);
+                    // and add it to the db
                     db.Tickets.Add(ticket);
                     db.SaveChanges();
                 }
-            }
 
-            return tickets;
+                return tickets;
+            }
         }
 
         public static void HandlePurchase(FlightPath leavingPath, FlightPath? returningPath, DateTime leavingDate, DateTime? returningDate, PaymentType paymentType, bool oneWay)
@@ -90,14 +88,15 @@ namespace Database.Utiltities
 
             Trip trip = new Trip
             {
-                Origin = leavingPath.flights[0].Origin,
-                Destination = leavingPath.flights[leavingPath.flights.Count - 1].Destination,
+                OriginAirportId = leavingPath.flights[0].Origin.AirportId,
+                DestinationAirportId = leavingPath.flights[leavingPath.flights.Count - 1].Destination.AirportId,
                 Tickets = tickets
             };
 
             // add the trip to the db table, and to the customer in the db
             using (var db = new AirContext())
             {
+                db.Tickets.AttachRange(tickets);
                 db.Trips.Add(trip);
                 db.SaveChanges();
 

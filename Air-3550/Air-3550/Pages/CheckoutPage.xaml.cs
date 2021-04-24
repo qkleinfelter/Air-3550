@@ -97,17 +97,30 @@ namespace Air_3550.Pages
         {
             UserUtilities.UseCredit(UserSession.user, totalCost);
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_BALANCE, oneWay);
+            UserUtilities.AwardPoints(UserSession.user, totalCost / 100);
+            DisplaySuccess();
         }
 
         private void usePoints_Click(object sender, RoutedEventArgs e)
         {
             UserUtilities.UsePoints(UserSession.user, 100 * totalCost);
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.POINTS, oneWay);
+            DisplaySuccess();
         }
 
         private void useCreditCard_Click(object sender, RoutedEventArgs e)
         {
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_CARD, oneWay);
+            UserUtilities.AwardPoints(UserSession.user, totalCost / 100);
+            DisplaySuccess();
+        }
+
+        private void DisplaySuccess()
+        {
+            successBar.Title = "Success! Your trip is booked!";
+            successBar.Message = $"Your new balances are: Credit: ${custInfo.CreditBalance}, Points: {custInfo.PointsAvailable}";
+            successBar.Severity = InfoBarSeverity.Success;
+            successBar.IsOpen = true;
         }
     }
 }
