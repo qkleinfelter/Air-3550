@@ -97,7 +97,6 @@ namespace Air_3550.Pages
         {
             UserUtilities.UseCredit(UserSession.user, totalCost);
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_BALANCE, oneWay);
-            UserUtilities.AwardPoints(UserSession.user, totalCost / 100);
             DisplaySuccess();
         }
 
@@ -111,16 +110,20 @@ namespace Air_3550.Pages
         private void useCreditCard_Click(object sender, RoutedEventArgs e)
         {
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_CARD, oneWay);
-            UserUtilities.AwardPoints(UserSession.user, totalCost / 100);
             DisplaySuccess();
         }
 
         private void DisplaySuccess()
         {
             successBar.Title = "Success! Your trip is booked!";
-            successBar.Message = $"Your new balances are: Credit: ${custInfo.CreditBalance}, Points: {custInfo.PointsAvailable}";
+            successBar.Message = $"Thanks for flying with Air-3550, please choose us again soon!";
             successBar.Severity = InfoBarSeverity.Success;
             successBar.IsOpen = true;
+        }
+
+        private void backHome_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
         }
     }
 }

@@ -3,10 +3,24 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Air_3550.Pages"
+    xmlns:local2="using:Air_3550.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <DataTemplate x:Key="TripListViewTemplate" x:DataType="local2:Trip">
+            <RelativePanel Margin="0,5,0,5">
+                <StackPanel Orientation="Horizontal" x:Name="TripPanel">
+                    <TextBlock Text="{x:Bind Origin.City}" x:Phase="1" Margin="5" FontSize="18"/>
+                    <SymbolIcon Symbol="Forward"/>
+                    <TextBlock Text="{x:Bind Destination.City}" x:Phase="2" Margin="5" FontSize="18"/>
+                    <TextBlock Text="Total Flights:" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Tickets.Count}" x:Phase="3" Margin="5" FontSize="18"/>
+                </StackPanel>
+            </RelativePanel>
+        </DataTemplate>
+    </Page.Resources>
 
     <RelativePanel>
         <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true">
@@ -15,6 +29,8 @@
             <TextBlock x:Name="PointsText" FontFamily="Sans-Serif" Margin="2"/>
             <TextBlock x:Name="CreditText" FontFamily="Sans-Serif" Margin="2"/>
             <TextBlock x:Name="TicketSummaryText" FontFamily="Sans-Serif" Margin="2"/>
+            <ListView x:Name="TripList" ItemTemplate="{StaticResource TripListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single"/>
+            <Button x:Name="backHome" Click="backHome_Click" Margin="3">Back to Home</Button>
         </StackPanel>
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">
             <DropDownButton.Flyout>

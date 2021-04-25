@@ -19,16 +19,18 @@ namespace Air_3550.Pages
 {
     public sealed partial class AccountPage : Page
     {
+        private bool isCustomer = false;
         public AccountPage()
         {
             this.InitializeComponent();
             if (UserSession.user.CustInfo != null)
             {
+                isCustomer = true;
                 CustomerInfo customerInfo = UserSession.user.CustInfo;
                 WelcomeText.Text = $"Welcome back {customerInfo.Name}!";
                 PointsText.Text = $"You currently have {customerInfo.PointsAvailable} points available, and overall you have used {customerInfo.PointsUsed} points.";
                 CreditText.Text = $"You currently have a credit balance of ${customerInfo.CreditBalance} with us.";
-                TicketSummaryText.Text = $"You have booked {customerInfo.Trips.ToArray().Length} trips";
+                TicketSummaryText.Text = $"You have booked {customerInfo.Trips.ToArray().Length} trips with us.";
             }
         }
 
@@ -41,6 +43,20 @@ namespace Air_3550.Pages
         {
             UserSession.user = null;
             UserSession.userLoggedIn = false;
+            Frame.Navigate(typeof(MainPage));
+        }
+
+        override protected void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (isCustomer)
+            {
+                CustomerInfo customerInfo = UserSession.user.CustInfo;
+                TripList.ItemsSource = customerInfo.Trips;
+            }
+        }
+
+        private void backHome_Click(object sender, RoutedEventArgs e)
+        {
             Frame.Navigate(typeof(MainPage));
         }
     }

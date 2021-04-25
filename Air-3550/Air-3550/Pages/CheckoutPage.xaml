@@ -18,5 +18,6 @@
         <Button x:Name="useCredit" RelativePanel.Below="userInfo" Click="useCredit_Click" Visibility="Collapsed" Margin="3">Make Purchase with Credit</Button>
         <Button x:Name="usePoints" RelativePanel.Below="userInfo" Click="usePoints_Click" Visibility="Collapsed" RelativePanel.RightOf="useCredit" Margin="3">Make Purchase with Points</Button>
         <Button x:Name="useCreditCard" RelativePanel.Below="userInfo" Click="useCreditCard_Click" RelativePanel.RightOf="usePoints" Margin="3">Make Purchase with Credit Card</Button>
+        <Button x:Name="backHome" RelativePanel.Below="userInfo" Click="backHome_Click" RelativePanel.RightOf="useCreditCard" Margin="3">Back to Home</Button>
     </RelativePanel>
 </Page>

@@ -48,7 +48,16 @@ namespace Air_3550.Pages
             {
                 using (var db = new AirContext())
                 {
-                    var user = db.Users.Include(user => user.CustInfo).Where(dbuser => dbuser.LoginId == userIdInput).FirstOrDefault();
+                    var user = db.Users.Include(user => user.CustInfo)
+                                            .ThenInclude(custInfo => custInfo.Trips)
+                                                .ThenInclude(trip => trip.Origin)
+                                        .Include(user => user.CustInfo)
+                                            .ThenInclude(custInfo => custInfo.Trips)
+                                                .ThenInclude(trip => trip.Destination)
+                                        .Include(user => user.CustInfo)
+                                            .ThenInclude(custInfo => custInfo.Trips)
+                                                .ThenInclude(trip => trip.Tickets)
+                                        .Where(dbuser => dbuser.LoginId == userIdInput).FirstOrDefault();
                     UserSession.user = user;
                     UserSession.userLoggedIn = true;
 
