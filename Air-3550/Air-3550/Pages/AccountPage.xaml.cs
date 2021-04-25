@@ -76,5 +76,18 @@ namespace Air_3550.Pages
         {
             Frame.Navigate(typeof(MainPage));
         }
+
+        private void cancelTrip_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TripList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TripList.SelectedItem != null)
+            {
+                cancelTrip.Visibility = Visibility.Visible;
+            }
+        }
     }
 }

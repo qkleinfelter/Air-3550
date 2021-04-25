@@ -23,15 +23,16 @@
     </Page.Resources>
 
     <RelativePanel>
-        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true">
+        <RelativePanel RelativePanel.AlignHorizontalCenterWithPanel="true">
             <TextBlock x:Name="titleText" FontFamily="Sans-Serif" FontSize="56" Text="My Account" Margin="2"/>
-            <TextBlock x:Name="WelcomeText" FontFamily="Sans-Serif" Margin="2"/>
-            <TextBlock x:Name="PointsText" FontFamily="Sans-Serif" Margin="2"/>
-            <TextBlock x:Name="CreditText" FontFamily="Sans-Serif" Margin="2"/>
-            <TextBlock x:Name="TicketSummaryText" FontFamily="Sans-Serif" Margin="2"/>
-            <ListView x:Name="TripList" ItemTemplate="{StaticResource TripListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single"/>
-            <Button x:Name="backHome" Click="backHome_Click" Margin="3">Back to Home</Button>
-        </StackPanel>
+            <TextBlock x:Name="WelcomeText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="titleText"/>
+            <TextBlock x:Name="PointsText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="WelcomeText"/>
+            <TextBlock x:Name="CreditText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="PointsText"/>
+            <TextBlock x:Name="TicketSummaryText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="CreditText"/>
+            <ListView x:Name="TripList" ItemTemplate="{StaticResource TripListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single" SelectionChanged="TripList_SelectionChanged" RelativePanel.Below="TicketSummaryText"/>
+            <Button x:Name="backHome" Click="backHome_Click" Margin="3" RelativePanel.Below="TripList">Back to Home</Button>
+            <Button x:Name="cancelTrip" Click="cancelTrip_Click" Margin="3" Visibility="Collapsed" RelativePanel.Below="TripList" RelativePanel.RightOf="backHome">Cancel Selected Trip</Button>
+        </RelativePanel>
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">
             <DropDownButton.Flyout>
                 <MenuFlyout Placement="Bottom">
