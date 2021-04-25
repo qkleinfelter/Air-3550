@@ -101,7 +101,7 @@ namespace Air_3550.Pages
                 }
             }
 
-            if (takenOff)
+            if (takenOff || SelectedTrip.isCanceled)
             {
                 // Not allowed to cancel, so display an error
                 OutputInfo.Title = "No cancellation possible";

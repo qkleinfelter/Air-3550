@@ -109,11 +109,14 @@ namespace Database.Utiltities
                 }
             }
 
+            int totalCost = oneWay ? leavingPath.IntPrice : leavingPath.IntPrice + returningPath.IntPrice;
+
             Trip trip = new Trip
             {
                 OriginAirportId = leavingPath.flights[0].Origin.AirportId,
                 DestinationAirportId = leavingPath.flights[leavingPath.flights.Count - 1].Destination.AirportId,
-                Tickets = tickets
+                Tickets = tickets,
+                totalCost = totalCost
             };
 
             // add the trip to the db table, and to the customer in the db

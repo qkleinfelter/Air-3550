@@ -107,6 +107,14 @@ namespace Database.Utiltities
             }
         }
 
+        public int IntPrice
+        {
+            get
+            {
+                return CostHandler.PriceListOfFlights(flights);
+            }
+        }
+
         public string Plane
         {
             get
