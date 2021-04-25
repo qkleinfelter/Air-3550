@@ -12,9 +12,20 @@ namespace Database.Utiltities
 {
     public class TicketUtilities
     {
-        public static void CancelFlightTicket(Ticket ticket)
+        public static void CancelTrip(Trip trip, User user)
         {
-            
+            // Loop through all tickets
+            foreach (Ticket ticket in trip.Tickets)
+            {
+                // cancel them
+                ticket.isCanceled = true;
+                // subtract 1 ticket purchased from scheduled flight
+                ticket.Flight.TicketsPurchased -= 1;
+            }
+            // award user credit based on the overall price
+            UserUtilities.AwardCredit(user, trip.totalCost);
+            // cancel the trip
+            trip.isCanceled = true;
         }
 
         public static List<Ticket> CreateListOfTickets(FlightPath path, PaymentType paymentType, DateTime date)

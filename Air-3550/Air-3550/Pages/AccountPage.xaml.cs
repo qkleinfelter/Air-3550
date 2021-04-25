@@ -79,7 +79,14 @@ namespace Air_3550.Pages
 
         private void cancelTrip_Click(object sender, RoutedEventArgs e)
         {
-
+            // Can only see this button if a trip is selected, so don't need
+            // to check
+            // TODO: Check if any flight is scheduled to take off in less than 1 hr
+            // and confirm the cancellation
+            var db = new AirContext();
+            var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            var SelectedTrip = TripList.SelectedItem as Trip;
+            TicketUtilities.CancelTrip(SelectedTrip, user);
         }
 
         private void TripList_SelectionChanged(object sender, SelectionChangedEventArgs e)
