@@ -22,6 +22,8 @@ namespace Database.Utiltities
 
             TimeSpan minLayover = new TimeSpan(0, 40, 0); // 40 minute minimum layover
             TimeSpan maxLayover = new TimeSpan(8, 0, 0); // 8 hour maximum layover -- not in specification, but will make for nicer trips
+            TimeSpan currentTime = DateTime.Now.TimeOfDay; // current time, so we don't show you flights from earlier in the day
+            DateTime today = DateTime.Today.Date; // current date, used with current time to not show flights you can't get to
 
             using (var db = new AirContext())
             {
@@ -38,6 +40,11 @@ namespace Database.Utiltities
                 for (int i = 0; i < directPaths.Count; i++)
                 {
                     var f1 = directPaths[i].flights[0];
+                    if (date == today && f1.DepartureTime < currentTime)
+                    {
+                        toRemoveOne.Add(directPaths[i]);
+                        continue;
+                    }
                     var sf1 = db.ScheduledFlights.Include(sf => sf.Flight).ThenInclude(fl => fl.PlaneType).Where(sf => sf.Flight.FlightId == f1.FlightId).SingleOrDefault(sf => sf.DepartureTime.Date == date);
                     if (sf1 != null && sf1.TicketsPurchased >= sf1.Flight.PlaneType.MaxSeats)
                     {
@@ -86,6 +93,12 @@ namespace Database.Utiltities
                     FlightPath route = twoLeggedFlights[i];
                     Flight f1 = route.flights[0];
                     Flight f2 = route.flights[1];
+                    if (date == today && f1.DepartureTime < currentTime || f2.DepartureTime < currentTime)
+                    {
+                        toRemoveTwo.Add(route);
+                        continue;
+                    }
+
                     TimeSpan f1Arrive = f1.GetArrivalTime();
                     if (f1Arrive > f2.DepartureTime)
                     {
@@ -157,6 +170,13 @@ namespace Database.Utiltities
                     Flight f1 = route.flights[0];
                     Flight f2 = route.flights[1];
                     Flight f3 = route.flights[2];
+
+                    if (date == today && f1.DepartureTime < currentTime || f2.DepartureTime < currentTime || f3.DepartureTime < currentTime)
+                    {
+                        toRemoveThree.Add(route);
+                        continue;
+                    }
+
                     TimeSpan f1Arrive = f1.GetArrivalTime();
                     TimeSpan f2Arrive = f2.GetArrivalTime();
 
