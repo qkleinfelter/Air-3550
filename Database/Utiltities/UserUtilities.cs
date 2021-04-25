@@ -17,6 +17,7 @@ namespace Database.Utiltities
             var customerInfo = db.Users.Include(user => user.CustInfo).Where(dbuser => dbuser.UserId == user.UserId).FirstOrDefault().CustInfo;
             if (customerInfo != null)
                 customerInfo.CreditBalance += amount;
+            db.SaveChanges();
         }
 
         public static void AwardPoints(User user, int amount)
@@ -25,6 +26,7 @@ namespace Database.Utiltities
             var customerInfo = db.Users.Include(user => user.CustInfo).Where(dbuser => dbuser.UserId == user.UserId).FirstOrDefault().CustInfo;
             if (customerInfo != null)
                 customerInfo.PointsAvailable += amount;
+            db.SaveChanges();
         }
 
         public static void UsePoints(User user, int amount)
@@ -36,6 +38,7 @@ namespace Database.Utiltities
                 customerInfo.PointsUsed += amount;
                 customerInfo.PointsAvailable -= amount;
             }
+            db.SaveChanges();
         }
 
         public static void UseCredit(User user, int amount)
@@ -46,6 +49,7 @@ namespace Database.Utiltities
             {
                 customerInfo.CreditBalance -= amount;
             }
+            db.SaveChanges();
         }
 
         public static bool LoginIDExists(string loginId)

@@ -15,5 +15,7 @@ namespace Air_3550.Models
         public int DestinationAirportId { get; set; }
         [Required]
         public Airport Destination { get; set; }
+        public bool isCanceled { get; set; }
+        public int totalCost { get; set; }
     }
 }

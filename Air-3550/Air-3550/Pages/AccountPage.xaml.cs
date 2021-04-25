@@ -66,7 +66,9 @@ namespace Air_3550.Pages
                                                 .ThenInclude(trip => trip.Destination)
                                         .Include(user => user.CustInfo)
                                             .ThenInclude(custInfo => custInfo.Trips)
-                                                .ThenInclude(trip => trip.Tickets).Single(dbuser => dbuser.UserId == UserSession.userId);
+                                                .ThenInclude(trip => trip.Tickets)
+                                                    .ThenInclude(ticket => ticket.Flight)
+                                                            .Single(dbuser => dbuser.UserId == UserSession.userId);
                 CustomerInfo customerInfo = user.CustInfo;
                 TripList.ItemsSource = customerInfo.Trips;
             }
@@ -75,6 +77,54 @@ namespace Air_3550.Pages
         private void backHome_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
+        }
+
+        private void cancelTrip_Click(object sender, RoutedEventArgs e)
+        {
+            // Can only see this button if a trip is selected, so don't need
+            // to check
+            var db = new AirContext();
+            var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            var SelectedTrip = TripList.SelectedItem as Trip;
+            // If a flight has taken off already or will do so in less than an hour
+            // we need to stop the cancellation
+            DateTime inOneHour = DateTime.Now.AddHours(1);
+            bool takenOff = false;
+            foreach (Ticket ticket in SelectedTrip.Tickets)
+            {
+                var sf = ticket.Flight;
+                DateTime departureTime = sf.DepartureTime; 
+                if (departureTime < inOneHour)
+                {
+                    // This flight has already taken off or will in the next hour
+                    takenOff = true;
+                }
+            }
+
+            if (takenOff || SelectedTrip.isCanceled)
+            {
+                // Not allowed to cancel, so display an error
+                OutputInfo.Title = "No cancellation possible";
+                OutputInfo.Message = "One or more of your flights has already taken off, or will in less than an hour, so you cannot cancel this trip";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
+                // and return
+                return;
+            }
+
+            TicketUtilities.CancelTrip(SelectedTrip, user);
+            OutputInfo.Title = "Flight Cancelled!";
+            OutputInfo.Message = "Your trip was successfully cancelled!";
+            OutputInfo.Severity = InfoBarSeverity.Success;
+            OutputInfo.IsOpen = true;
+        }
+
+        private void TripList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TripList.SelectedItem != null)
+            {
+                cancelTrip.Visibility = Visibility.Visible;
+            }
         }
     }
 }

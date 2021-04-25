@@ -13,5 +13,6 @@ namespace Air_3550.Models
         public ScheduledFlight Flight { get; set; }
         [Required]
         public PaymentType PaymentType { get; set; }
+        public bool isCanceled { get; set; }
     }
 }

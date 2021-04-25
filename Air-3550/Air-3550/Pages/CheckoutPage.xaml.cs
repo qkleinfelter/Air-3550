@@ -52,7 +52,15 @@ namespace Air_3550.Pages
             base.OnNavigatedTo(e);
             passedInParams = e.Parameter as Parameters;
             leavingPathCost = int.Parse(passedInParams.leavingPath.Price.Substring(1));
-            oneWay = !int.TryParse(passedInParams.returningPath.Price.Substring(1), out returningPathCost);
+            if (passedInParams.returningPath == null)
+            {
+                returningPathCost = 0;
+                oneWay = true;
+            }
+            else
+            {
+                oneWay = !int.TryParse(passedInParams.returningPath.Price.Substring(1), out returningPathCost);
+            }
             var db = new AirContext();
             var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
             custInfo = user.CustInfo;

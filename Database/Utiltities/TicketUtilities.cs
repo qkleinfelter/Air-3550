@@ -12,9 +12,30 @@ namespace Database.Utiltities
 {
     public class TicketUtilities
     {
-        public static void CancelFlightTicket(Ticket ticket)
+        public static void CancelTrip(Trip trip, User user)
         {
-            
+            using (var db = new AirContext())
+            {
+                // Loop through all tickets
+                foreach (Ticket ticket in trip.Tickets)
+                {
+                    var dbticket = db.Tickets.Include(ticket => ticket.Flight).Single(dbtick => dbtick.TicketId == ticket.TicketId);
+                    // cancel them
+                    ticket.isCanceled = true;
+                    dbticket.isCanceled = true;
+                    // subtract 1 ticket purchased from scheduled flight
+                    ticket.Flight.TicketsPurchased -= 1;
+                    dbticket.Flight.TicketsPurchased -= 1;
+                    db.SaveChanges();
+                }
+                // award user credit based on the overall price
+                UserUtilities.AwardCredit(user, trip.totalCost);
+                // cancel the trip
+                trip.isCanceled = true;
+                var dbtrip = db.Trips.Single(dbtripinterior => dbtripinterior.TripId == trip.TripId);
+                dbtrip.isCanceled = true;
+                db.SaveChanges();
+            }
         }
 
         public static List<Ticket> CreateListOfTickets(FlightPath path, PaymentType paymentType, DateTime date)
@@ -88,11 +109,14 @@ namespace Database.Utiltities
                 }
             }
 
+            int totalCost = oneWay ? leavingPath.IntPrice : leavingPath.IntPrice + returningPath.IntPrice;
+
             Trip trip = new Trip
             {
                 OriginAirportId = leavingPath.flights[0].Origin.AirportId,
                 DestinationAirportId = leavingPath.flights[leavingPath.flights.Count - 1].Destination.AirportId,
-                Tickets = tickets
+                Tickets = tickets,
+                totalCost = totalCost
             };
 
             // add the trip to the db table, and to the customer in the db

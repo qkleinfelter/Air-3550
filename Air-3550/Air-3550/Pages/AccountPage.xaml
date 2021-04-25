@@ -23,15 +23,26 @@
     </Page.Resources>
 
     <RelativePanel>
-        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true">
+        <RelativePanel RelativePanel.AlignHorizontalCenterWithPanel="true">
             <TextBlock x:Name="titleText" FontFamily="Sans-Serif" FontSize="56" Text="My Account" Margin="2"/>
-            <TextBlock x:Name="WelcomeText" FontFamily="Sans-Serif" Margin="2"/>
-            <TextBlock x:Name="PointsText" FontFamily="Sans-Serif" Margin="2"/>
-            <TextBlock x:Name="CreditText" FontFamily="Sans-Serif" Margin="2"/>
-            <TextBlock x:Name="TicketSummaryText" FontFamily="Sans-Serif" Margin="2"/>
-            <ListView x:Name="TripList" ItemTemplate="{StaticResource TripListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single"/>
-            <Button x:Name="backHome" Click="backHome_Click" Margin="3">Back to Home</Button>
-        </StackPanel>
+            <TextBlock x:Name="WelcomeText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="titleText"/>
+            <TextBlock x:Name="PointsText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="WelcomeText"/>
+            <TextBlock x:Name="CreditText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="PointsText"/>
+            <TextBlock x:Name="TicketSummaryText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="CreditText"/>
+            <InfoBar x:Name="OutputInfo" FontFamily="Sans-Serif" Margin="3" RelativePanel.Below="TicketSummaryText" IsOpen="false"/>
+            <ListView x:Name="TripList" ItemTemplate="{StaticResource TripListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single" SelectionChanged="TripList_SelectionChanged" RelativePanel.Below="OutputInfo"/>
+            <Button x:Name="backHome" Click="backHome_Click" Margin="3" RelativePanel.Below="TripList">Back to Home</Button>
+            <Button x:Name="cancelTrip" Margin="3" Visibility="Collapsed" RelativePanel.Below="TripList" RelativePanel.RightOf="backHome" Content="Cancel Selected Trip">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Are you sure you want to cancel this flight?" Margin="0,0,0,12"/>
+                            <Button Click="cancelTrip_Click" Content="Yes, cancel this flight"/>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </RelativePanel>
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">
             <DropDownButton.Flyout>
                 <MenuFlyout Placement="Bottom">
