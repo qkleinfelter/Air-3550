@@ -17,6 +17,7 @@ namespace Air_3550.Models
         public Airport Destination { get; set; }
         public bool isCanceled { get; set; }
         public int totalCost { get; set; }
+        public bool pointsClaimed { get; set; }
 
         public string getFormattedCancelation()
         {
