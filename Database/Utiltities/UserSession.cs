@@ -10,6 +10,6 @@ namespace Database.Utiltities
     public class UserSession
     {
         public static bool userLoggedIn = false;
-        public static User user = null;
+        public static int userId = 0;
     }
 }

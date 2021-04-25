@@ -93,7 +93,7 @@ namespace Air_3550.Pages
 
         private void logoutNavigator_Click(object sender, RoutedEventArgs e)
         {
-            UserSession.user = null;
+            UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
         }

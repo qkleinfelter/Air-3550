@@ -1,5 +1,7 @@
 ﻿using Air_3550.Models;
+using Air_3550.Repo;
 using Database.Utiltities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,10 +25,15 @@ namespace Air_3550.Pages
         public AccountPage()
         {
             this.InitializeComponent();
-            if (UserSession.user.CustInfo != null)
+            var db = new AirContext();
+            var user = db.Users.Include(dbuser => dbuser.CustInfo)
+                                .ThenInclude(custInfo => custInfo.Trips)
+                                .Single(dbuser => dbuser.UserId == UserSession.userId);
+
+            if (user.CustInfo != null)
             {
                 isCustomer = true;
-                CustomerInfo customerInfo = UserSession.user.CustInfo;
+                CustomerInfo customerInfo = user.CustInfo;
                 WelcomeText.Text = $"Welcome back {customerInfo.Name}!";
                 PointsText.Text = $"You currently have {customerInfo.PointsAvailable} points available, and overall you have used {customerInfo.PointsUsed} points.";
                 CreditText.Text = $"You currently have a credit balance of ${customerInfo.CreditBalance} with us.";
@@ -41,7 +48,7 @@ namespace Air_3550.Pages
 
         private void logoutNavigator_Click(object sender, RoutedEventArgs e)
         {
-            UserSession.user = null;
+            UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
         }
@@ -50,7 +57,17 @@ namespace Air_3550.Pages
         {
             if (isCustomer)
             {
-                CustomerInfo customerInfo = UserSession.user.CustInfo;
+                var db = new AirContext();
+                var user = db.Users.Include(dbuser => dbuser.CustInfo)
+                                        .ThenInclude(custInfo => custInfo.Trips)
+                                                .ThenInclude(trip => trip.Origin)
+                                        .Include(user => user.CustInfo)
+                                            .ThenInclude(custInfo => custInfo.Trips)
+                                                .ThenInclude(trip => trip.Destination)
+                                        .Include(user => user.CustInfo)
+                                            .ThenInclude(custInfo => custInfo.Trips)
+                                                .ThenInclude(trip => trip.Tickets).Single(dbuser => dbuser.UserId == UserSession.userId);
+                CustomerInfo customerInfo = user.CustInfo;
                 TripList.ItemsSource = customerInfo.Trips;
             }
         }

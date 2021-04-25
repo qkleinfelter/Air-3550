@@ -103,7 +103,8 @@ namespace Database.Utiltities
                 db.SaveChanges();
 
                 // Grab the users trips
-                var customerTrips = db.Users.Include(user => user.CustInfo).ThenInclude(custInfo => custInfo.Trips).Single(user => user.LoginId == UserSession.user.LoginId).CustInfo.Trips;
+                var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+                var customerTrips = db.Users.Include(dbuser => dbuser.CustInfo).ThenInclude(custInfo => custInfo.Trips).Single(dbuser => dbuser.LoginId == user.LoginId).CustInfo.Trips;
                 customerTrips.Add(trip);
                 db.SaveChanges();
             }

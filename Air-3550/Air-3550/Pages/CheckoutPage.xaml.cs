@@ -53,7 +53,9 @@ namespace Air_3550.Pages
             passedInParams = e.Parameter as Parameters;
             leavingPathCost = int.Parse(passedInParams.leavingPath.Price.Substring(1));
             oneWay = !int.TryParse(passedInParams.returningPath.Price.Substring(1), out returningPathCost);
-            custInfo = UserSession.user.CustInfo;
+            var db = new AirContext();
+            var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            custInfo = user.CustInfo;
             DisplayInfo();
         }
         
@@ -95,14 +97,18 @@ namespace Air_3550.Pages
 
         private void useCredit_Click(object sender, RoutedEventArgs e)
         {
-            UserUtilities.UseCredit(UserSession.user, totalCost);
+            var db = new AirContext();
+            var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            UserUtilities.UseCredit(user, totalCost);
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_BALANCE, oneWay);
             DisplaySuccess();
         }
 
         private void usePoints_Click(object sender, RoutedEventArgs e)
         {
-            UserUtilities.UsePoints(UserSession.user, 100 * totalCost);
+            var db = new AirContext();
+            var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            UserUtilities.UsePoints(user, 100 * totalCost);
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.POINTS, oneWay);
             DisplaySuccess();
         }

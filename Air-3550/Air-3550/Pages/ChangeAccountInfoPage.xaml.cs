@@ -1,5 +1,7 @@
 ﻿using Air_3550.Controls;
+using Air_3550.Repo;
 using Database.Utiltities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -28,19 +30,21 @@ namespace Air_3550.Pages
 
         private void UserInfoControl_OnNavigateParentReady(object source, EventArgs e)
         {
-            if (UserSession.user.UserRole == Role.CUSTOMER)
+            var db = new AirContext();
+            var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            if (user.UserRole == Role.CUSTOMER)
             {
                 Frame.Navigate(typeof(MainPage));
             }
-            else if (UserSession.user.UserRole == Role.LOAD_ENGINEER)
+            else if (user.UserRole == Role.LOAD_ENGINEER)
             {
                 Frame.Navigate(typeof(LoadEngineerPage));
             }
-            else if (UserSession.user.UserRole == Role.MARKETING_MANAGER)
+            else if (user.UserRole == Role.MARKETING_MANAGER)
             {
                 Frame.Navigate(typeof(MarketingManagerPage));
             }
-            else if (UserSession.user.UserRole == Role.ACCOUNTING_MANAGER)
+            else if (user.UserRole == Role.ACCOUNTING_MANAGER)
             {
                 Frame.Navigate(typeof(AccountingManagerPage));
             }

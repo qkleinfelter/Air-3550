@@ -2,6 +2,7 @@
 using Air_3550.Pages;
 using Air_3550.Repo;
 using Database.Utiltities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -43,7 +44,9 @@ namespace Air_3550.Controls
                     confirmButton.Content = "Update Information";
                     if (UserSession.userLoggedIn)
                     {
-                        if (UserSession.user.UserRole != Role.CUSTOMER)
+                        var db = new AirContext();
+                        var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+                        if (user.UserRole != Role.CUSTOMER)
                         {
                             // only show password fields if they aren't a customer
                             NameInput.Visibility = Visibility.Collapsed;
@@ -57,7 +60,7 @@ namespace Air_3550.Controls
                             return;
                         }
 
-                        CustomerInfo customerInfo = UserSession.user.CustInfo;
+                        CustomerInfo customerInfo = user.CustInfo;
                         NameInput.Text = customerInfo.Name;
                         AddressInput.Text = customerInfo.Address;
                         CityInput.Text = customerInfo.City;
@@ -96,7 +99,9 @@ namespace Air_3550.Controls
             bool valid = true;
             outputInfo.Title = "Errors creating account!";
             outputInfo.Message = "Please fix the following errors and try again: ";
-            if (!(UserSession.userLoggedIn && UserSession.user.UserRole != Role.CUSTOMER))
+            var db = new AirContext();
+            var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            if (!(UserSession.userLoggedIn && user.UserRole != Role.CUSTOMER))
             {
                 // Don't validate these other fields if they aren't a customer
                 // because we don't show them to them
@@ -249,8 +254,10 @@ namespace Air_3550.Controls
                 CustomerInfo custInfo = null;
                 if (UserSession.userLoggedIn)
                 {
-                    currentUser = UserSession.user;
-                    if (UserSession.user.UserRole == Role.CUSTOMER)
+                    var db = new AirContext();
+                    var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+                    currentUser = user;
+                    if (user.UserRole == Role.CUSTOMER)
                     {
                         custInfo = currentUser.CustInfo;
                         custInfo.Name = NameInput.Text;
