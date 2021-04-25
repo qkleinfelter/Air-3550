@@ -17,6 +17,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Networking.Connectivity;
 using Database.Utiltities;
+using System.ComponentModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,7 +27,7 @@ namespace Air_3550.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MMSelectPlanePage : Page
+    public sealed partial class MMSelectPlanePage : Page //INotifyPropertyChanged
     {
         public class MMParameters
         {
@@ -55,6 +56,7 @@ namespace Air_3550.Pages
             DepartList.ItemsSource = generateFlights(passedMMParams.origin);
         }
 
+        //private  MMFlights;
         private List<FlightPath> generateFlights(Airport originAirport)
         {
             using( var db = new AirContext())
@@ -74,21 +76,63 @@ namespace Air_3550.Pages
         private void B737_Click(object sender, RoutedEventArgs e)
         {
             
+            using (var db = new AirContext())
+            {
+                var planeChangeflight = DepartList.SelectedItem as FlightPath;
+                // get plane from db to cahnge to change plane
+                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 1);
+                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                //planeChangeflight.flights[0].PlaneType = NewPlane;
+                db.SaveChanges();
+                Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+            }
         }
 
         private void B747_Click(object sender, RoutedEventArgs e)
         {
+            using (var db = new AirContext())
+            {
+                var planeChangeflight = DepartList.SelectedItem as FlightPath;
+                // get plane from db to cahnge to change plane
+                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 2);
+                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                planeChangeflight.flights[0].PlaneType = NewPlane;
+                db.SaveChanges();
+                
+            }
 
+            Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
         }
 
         private void B757_Click(object sender, RoutedEventArgs e)
         {
+            using (var db = new AirContext())
+            {
+                var planeChangeflight = DepartList.SelectedItem as FlightPath;
+                // get plane from db to cahnge to change plane
+                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 3);
+                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                planeChangeflight.flights[0].PlaneType = NewPlane;
+                db.SaveChanges();
+                
+            }
 
+            Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
         }
 
         private void B777_Click(object sender, RoutedEventArgs e)
         {
+            using (var db = new AirContext())
+            {
+                var planeChangeflight = DepartList.SelectedItem as FlightPath;
+                // get plane from db to cahnge to change plane
+                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 4);
+                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                planeChangeflight.flights[0].PlaneType = NewPlane;
+                db.SaveChanges();
+            }
 
+            Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
