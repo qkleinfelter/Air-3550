@@ -35,10 +35,11 @@ namespace Air_3550.Pages
         {
             Trip Btrip = e.Parameter as Trip;
             FlightNumber.Text += Btrip.TripId;
-            FullName.Text = BPuser.CustInfo.Name;
-            AccountId.Text = BPuser.CustInfo.CustomerInfoId.ToString();
+            FullName.Text += BPuser.CustInfo.Name;
+            AccountId.Text += BPuser.LoginId;
             Origin.Text = Btrip.Origin.AirportCode;
             Destination.Text = Btrip.Destination.AirportCode;
+            flightList.ItemsSource = Btrip.Tickets;
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)

@@ -63,6 +63,7 @@ namespace Air_3550.Pages
                                             .ThenInclude(custInfo => custInfo.Trips)
                                                 .ThenInclude(trip => trip.Tickets)
                                                     .ThenInclude(ticket => ticket.Flight)
+                                                        .ThenInclude(scheduledFlight => scheduledFlight.Flight)
                                                             .Single(dbuser => dbuser.UserId == UserSession.userId);
                 CustomerInfo customerInfo = user.CustInfo;
                 int newPoints = 0;

@@ -10,34 +10,34 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <DataTemplate x:Key="FlightView" x:DataType="local2:Flight">
+        <DataTemplate x:Key="FlightView" x:DataType="local2:Ticket">
             <RelativePanel>
                 <StackPanel Orientation="Horizontal" x:Name="flightInfo">
-                    <TextBlock Text="{x:Bind FlightId.ToString()}" x:Phase="1" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:Bind Origin.City}" x:Phase="2" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Flight.FlightId.ToString()}" x:Phase="1" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Flight.Flight.Origin.AirportCode}" x:Phase="2" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
-                    <TextBlock Text="{x:Bind Destination.City}" x:Phase="3" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:Bind DepartureTime.ToString()}" x:Phase="4" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Flight.Flight.Destination.AirportCode}" x:Phase="3" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Flight.DepartureTime.ToString()}" x:Phase="4" Margin="5" FontSize="18"/>
                     <!--<TextBlock Text="{x:Bind GetArrivalTime().ToString()}" x:Phase="4" Margin="5" FontSize="18"/>-->
                 </StackPanel>
             </RelativePanel>
         </DataTemplate>
     </Page.Resources>
 
-    <RelativePanel>
+    <RelativePanel RelativePanel.AlignHorizontalCenterWithPanel="true">
         <RelativePanel>
-            <TextBlock x:Name="FlightNumber" Text="Flight Number: " FontSize="24"/>
-            <StackPanel Orientation="Horizontal" x:Name="UserName">
-                <TextBlock x:Name="FullName"/>
-                <TextBlock x:Name="AccountId"/>
+            <TextBlock x:Name="FlightNumber" Text="Flight Number: " FontSize="26"/>
+            <StackPanel Orientation="Horizontal" x:Name="UserName" RelativePanel.Below="FlightNumber">
+                <TextBlock Text="Name: " x:Name="FullName" Margin="5" FontSize="26"/>
+                <TextBlock Text="Id: " x:Name="AccountId" Margin="5" FontSize="26"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" x:Name="TripPath">
-                <TextBlock x:Name="Origin"/>
+            <StackPanel Orientation="Horizontal" x:Name="TripPath" RelativePanel.Below="UserName">
+                <TextBlock x:Name="Origin" Margin="5" FontSize="26"/>
                 <SymbolIcon Symbol="Forward"/>
-                <TextBlock x:Name="Destination"/>
+                <TextBlock x:Name="Destination" Margin="5" FontSize="26"/>
             </StackPanel>
-            <ListView x:Name="flightList" ItemTemplate="{StaticResource FlightView}" />
+            <ListView x:Name="flightList" ItemTemplate="{StaticResource FlightView}" RelativePanel.Below="TripPath"/>
         </RelativePanel>
-        <Button x:Name="backButton" Click="backButton_Click">Back</Button>
+        <Button x:Name="backButton" Click="backButton_Click" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">Back</Button>
     </RelativePanel>
 </Page>

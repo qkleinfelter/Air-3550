@@ -46,5 +46,7 @@ namespace Air_3550.Models
             arrivalTime = arrivalTime.Add(flightDuration);
             return arrivalTime;
         }
+
+        
     }
 }
