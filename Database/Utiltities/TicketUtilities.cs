@@ -58,6 +58,8 @@ namespace Database.Utiltities
                         Flight = sf,
                         PaymentType = paymentType
                     };
+                    // Increment the amount of tickets purchased
+                    sf.TicketsPurchased = sf.TicketsPurchased + 1;
                     // add it to our list to return
                     tickets.Add(ticket);
                     // and add it to the db
