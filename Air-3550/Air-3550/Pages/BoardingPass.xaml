@@ -13,12 +13,12 @@
         <DataTemplate x:Key="FlightView" x:DataType="local2:Flight">
             <RelativePanel>
                 <StackPanel Orientation="Horizontal" x:Name="flightInfo">
-                    <TextBlock Text="{x:bind FlightId.toString()}" x:Phase="1" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:bind Origin.City}" x:Phase="2" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind FlightId.ToString()}" x:Phase="1" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Origin.City}" x:Phase="2" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
-                    <TextBlock Text="{x:bind Destination.City}" x:Phase="3" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:bind DepartTime.toString()}" x:Phase="4" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:bind GetArrivalTime().toString()}" x:Phase="4" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind Destination.City}" x:Phase="3" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind DepartureTime.ToString()}" x:Phase="4" Margin="5" FontSize="18"/>
+                    <!--<TextBlock Text="{x:Bind GetArrivalTime().ToString()}" x:Phase="4" Margin="5" FontSize="18"/>-->
                 </StackPanel>
             </RelativePanel>
         </DataTemplate>
@@ -38,6 +38,6 @@
             </StackPanel>
             <ListView x:Name="flightList" ItemTemplate="{StaticResource FlightView}" />
         </RelativePanel>
-        <Button x:Name="backButton" Click="BackButton_click">Back</Button>
+        <Button x:Name="backButton" Click="backButton_Click">Back</Button>
     </RelativePanel>
 </Page>
