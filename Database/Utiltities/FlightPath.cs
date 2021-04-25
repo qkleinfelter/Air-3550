@@ -113,6 +113,10 @@ namespace Database.Utiltities
             {
                 return flights[0].PlaneType.Model;
             }
+            set
+            {
+                
+            }
             
         }
 
@@ -121,6 +125,14 @@ namespace Database.Utiltities
             get
             {
                 return flights[0].Destination.AirportCode;
+            }
+        }
+
+        public string FlightId
+        {
+            get
+            {
+                return flights[0].FlightId.ToString();
             }
         }
     }
