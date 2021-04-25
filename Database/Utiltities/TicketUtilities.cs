@@ -14,18 +14,28 @@ namespace Database.Utiltities
     {
         public static void CancelTrip(Trip trip, User user)
         {
-            // Loop through all tickets
-            foreach (Ticket ticket in trip.Tickets)
+            using (var db = new AirContext())
             {
-                // cancel them
-                ticket.isCanceled = true;
-                // subtract 1 ticket purchased from scheduled flight
-                ticket.Flight.TicketsPurchased -= 1;
+                // Loop through all tickets
+                foreach (Ticket ticket in trip.Tickets)
+                {
+                    var dbticket = db.Tickets.Include(ticket => ticket.Flight).Single(dbtick => dbtick.TicketId == ticket.TicketId);
+                    // cancel them
+                    ticket.isCanceled = true;
+                    dbticket.isCanceled = true;
+                    // subtract 1 ticket purchased from scheduled flight
+                    ticket.Flight.TicketsPurchased -= 1;
+                    dbticket.Flight.TicketsPurchased -= 1;
+                    db.SaveChanges();
+                }
+                // award user credit based on the overall price
+                UserUtilities.AwardCredit(user, trip.totalCost);
+                // cancel the trip
+                trip.isCanceled = true;
+                var dbtrip = db.Trips.Single(dbtripinterior => dbtripinterior.TripId == trip.TripId);
+                dbtrip.isCanceled = true;
+                db.SaveChanges();
             }
-            // award user credit based on the overall price
-            UserUtilities.AwardCredit(user, trip.totalCost);
-            // cancel the trip
-            trip.isCanceled = true;
         }
 
         public static List<Ticket> CreateListOfTickets(FlightPath path, PaymentType paymentType, DateTime date)
