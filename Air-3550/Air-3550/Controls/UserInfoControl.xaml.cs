@@ -100,7 +100,7 @@ namespace Air_3550.Controls
             outputInfo.Title = "Errors creating account!";
             outputInfo.Message = "Please fix the following errors and try again: ";
             var db = new AirContext();
-            var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            var user = db.Users.Include(dbuser => dbuser.CustInfo).SingleOrDefault(dbuser => dbuser.UserId == UserSession.userId);
             if (!(UserSession.userLoggedIn && user.UserRole != Role.CUSTOMER))
             {
                 // Don't validate these other fields if they aren't a customer
@@ -125,7 +125,7 @@ namespace Air_3550.Controls
 
                 if (string.IsNullOrWhiteSpace(StateInput.Text) || StateInput.Text.Length != 2)
                 {
-                    outputInfo.Message += "\nPlease provide your state.";
+                    outputInfo.Message += "\nPlease provide your 2-letter state code.";
                     valid = false;
                 }
 

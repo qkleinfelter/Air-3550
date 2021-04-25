@@ -3346,6 +3346,9 @@ namespace Database.Migrations
                     b.Property<bool>("isCanceled")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("pointsClaimed")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("totalCost")
                         .HasColumnType("INTEGER");
 

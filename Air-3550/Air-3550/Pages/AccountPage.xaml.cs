@@ -33,11 +33,6 @@ namespace Air_3550.Pages
             if (user.CustInfo != null)
             {
                 isCustomer = true;
-                CustomerInfo customerInfo = user.CustInfo;
-                WelcomeText.Text = $"Welcome back {customerInfo.Name}!";
-                PointsText.Text = $"You currently have {customerInfo.PointsAvailable} points available, and overall you have used {customerInfo.PointsUsed} points.";
-                CreditText.Text = $"You currently have a credit balance of ${customerInfo.CreditBalance / 100} with us.";
-                TicketSummaryText.Text = $"You have booked {customerInfo.Trips.ToArray().Length} trips with us.";
             }
         }
 
@@ -70,6 +65,30 @@ namespace Air_3550.Pages
                                                     .ThenInclude(ticket => ticket.Flight)
                                                             .Single(dbuser => dbuser.UserId == UserSession.userId);
                 CustomerInfo customerInfo = user.CustInfo;
+                int newPoints = 0;
+                foreach (Trip trip in customerInfo.Trips)
+                {
+                    // this is a bad way to do this determination but whatever
+                    if (trip.getFormattedDeparted() == "Trip has departed!")
+                    {
+                        // make sure they haven't claimed the points already
+                        if (!trip.pointsClaimed)
+                        {
+                            UserUtilities.AwardPoints(user, trip.totalCost / 100);
+                            newPoints = trip.totalCost / 100;
+                            trip.pointsClaimed = true;
+                            var dbtrip = db.Trips.Single(dbtripinterior => dbtripinterior.TripId == trip.TripId);
+                            dbtrip.pointsClaimed = true;
+                            db.SaveChanges();
+                        }
+                    }
+                }
+
+                WelcomeText.Text = $"Welcome back {customerInfo.Name}!";
+                PointsText.Text = $"You currently have {customerInfo.PointsAvailable + newPoints} points available, and overall you have used {customerInfo.PointsUsed} points.";
+                CreditText.Text = $"You currently have a credit balance of ${customerInfo.CreditBalance / 100} with us.";
+                TicketSummaryText.Text = $"You have booked {customerInfo.Trips.ToArray().Length} trips with us.";
+
                 TripList.ItemsSource = customerInfo.Trips;
             }
         }
