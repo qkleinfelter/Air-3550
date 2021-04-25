@@ -100,7 +100,7 @@ namespace Air_3550.Pages
             summaryInfo.Text = "Summary:";
             summaryInfo.Text += $"\nTotal Cost: ${totalCost}";
 
-            userInfo.Text = $"Your balances: Credit: ${custInfo.CreditBalance}, Points: {custInfo.PointsAvailable}";
+            userInfo.Text = $"Your balances: Credit: ${custInfo.CreditBalance / 100}, Points: {custInfo.PointsAvailable}";
         }
 
         private void useCredit_Click(object sender, RoutedEventArgs e)
