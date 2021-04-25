@@ -36,7 +36,7 @@ namespace Air_3550.Pages
                 CustomerInfo customerInfo = user.CustInfo;
                 WelcomeText.Text = $"Welcome back {customerInfo.Name}!";
                 PointsText.Text = $"You currently have {customerInfo.PointsAvailable} points available, and overall you have used {customerInfo.PointsUsed} points.";
-                CreditText.Text = $"You currently have a credit balance of ${customerInfo.CreditBalance} with us.";
+                CreditText.Text = $"You currently have a credit balance of ${customerInfo.CreditBalance / 100} with us.";
                 TicketSummaryText.Text = $"You have booked {customerInfo.Trips.ToArray().Length} trips with us.";
             }
         }

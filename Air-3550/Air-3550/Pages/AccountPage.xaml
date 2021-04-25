@@ -15,8 +15,11 @@
                     <TextBlock Text="{x:Bind Origin.City}" x:Phase="1" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
                     <TextBlock Text="{x:Bind Destination.City}" x:Phase="2" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind getFormattedDateString()}" x:Phase="6" Margin="5" FontSize="18"/>
                     <TextBlock Text="Total Flights:" Margin="5" FontSize="18"/>
                     <TextBlock Text="{x:Bind Tickets.Count}" x:Phase="3" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind getFormattedDeparted()}" x:Phase="4" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind getFormattedCancelation()}" x:Phase="5" Margin="5" FontSize="18"/>
                 </StackPanel>
             </RelativePanel>
         </DataTemplate>
@@ -30,7 +33,7 @@
             <TextBlock x:Name="CreditText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="PointsText"/>
             <TextBlock x:Name="TicketSummaryText" FontFamily="Sans-Serif" Margin="2" RelativePanel.Below="CreditText"/>
             <InfoBar x:Name="OutputInfo" FontFamily="Sans-Serif" Margin="3" RelativePanel.Below="TicketSummaryText" IsOpen="false"/>
-            <ListView x:Name="TripList" ItemTemplate="{StaticResource TripListViewTemplate}" Width="600" Height="500" HorizontalAlignment="Left" SelectionMode="Single" SelectionChanged="TripList_SelectionChanged" RelativePanel.Below="OutputInfo"/>
+            <ListView x:Name="TripList" ItemTemplate="{StaticResource TripListViewTemplate}" Height="450" HorizontalAlignment="Left" SelectionMode="Single" SelectionChanged="TripList_SelectionChanged" RelativePanel.Below="OutputInfo"/>
             <Button x:Name="backHome" Click="backHome_Click" Margin="3" RelativePanel.Below="TripList">Back to Home</Button>
             <Button x:Name="cancelTrip" Margin="3" Visibility="Collapsed" RelativePanel.Below="TripList" RelativePanel.RightOf="backHome" Content="Cancel Selected Trip">
                 <Button.Flyout>
