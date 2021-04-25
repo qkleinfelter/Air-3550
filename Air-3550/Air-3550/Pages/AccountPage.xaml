@@ -45,6 +45,7 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+            <Button x:Name="BoardingPass" Margin="3" Visibility="Collapsed" RelativePanel.RightOf="cancelTrip" RelativePanel.Below="TripList" Click="boardingPass_Click">Print Boarding Pass</Button>
         </RelativePanel>
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">
             <DropDownButton.Flyout>

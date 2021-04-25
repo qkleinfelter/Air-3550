@@ -143,7 +143,14 @@ namespace Air_3550.Pages
             if (TripList.SelectedItem != null)
             {
                 cancelTrip.Visibility = Visibility.Visible;
+                BoardingPass.Visibility = Visibility.Visible;
             }
+        }
+
+        private void boardingPass_Click(object sender, RoutedEventArgs e)
+        {
+            Trip BPTrip = TripList.SelectedItem as Trip;
+            Frame.Navigate(typeof(BoardingPass), BPTrip);
         }
     }
 }

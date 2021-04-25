@@ -1,0 +1,43 @@
+﻿<Page
+    x:Class="Air_3550.Pages.BoardingPass"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Air_3550.Pages"
+    xmlns:local2="using:Air_3550.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="FlightView" x:DataType="local2:Flight">
+            <RelativePanel>
+                <StackPanel Orientation="Horizontal" x:Name="flightInfo">
+                    <TextBlock Text="{x:bind FlightId.toString()}" x:Phase="1" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:bind Origin.City}" x:Phase="2" Margin="5" FontSize="18"/>
+                    <SymbolIcon Symbol="Forward"/>
+                    <TextBlock Text="{x:bind Destination.City}" x:Phase="3" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:bind DepartTime.toString()}" x:Phase="4" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:bind GetArrivalTime().toString()}" x:Phase="4" Margin="5" FontSize="18"/>
+                </StackPanel>
+            </RelativePanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <RelativePanel>
+        <RelativePanel>
+            <TextBlock x:Name="FlightNumber" Text="Flight Number: " FontSize="24"/>
+            <StackPanel Orientation="Horizontal" x:Name="UserName">
+                <TextBlock x:Name="FullName"/>
+                <TextBlock x:Name="AccountId"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" x:Name="TripPath">
+                <TextBlock x:Name="Origin"/>
+                <SymbolIcon Symbol="Forward"/>
+                <TextBlock x:Name="Destination"/>
+            </StackPanel>
+            <ListView x:Name="flightList" ItemTemplate="{StaticResource FlightView}" />
+        </RelativePanel>
+        <Button x:Name="backButton" Click="BackButton_click">Back</Button>
+    </RelativePanel>
+</Page>
