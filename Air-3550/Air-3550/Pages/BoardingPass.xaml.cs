@@ -39,6 +39,14 @@ namespace Air_3550.Pages
             AccountId.Text += BPuser.LoginId;
             Origin.Text = Btrip.Origin.AirportCode;
             Destination.Text = Btrip.Destination.AirportCode;
+            if(Btrip.OriginAirportId != Btrip.Tickets.Last().Flight.Flight.Destination.AirportId)
+            {
+                RoundTrip.Text = "One Way";
+            }
+            else
+            {
+                RoundTrip.Text = "Two Way";
+            }
             flightList.ItemsSource = Btrip.Tickets;
         }
 

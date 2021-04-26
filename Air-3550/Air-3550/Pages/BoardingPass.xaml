@@ -13,19 +13,23 @@
         <DataTemplate x:Key="FlightView" x:DataType="local2:Ticket">
             <RelativePanel>
                 <StackPanel Orientation="Horizontal" x:Name="flightInfo">
+                    <TextBlock Text="Flight ID: " FontSize="18" Margin="5"/>
                     <TextBlock Text="{x:Bind Flight.FlightId.ToString()}" x:Phase="1" Margin="5" FontSize="18"/>
+                    <TextBlock Text=" | " FontSize="18" Margin="5"/>
                     <TextBlock Text="{x:Bind Flight.Flight.Origin.AirportCode}" x:Phase="2" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
                     <TextBlock Text="{x:Bind Flight.Flight.Destination.AirportCode}" x:Phase="3" Margin="5" FontSize="18"/>
+                    <TextBlock Text=" | Departs at " FontSize="18" Margin="5"/>
                     <TextBlock Text="{x:Bind Flight.DepartureTime.ToString()}" x:Phase="4" Margin="5" FontSize="18"/>
-                    <!--<TextBlock Text="{x:Bind GetArrivalTime().ToString()}" x:Phase="4" Margin="5" FontSize="18"/>-->
+                    <TextBlock Text=" | Arrives at " FontSize="18" Margin="5"/>
+                    <TextBlock Text="{x:Bind ArrivalTime()}" x:Phase="5" Margin="5" FontSize="18"/>
                 </StackPanel>
             </RelativePanel>
         </DataTemplate>
     </Page.Resources>
 
-    <RelativePanel RelativePanel.AlignHorizontalCenterWithPanel="true">
-        <RelativePanel>
+    <RelativePanel RelativePanel.AlignHorizontalCenterWithPanel="true" >
+        <RelativePanel BorderBrush="Black" BorderThickness="2" RelativePanel.AlignHorizontalCenterWithPanel="true">
             <TextBlock x:Name="FlightNumber" Text="Flight Number: " FontSize="26"/>
             <StackPanel Orientation="Horizontal" x:Name="UserName" RelativePanel.Below="FlightNumber">
                 <TextBlock Text="Name: " x:Name="FullName" Margin="5" FontSize="26"/>
@@ -35,8 +39,9 @@
                 <TextBlock x:Name="Origin" Margin="5" FontSize="26"/>
                 <SymbolIcon Symbol="Forward"/>
                 <TextBlock x:Name="Destination" Margin="5" FontSize="26"/>
+                <TextBlock x:Name="RoundTrip" Margin="5" FontSize="26"/>
             </StackPanel>
-            <ListView x:Name="flightList" ItemTemplate="{StaticResource FlightView}" RelativePanel.Below="TripPath"/>
+            <ListView x:Name="flightList" ItemTemplate="{StaticResource FlightView}" RelativePanel.Below="TripPath" SelectionMode="None"/>
         </RelativePanel>
         <Button x:Name="backButton" Click="backButton_Click" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">Back</Button>
     </RelativePanel>

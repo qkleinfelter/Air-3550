@@ -151,7 +151,33 @@ namespace Air_3550.Pages
         private void boardingPass_Click(object sender, RoutedEventArgs e)
         {
             Trip BPTrip = TripList.SelectedItem as Trip;
-            Frame.Navigate(typeof(BoardingPass), BPTrip);
+            if(!BPTrip.isCanceled && (DateTime.Now.CompareTo(BPTrip.Tickets[0].Flight.DepartureTime.AddDays(-1)) > 0) 
+                && (DateTime.Now.CompareTo(BPTrip.Tickets[0].Flight.DepartureTime) < 0))
+            {
+                Frame.Navigate(typeof(BoardingPass), BPTrip);
+            }
+            else if (BPTrip.isCanceled)
+            {
+                OutputInfo.Title = "Flight Cancelled!";
+                OutputInfo.Message = "You can not print a boarding pass for a cancelled flight";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
+            }
+            else if (DateTime.Now.CompareTo(BPTrip.Tickets[0].Flight.DepartureTime.AddDays(-1)) < 0)
+            {
+                OutputInfo.Title = "Too Early!";
+                OutputInfo.Message = "You can not print a boarding pass more than 24 hours before a flight";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
+            }
+            else
+            {
+                OutputInfo.Title = "Too Late!";
+                OutputInfo.Message = "You can not print a boarding pass for a flight that has already departed";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
+            }
+            
         }
     }
 }

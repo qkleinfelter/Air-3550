@@ -14,5 +14,14 @@ namespace Air_3550.Models
         [Required]
         public PaymentType PaymentType { get; set; }
         public bool isCanceled { get; set; }
+
+        public string ArrivalTime()
+        {
+            TimeSpan time = Flight.Flight.GetArrivalTime();
+            DateTime tempTime = DateTime.Today.Add(time);
+            return tempTime.ToString("hh:mm tt");
+        }
     }
+
+    
 }
