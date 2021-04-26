@@ -34,7 +34,10 @@ namespace Air_3550.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            FlightMoney.ItemsSource = GenerateFlights();
+            List<ScheduledFlight> flights = GenerateFlights();
+            FlightMoney.ItemsSource = flights;
+            TotalFlights.Text += flights.Count;
+            Earnings.Text += getTotalMoney();
         }
 
         private List<ScheduledFlight> GenerateFlights()
@@ -45,14 +48,13 @@ namespace Air_3550.Pages
                                                         .ThenInclude(fl => fl.Origin)
                                                       .Include(flight => flight.Flight)
                                                         .ThenInclude(fl => fl.Destination)
-                                                      
+                                                      .Include(flight => flight.Flight)
+                                                        .ThenInclude(fl => fl.PlaneType)
                                                       .Where(flight => flight.DepartureTime.CompareTo(DateTime.Now) < 0)
                                                       .ToList();
                 return SchedFLights;
             }
         }
-
-        //.Include(flight => flight.DepartureTime)
 
         private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
         {
@@ -64,6 +66,23 @@ namespace Air_3550.Pages
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
+        }
+
+        private string getTotalMoney()
+        {
+            double Total = 0;
+            using (var db = new AirContext())
+            {
+                var Trips = db.Trips.Where(trip => !trip.isCanceled && (trip.Tickets.First().Flight.DepartureTime.CompareTo(DateTime.Now) < 0))
+                                    .ToList();
+                //var Trips = db.Trips.ToList();
+                foreach (var trip in Trips)
+                {
+                    Total += trip.totalCost;
+                }
+            }
+
+            return Total.ToString();
         }
     }
 }
