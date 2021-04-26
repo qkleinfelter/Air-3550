@@ -107,7 +107,7 @@ namespace Air_3550.Pages
         {
             var db = new AirContext();
             var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
-            UserUtilities.UseCredit(user, totalCost);
+            UserUtilities.UseCredit(user, totalCost * 100);
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_BALANCE, oneWay);
             DisplaySuccess();
         }
