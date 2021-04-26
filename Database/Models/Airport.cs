@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Air_3550.Models
 {
@@ -22,13 +20,11 @@ namespace Air_3550.Models
         public int Elevation { get; set; }
         [Required]
         public string AirportCode { get; set; }
-        [Required]
-        public List<Airport> ConnectedAirports { get; set; }
 
         /**
          * Calculates the distance between 2 airports using the Haversine formula
          * based on this stackoverflow: https://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude/16794680#16794680
-         * returns the distance in meters for now, will need to adjust for our use case
+         * returns the distance in meters for now
          */
         public double DistanceToOtherAirport(Airport other)
         {
