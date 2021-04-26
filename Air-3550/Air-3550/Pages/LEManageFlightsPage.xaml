@@ -16,8 +16,6 @@
                     <TextBlock Text="{x:Bind DepartureTime}" x:Phase="2" Margin="5" FontSize="18"/>
                     <SymbolIcon Symbol="Forward"/>
                     <TextBlock Text="{x:Bind ArrivalTime}" x:Phase="3" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:Bind Plane}" x:Phase="4" Margin="5" FontSize="18" x:Name="planeModel"/>
-                    <TextBlock Text="{x:Bind FlightId}" x:Phase="5" Margin="5" FontSize="18"/>
 
 
                 </StackPanel>

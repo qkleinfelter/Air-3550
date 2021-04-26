@@ -62,9 +62,9 @@ namespace Air_3550.Pages
                 var LEFlights = db.Flights
                                   .Include(flight => flight.Origin)
                                   .Include(flight => flight.Destination)
-                                  .Include(flight => flight.PlaneType)
                                   .Where(flight => !flight.isCanceled
                                   && flight.Origin == originAirport)
+                                  .OrderBy(flight => flight.Destination)
                                   .ToList();
                 return LEFlights.Select(flight => new FlightPath(flight)).ToList();
             }
