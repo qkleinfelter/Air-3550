@@ -42,7 +42,12 @@ namespace Air_3550.Pages
             using (var db = new AirContext())
             {
                 List<ScheduledFlight> SchedFLights = db.ScheduledFlights.Include(flight => flight.Flight)
-                                      // need to figure out what relates users to flights that have taken off for Manifest...
+                                                                        .ThenInclude(fl => fl.Origin)
+                                                                        .Include(flight => flight.Flight)
+                                                                        .ThenInclude(fl => fl.Destination)
+                                                                        .Include(flight => flight.Flight)
+                                                                        .ThenInclude(fl => fl.PlaneType)
+                                                                        .Where(flight => flight.DepartureTime.CompareTo(DateTime.Now) < 0)
                                                                         .ToList();
                 return SchedFLights;
             }

@@ -18,9 +18,9 @@
                     <SymbolIcon Symbol="Forward"/>
                     <TextBlock Text="{x:Bind Flight.Destination.AirportCode}" x:Phase="3" Margin="5" FontSize="18"/>
                     <TextBlock Text="{x:Bind DepartureTime.ToString()}" x:Phase="4" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:Bind PercentCapacity()}" x:Phase="5" Margin="5" FontSize="18"/>
+                    <!--<TextBlock Text="{x:Bind PercentCapacity()}" x:Phase="5" Margin="5" FontSize="18"/>
                     <TextBlock Text="{x:Bind AvgCost()}" x:Phase="6" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:Bind TotalMoney()}" x:Phase="7" Margin="5" FontSize="18"/>
+                    <TextBlock Text="{x:Bind TotalMoney()}" x:Phase="7" Margin="5" FontSize="18"/>-->
 
 
                 </StackPanel>
