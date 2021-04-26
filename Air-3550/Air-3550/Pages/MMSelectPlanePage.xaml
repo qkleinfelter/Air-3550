@@ -50,5 +50,7 @@
             </DropDownButton>
         </StackPanel>
 
+        <InfoBar x:Name="OutputInfo" IsOpen="False" Margin="3" RelativePanel.Below="Buttons"/>
+
     </RelativePanel>
 </Page>

@@ -79,12 +79,28 @@ namespace Air_3550.Pages
             using (var db = new AirContext())
             {
                 var planeChangeflight = DepartList.SelectedItem as FlightPath;
-                // get plane from db to cahnge to change plane
-                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 1);
-                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                //planeChangeflight.flights[0].PlaneType = NewPlane;
-                db.SaveChanges();
-                Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+                
+                // check that a flight was selected
+                if (planeChangeflight != null)
+                {
+                    // get plane from db to change to change plane
+                    var NewPlane = db.Planes.Single(plane => plane.PlaneId == 1);
+                    db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                    //planeChangeflight.flights[0].PlaneType = NewPlane;
+                    db.SaveChanges();
+                    
+                    // refresh list
+                    Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+                }
+                else
+                {
+                    OutputInfo.Message = "You must select a flight first.";
+
+                    OutputInfo.Title = "Invalid Input!";
+                    OutputInfo.Severity = InfoBarSeverity.Error;
+                    OutputInfo.IsOpen = true;
+                }
+
             }
         }
 
@@ -93,15 +109,31 @@ namespace Air_3550.Pages
             using (var db = new AirContext())
             {
                 var planeChangeflight = DepartList.SelectedItem as FlightPath;
-                // get plane from db to cahnge to change plane
-                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 2);
-                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                planeChangeflight.flights[0].PlaneType = NewPlane;
-                db.SaveChanges();
+                
+                // check that a flight was selected
+                if (planeChangeflight != null)
+                {
+                    // get plane from db to change to change plane
+                    var NewPlane = db.Planes.Single(plane => plane.PlaneId == 2);
+                    db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                    //planeChangeflight.flights[0].PlaneType = NewPlane;
+                    db.SaveChanges();
+
+                    // refresh list
+                    Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+                }
+                else
+                {
+                    OutputInfo.Message = "You must select a flight first.";
+
+                    OutputInfo.Title = "Invalid Input!";
+                    OutputInfo.Severity = InfoBarSeverity.Error;
+                    OutputInfo.IsOpen = true;
+                }
                 
             }
 
-            Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+            
         }
 
         private void B757_Click(object sender, RoutedEventArgs e)
@@ -109,15 +141,29 @@ namespace Air_3550.Pages
             using (var db = new AirContext())
             {
                 var planeChangeflight = DepartList.SelectedItem as FlightPath;
-                // get plane from db to cahnge to change plane
-                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 3);
-                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                planeChangeflight.flights[0].PlaneType = NewPlane;
-                db.SaveChanges();
                 
-            }
+               // check that a flight was selected
+               if (planeChangeflight != null)
+                {
+                    // get plane from db to change to change plane
+                    var NewPlane = db.Planes.Single(plane => plane.PlaneId == 3);
+                    db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                    //planeChangeflight.flights[0].PlaneType = NewPlane;
+                    db.SaveChanges();
 
-            Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+                    // refresh list
+                    Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+                }
+                else
+                {
+                    OutputInfo.Message = "You must select a flight first.";
+
+                    OutputInfo.Title = "Invalid Input!";
+                    OutputInfo.Severity = InfoBarSeverity.Error;
+                    OutputInfo.IsOpen = true;
+                }
+
+            }
         }
 
         private void B777_Click(object sender, RoutedEventArgs e)
@@ -125,14 +171,28 @@ namespace Air_3550.Pages
             using (var db = new AirContext())
             {
                 var planeChangeflight = DepartList.SelectedItem as FlightPath;
-                // get plane from db to cahnge to change plane
-                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 4);
-                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                planeChangeflight.flights[0].PlaneType = NewPlane;
-                db.SaveChanges();
-            }
+                
+                // check that a flight was selected
+                if (planeChangeflight != null)
+                {
+                    // get plane from db to change to change plane
+                    var NewPlane = db.Planes.Single(plane => plane.PlaneId == 4);
+                    db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                    //planeChangeflight.flights[0].PlaneType = NewPlane;
+                    db.SaveChanges();
 
-            Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+                    // refresh list
+                    Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+                }
+                else
+                {
+                    OutputInfo.Message = "You must select a flight first.";
+
+                    OutputInfo.Title = "Invalid Input!";
+                    OutputInfo.Severity = InfoBarSeverity.Error;
+                    OutputInfo.IsOpen = true;
+                }
+            }
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
