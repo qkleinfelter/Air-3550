@@ -1,4 +1,8 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Air_3550.Repo;
+using Database.Models;
+using Database.Utiltities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -26,6 +30,35 @@ namespace Air_3550.Pages
         public FlightManagerPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Manifest.ItemsSource = GenerateFlights();
+        }
+
+        private List<ScheduledFlight> GenerateFlights()
+        {
+            using (var db = new AirContext())
+            {
+                List<ScheduledFlight> SchedFLights = db.ScheduledFlights.Include(flight => flight.Flight)
+                                      // need to figure out what relates users to flights that have taken off for Manifest...
+                                                                        .ToList();
+                return SchedFLights;
+            }
+        }
+
+        // Manage Account & logout at top right of page
+        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ChangeAccountInfoPage));
+        }
+
+        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        {
+            UserSession.userId = 0;
+            UserSession.userLoggedIn = false;
+            Frame.Navigate(typeof(MainPage));
         }
     }
 }
