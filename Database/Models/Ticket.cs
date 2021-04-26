@@ -1,8 +1,6 @@
 ﻿using Database.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Air_3550.Models
 {
@@ -17,9 +15,9 @@ namespace Air_3550.Models
 
         public string ArrivalTime()
         {
-            TimeSpan time = Flight.Flight.GetArrivalTime();
-            DateTime tempTime = DateTime.Today.Add(time);
-            return tempTime.ToString("hh:mm tt");
+            TimeSpan time = Flight.Flight.GetArrivalTime(); // get the arrival time of the flight
+            DateTime tempTime = DateTime.Today.Add(time); // put it into a date time
+            return tempTime.ToString("hh:mm tt"); // and return the templated string
         }
     }
 

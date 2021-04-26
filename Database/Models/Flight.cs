@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Air_3550.Models
 {
@@ -41,12 +39,10 @@ namespace Air_3550.Models
 
         public TimeSpan GetArrivalTime()
         {
-            TimeSpan arrivalTime = DepartureTime;
-            TimeSpan flightDuration = GetDuration();
-            arrivalTime = arrivalTime.Add(flightDuration);
-            return arrivalTime;
+            TimeSpan arrivalTime = DepartureTime; // start at the departure time
+            TimeSpan flightDuration = GetDuration(); // get the duration of the flight
+            arrivalTime = arrivalTime.Add(flightDuration); // and add it to the departure time to get the arrival
+            return arrivalTime; // then return
         }
-
-        
     }
 }

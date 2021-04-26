@@ -39,13 +39,14 @@ namespace Air_3550.Models
                 return "";
             }
             DateTime now = DateTime.Now;
+            // check if any flight in the trip has taken off
             foreach (Ticket ticket in Tickets)
             {
                 var sf = ticket.Flight;
                 DateTime departureTime = sf.DepartureTime;
                 if (departureTime < now)
                 {
-                    // This flight has already taken off or will in the next hour
+                    // This flight has already taken off
                     return "Trip has departed!";
                 }
             }
