@@ -5,18 +5,9 @@ using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace Air_3550.Pages
 {
@@ -36,12 +27,14 @@ namespace Air_3550.Pages
                 returningDate = retDate;
             }
         }
+        // some fields we need for this page
         private Parameters passedInParams;
         private int leavingPathCost = 0;
         private int returningPathCost = 0;
         private CustomerInfo custInfo = null;
         private bool oneWay;
         private int totalCost = 0;
+
         public CheckoutPage()
         {
             this.InitializeComponent();
@@ -50,12 +43,14 @@ namespace Air_3550.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            // set our passed in params value to the parameters casted to the correct class
             passedInParams = e.Parameter as Parameters;
+            // parse out the costs
             leavingPathCost = int.Parse(passedInParams.leavingPath.Price.Substring(1));
             if (passedInParams.returningPath == null)
             {
                 returningPathCost = 0;
-                oneWay = true;
+                oneWay = true; // if theres no returning path its one way
             }
             else
             {
@@ -63,14 +58,18 @@ namespace Air_3550.Pages
             }
             var db = new AirContext();
             var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            // grab their customer info
             custInfo = user.CustInfo;
+            // and display info to the user
             DisplayInfo();
         }
         
         private void DisplayInfo()
         {
+            // update our total cost variable depending on whether its one way or not
             totalCost = oneWay ? leavingPathCost : leavingPathCost + returningPathCost;
 
+            // if they have enough credit or points, display the buttons
             if (custInfo.CreditBalance >= totalCost)
             {
                 useCredit.Visibility = Visibility.Visible;
@@ -82,6 +81,8 @@ namespace Air_3550.Pages
             int numFlights = passedInParams.leavingPath.flights.Count;
             Airport origin = passedInParams.leavingPath.flights[0].Origin;
             Airport dest = passedInParams.leavingPath.flights[numFlights - 1].Destination;
+            
+            // display info about the departing flight(s)
             departInfo.Text = "Departing Flight Information:";
             departInfo.Text += $"\nFrom {origin.City} to {dest.City}";
             departInfo.Text += $"\nTotal Flight Duration: {passedInParams.leavingPath.FormattedDuration}";
@@ -90,6 +91,7 @@ namespace Air_3550.Pages
 
             if (!oneWay)
             {
+                // display info about the returning flight(s) if they exist
                 returnInfo.Text = "Returning Flight Information:";
                 returnInfo.Text += $"\nFrom {dest.City} to {origin.City}";
                 returnInfo.Text += $"\nTotal Flight Duration: {passedInParams.returningPath.FormattedDuration}";
@@ -97,41 +99,54 @@ namespace Air_3550.Pages
                 returnInfo.Text += $"\nPrice: ${returningPathCost}";
             }
             
+            // display the total cost
             summaryInfo.Text = "Summary:";
             summaryInfo.Text += $"\nTotal Cost: ${totalCost}";
 
+            // display the user's balances so they know what they have
             userInfo.Text = $"Your balances: Credit: ${custInfo.CreditBalance / 100}, Points: {custInfo.PointsAvailable}";
         }
 
         private void useCredit_Click(object sender, RoutedEventArgs e)
         {
+            // grab the user
             var db = new AirContext();
             var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            // use credit from their account
             UserUtilities.UseCredit(user, totalCost * 100);
+            // handle the purchase
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_BALANCE, oneWay);
+            // and display success & stop them from buying again
             DisplaySuccess();
             DisablePurchaseButtons();
         }
 
         private void usePoints_Click(object sender, RoutedEventArgs e)
         {
+            // grab the user
             var db = new AirContext();
             var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+            // use points from their account
             UserUtilities.UsePoints(user, 100 * totalCost);
+            // handle the purchase
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.POINTS, oneWay);
+            // and display success & stop them from buying again
             DisplaySuccess();
             DisablePurchaseButtons();
         }
 
         private void useCreditCard_Click(object sender, RoutedEventArgs e)
         {
+            // handle the purchase
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_CARD, oneWay);
+            // and display success & stop them from buying again
             DisplaySuccess();
             DisablePurchaseButtons();
         }
 
         private void DisplaySuccess()
         {
+            // Fill out the success info bar and display it
             successBar.Title = "Success! Your trip is booked!";
             successBar.Message = $"Thanks for flying with Air-3550, please choose us again soon!";
             successBar.Severity = InfoBarSeverity.Success;
@@ -140,6 +155,7 @@ namespace Air_3550.Pages
 
         private void DisablePurchaseButtons()
         {
+            // turn off all the buttons for purchasing
             useCredit.IsEnabled = false;
             useCreditCard.IsEnabled = false;
             usePoints.IsEnabled = false;

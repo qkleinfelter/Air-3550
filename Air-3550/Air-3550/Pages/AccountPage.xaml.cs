@@ -4,18 +4,9 @@ using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace Air_3550.Pages
 {
@@ -25,6 +16,7 @@ namespace Air_3550.Pages
         public AccountPage()
         {
             this.InitializeComponent();
+            // after we initialize the page, determine whether we have a customer or staff account member
             var db = new AirContext();
             var user = db.Users.Include(dbuser => dbuser.CustInfo)
                                 .ThenInclude(custInfo => custInfo.Trips)
@@ -43,6 +35,7 @@ namespace Air_3550.Pages
 
         private void logoutNavigator_Click(object sender, RoutedEventArgs e)
         {
+            // log the user out of the session and send them to the main page
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
@@ -52,6 +45,7 @@ namespace Air_3550.Pages
         {
             if (isCustomer)
             {
+                // if we have a customer we need to load a bunch of info
                 var db = new AirContext();
                 var user = db.Users.Include(dbuser => dbuser.CustInfo)
                                         .ThenInclude(custInfo => custInfo.Trips)
@@ -66,30 +60,35 @@ namespace Air_3550.Pages
                                                         .ThenInclude(scheduledFlight => scheduledFlight.Flight)
                                                             .Single(dbuser => dbuser.UserId == UserSession.userId);
                 CustomerInfo customerInfo = user.CustInfo;
+                // award points for any trips that have departed & were not yet claimed
                 int newPoints = 0;
+                // loop through all of their trips
                 foreach (Trip trip in customerInfo.Trips)
                 {
-                    // this is a bad way to do this determination but whatever
+                    // check if the trip has departed
                     if (trip.getFormattedDeparted() == "Trip has departed!")
                     {
                         // make sure they haven't claimed the points already
                         if (!trip.pointsClaimed)
                         {
+                            // Award the appropriate points to the user
                             UserUtilities.AwardPoints(user, trip.totalCost / 100);
-                            newPoints = trip.totalCost / 100;
-                            trip.pointsClaimed = true;
+                            newPoints = trip.totalCost / 100; // keep track of this for the ui
+                            trip.pointsClaimed = true; // set the points claimed to true
                             var dbtrip = db.Trips.Single(dbtripinterior => dbtripinterior.TripId == trip.TripId);
-                            dbtrip.pointsClaimed = true;
+                            dbtrip.pointsClaimed = true; // and update the db as well
                             db.SaveChanges();
                         }
                     }
                 }
 
+                // Display basic info about the user
                 WelcomeText.Text = $"Welcome back {customerInfo.Name}!";
                 PointsText.Text = $"You currently have {customerInfo.PointsAvailable + newPoints} points available, and overall you have used {customerInfo.PointsUsed} points.";
                 CreditText.Text = $"You currently have a credit balance of ${customerInfo.CreditBalance / 100} with us.";
                 TicketSummaryText.Text = $"You have booked {customerInfo.Trips.ToArray().Length} trips with us.";
 
+                // and fill our list view with the customers trips
                 TripList.ItemsSource = customerInfo.Trips;
             }
         }
@@ -132,7 +131,9 @@ namespace Air_3550.Pages
                 return;
             }
 
+            // cancel the trip
             TicketUtilities.CancelTrip(SelectedTrip, user);
+            // and display a message saying we did to the user
             OutputInfo.Title = "Flight Cancelled!";
             OutputInfo.Message = "Your trip was successfully cancelled!";
             OutputInfo.Severity = InfoBarSeverity.Success;
@@ -141,6 +142,7 @@ namespace Air_3550.Pages
 
         private void TripList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // only display the cancel trip and boarding pass buttons if a trip is selected
             if (TripList.SelectedItem != null)
             {
                 cancelTrip.Visibility = Visibility.Visible;
@@ -150,12 +152,14 @@ namespace Air_3550.Pages
 
         private void boardingPass_Click(object sender, RoutedEventArgs e)
         {
+            // send the user to the boarding pass page if its allowed
             Trip BPTrip = TripList.SelectedItem as Trip;
             if(!BPTrip.isCanceled && (DateTime.Now.CompareTo(BPTrip.Tickets[0].Flight.DepartureTime.AddDays(-1)) > 0) 
                 && (DateTime.Now.CompareTo(BPTrip.Tickets[0].Flight.DepartureTime) < 0))
             {
                 Frame.Navigate(typeof(BoardingPass), BPTrip);
             }
+            // otherwise display an appropriate error
             else if (BPTrip.isCanceled)
             {
                 OutputInfo.Title = "Flight Cancelled!";
@@ -177,7 +181,6 @@ namespace Air_3550.Pages
                 OutputInfo.Severity = InfoBarSeverity.Error;
                 OutputInfo.IsOpen = true;
             }
-            
         }
     }
 }

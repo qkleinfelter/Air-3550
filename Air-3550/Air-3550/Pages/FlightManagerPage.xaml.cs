@@ -21,9 +21,9 @@ namespace Air_3550.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BlankPage1 : Page
+    public sealed partial class FlightManagerPage : Page
     {
-        public BlankPage1()
+        public FlightManagerPage()
         {
             this.InitializeComponent();
         }

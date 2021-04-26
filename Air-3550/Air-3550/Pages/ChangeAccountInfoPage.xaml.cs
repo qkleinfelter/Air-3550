@@ -2,21 +2,9 @@
 using Air_3550.Repo;
 using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
 
 namespace Air_3550.Pages
 {
@@ -28,6 +16,7 @@ namespace Air_3550.Pages
             UserInfoControl.OnNavigateParentReady += UserInfoControl_OnNavigateParentReady;
         }
 
+        // send the user back to their appropriate page
         private void UserInfoControl_OnNavigateParentReady(object source, EventArgs e)
         {
             var db = new AirContext();
@@ -50,11 +39,8 @@ namespace Air_3550.Pages
             }
             else
             {
-                // Needs to be FlightManagerPage when it exists...
-                Frame.Navigate(typeof(MainPage));
+                Frame.Navigate(typeof(FlightManagerPage));
             }
-
-
         }
     }
 }
