@@ -70,7 +70,7 @@ namespace Air_3550.Pages
             totalCost = oneWay ? leavingPathCost : leavingPathCost + returningPathCost;
 
             // if they have enough credit or points, display the buttons
-            if (custInfo.CreditBalance >= totalCost)
+            if (custInfo.CreditBalance / 100 >= totalCost)
             {
                 useCredit.Visibility = Visibility.Visible;
             }
