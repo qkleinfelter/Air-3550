@@ -28,6 +28,10 @@ namespace Air_3550.Models
          */
         public double DistanceToOtherAirport(Airport other)
         {
+            if (other == null)
+            {
+                return 0d;
+            }
             static double toRadians(double degrees)
             {
                 return (Math.PI / 180) * degrees;

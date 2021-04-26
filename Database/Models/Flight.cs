@@ -21,6 +21,10 @@ namespace Air_3550.Models
         {
             // 30 minutes flat per flight, for takeoff and landing
             TimeSpan duration = new TimeSpan(0, 30, 0);
+            if (Origin == null)
+            {
+                return new TimeSpan(0, 0, 0);
+            }
             double distance = Origin.DistanceToOtherAirport(Destination); // Distance between the airports in meters
             distance = distance / 1609; // convert meters to miles
             double hours = distance / 500; // assuming 500mph in the air
@@ -30,7 +34,11 @@ namespace Air_3550.Models
         }
 
         public int GetCost()
-        { 
+        {
+            if (Origin == null)
+            {
+                return 0;
+            }
             double distance = Origin.DistanceToOtherAirport(Destination); // distance between our airports in meters
             distance = distance / 1609; // convert meters to miles
             double milePrice = distance * 12; // 12 cents per mile
