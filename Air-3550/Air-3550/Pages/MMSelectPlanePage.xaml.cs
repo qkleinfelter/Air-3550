@@ -86,7 +86,6 @@ namespace Air_3550.Pages
                     // get plane from db to change to change plane
                     var NewPlane = db.Planes.Single(plane => plane.PlaneId == 1);
                     db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                    //planeChangeflight.flights[0].PlaneType = NewPlane;
                     db.SaveChanges();
                     
                     // refresh list
@@ -116,7 +115,6 @@ namespace Air_3550.Pages
                     // get plane from db to change to change plane
                     var NewPlane = db.Planes.Single(plane => plane.PlaneId == 2);
                     db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                    //planeChangeflight.flights[0].PlaneType = NewPlane;
                     db.SaveChanges();
 
                     // refresh list
@@ -148,7 +146,6 @@ namespace Air_3550.Pages
                     // get plane from db to change to change plane
                     var NewPlane = db.Planes.Single(plane => plane.PlaneId == 3);
                     db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                    //planeChangeflight.flights[0].PlaneType = NewPlane;
                     db.SaveChanges();
 
                     // refresh list
@@ -178,7 +175,6 @@ namespace Air_3550.Pages
                     // get plane from db to change to change plane
                     var NewPlane = db.Planes.Single(plane => plane.PlaneId == 4);
                     db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                    //planeChangeflight.flights[0].PlaneType = NewPlane;
                     db.SaveChanges();
 
                     // refresh list
