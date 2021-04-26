@@ -1,20 +1,9 @@
 ﻿using Air_3550.Repo;
 using Database.Utiltities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace Air_3550.Pages
 {
@@ -23,6 +12,8 @@ namespace Air_3550.Pages
         public MainPage()
         {
             this.InitializeComponent();
+            // if theres a user logged in, show the account navigator
+            // and not the login navigator
             if (UserSession.userLoggedIn)
             {
                 loginNavigator.Visibility = Visibility.Collapsed;
@@ -42,6 +33,7 @@ namespace Air_3550.Pages
             {
                 using var db = new AirContext();
                 // valid search params, so actually search
+                // grab the airports
                 string originCode = StripAirportCode(originPicker.Text);
                 var originAirport = db.Airports.Single(airport => airport.AirportCode == originCode);
                 string destCode = StripAirportCode(destPicker.Text);
@@ -49,6 +41,7 @@ namespace Air_3550.Pages
 
                 var depDate = departurePicker.Date.Value.Date; // this gets only the date portion of the departure pickers chosen date
                 FlightDisplayPage.Parameters passIn;
+                // navigate to the flight display page with the appropriate parameters
                 if (returnPicker.Date != null)
                 {
                     passIn = new FlightDisplayPage.Parameters(originAirport, destAirport, depDate, returnPicker.Date.Value.Date);
@@ -63,6 +56,7 @@ namespace Air_3550.Pages
             }
             else
             {
+                // otherwise display an error because they messed up in search params
                 OutputInfo.Title = "Invalid Input!";
                 OutputInfo.Severity = InfoBarSeverity.Error;
                 OutputInfo.IsOpen = true;
@@ -81,7 +75,7 @@ namespace Air_3550.Pages
 
         private bool ValidateSearchParameters()
         {
-            // start with our return as true, it will get changed to false if either of our input parameters are bad
+            // start with our return as true, it will get changed to false if any of our input parameters are bad
             bool valid = true;
             OutputInfo.Message = "Your search could not be processed due to invalid parameters: ";
             if (string.IsNullOrEmpty(originPicker.Text))
@@ -119,9 +113,11 @@ namespace Air_3550.Pages
                 OutputInfo.Message += "\nYou must be logged in to search for flights";
                 valid = false;
             }
+            // return whether or not the search boxes are valid
             return valid;
         }
 
+        // helper method to grab the airport code from a string that matches the format of our input boxes
         private string StripAirportCode(string full)
         {
             return full.Substring(full.IndexOf("(") + 1, 3);
@@ -129,6 +125,9 @@ namespace Air_3550.Pages
 
         private void RadioSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // if we have the round trip box selected, make sure that they can access
+            // the return date picker
+            // otherwise they can't
             if (sender is RadioButtons radioButtons)
             {
                 if (radioButtons.SelectedIndex == 0)

@@ -1,19 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Text;
-using System.Security.Cryptography;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Database.Utiltities;
 using Microsoft.UI.Xaml.Media.Animation;
 using Air_3550.Repo;
@@ -30,10 +17,12 @@ namespace Air_3550.Pages
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            //get user password
+            //get user input
             string userIdInput = userID.Text.ToString();
             string userPasswordInput = passwordBox.Password.ToString();
+            // hash the password
             string hashed = PasswordHandler.HashPassword(userPasswordInput);
+            // and check if its correct
             bool accountCorrect = PasswordHandler.CompareHashedToStored(userIdInput, hashed);
             if (!accountCorrect)
             {
@@ -48,11 +37,13 @@ namespace Air_3550.Pages
             {
                 using (var db = new AirContext())
                 {
+                    // grab the user and update the session
                     var user = db.Users.Include(user => user.CustInfo)
                                         .Where(dbuser => dbuser.LoginId == userIdInput).FirstOrDefault();
                     UserSession.userId = user.UserId;
                     UserSession.userLoggedIn = true;
 
+                    // then send them to the appropriate page
                     if (user.UserRole == Role.MARKETING_MANAGER)
                     {
                         Frame.Navigate(typeof(MarketingManagerPage));
@@ -61,14 +52,19 @@ namespace Air_3550.Pages
                     {
                         Frame.Navigate(typeof(LoadEngineerPage));
                     }
+                    else if (user.UserRole == Role.FLIGHT_MANAGER)
+                    {
+                        Frame.Navigate(typeof(FlightManagerPage));
+                    }
+                    else if (user.UserRole == Role.ACCOUNTING_MANAGER)
+                    {
+                        Frame.Navigate(typeof(AccountingManagerPage));
+                    }
                     else
                     {
                         Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                     }
                 }
-                // Once they're logged in, send them back to the main page
-                
-                //Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
         }
 

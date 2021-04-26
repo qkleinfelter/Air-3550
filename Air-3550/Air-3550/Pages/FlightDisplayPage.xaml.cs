@@ -1,21 +1,8 @@
 ﻿using Air_3550.Models;
-using Air_3550.Repo;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Networking.Connectivity;
 using Database.Utiltities;
 
 namespace Air_3550.Pages
@@ -43,6 +30,7 @@ namespace Air_3550.Pages
                 returningDate = null;
             }
         }
+        // parameters that we need to be able to display flights
         private Parameters passedInParams;
         public FlightDisplayPage()
         {
@@ -51,13 +39,13 @@ namespace Air_3550.Pages
 
         override protected void OnNavigatedTo(NavigationEventArgs e)
         {
-            // change this parameter to an object instead of a string i need to parse later
+            // grab the parameters as an object
             passedInParams = e.Parameter as Parameters;
             var returningDate = passedInParams.returningDate;
+            // fill out the departing list header
             DepartHeader.Text = $"{passedInParams.origin.City} to {passedInParams.destination.City} - {passedInParams.departingDate.ToShortDateString()}";
 
-            // This flight list is only for the first leg of a one way, we'll need to add another list view for
-            // the return trip at some point as well
+            // generate the departing paths
             var possibleDepartingPaths = FlightAlgorithm.GenerateRoutes(passedInParams.origin, passedInParams.destination, passedInParams.departingDate);
 
             if (possibleDepartingPaths.Count == 0)
@@ -68,10 +56,12 @@ namespace Air_3550.Pages
                 outputInfo.IsOpen = true;
             }
 
+            // and set the list views item source to the departing paths
             DepartList.ItemsSource = possibleDepartingPaths;
 
             if (returningDate != null)
             {
+                // if we have a return date, generate flights for it
                 var nonNullable = (DateTime)returningDate;
                 var possibleReturningPaths = FlightAlgorithm.GenerateRoutes(passedInParams.destination, passedInParams.origin, nonNullable);
 
@@ -83,12 +73,15 @@ namespace Air_3550.Pages
                     outputInfo.IsOpen = true;
                 }
 
+                // and set the list views item source to the return paths
                 ReturnList.ItemsSource = possibleReturningPaths;
+                // also fill out the return header
                 ReturnHeader.Text = $"{passedInParams.destination.City} to {passedInParams.origin.City} - {nonNullable.ToShortDateString()}";
                 PurchaseButton.Content += "s"; // "Purchase Flight" -> "Purchase Flights" if its round trip
             }
             else
             {
+                // otherwise, hide the return items because its a one way trip
                 ReturnHeader.Visibility = Visibility.Collapsed;
                 ReturnList.Visibility = Visibility.Collapsed;
             }
@@ -102,14 +95,15 @@ namespace Air_3550.Pages
 
         private void PurchaseButton_Click(object sender, RoutedEventArgs e)
         {
+            // grab the flight paths from the list views
             var departRoute = DepartList.SelectedItem as FlightPath;
             FlightPath returnRoute = null;           
             if (passedInParams.returningDate != null)
             {
                 returnRoute = ReturnList.SelectedItem as FlightPath;
             }
+            // and navigate to the checkoutpage with the appropriate parameters being passed in
             Frame.Navigate(typeof(CheckoutPage), new CheckoutPage.Parameters(departRoute, returnRoute, passedInParams.departingDate, passedInParams.returningDate));
-
         }
     }
 }
