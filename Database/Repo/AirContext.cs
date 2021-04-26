@@ -2,15 +2,13 @@
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Air_3550.Repo
 {
     public class AirContext : DbContext
     {
+        // Sets up database tables for the various parts of our schema
         public DbSet<User> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Plane> Planes { get; set; }
@@ -22,10 +20,14 @@ namespace Air_3550.Repo
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             Console.WriteLine("Entered OnConfiguring");
+            // Configures the database path to be stored in the users appdata
             var appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            // makes a new directory in the appdata called "Air 3550 Team 11"
             var airDir = Path.Combine(appDataDirectory, "Air 3550 Team 11");
             Directory.CreateDirectory(airDir);
+            // defines the database path as the app data directory/Air 3550 Team 11/air3550.db
             var dbPath = Path.Combine(airDir, "air3550.db");
+            // sets up EFCore to use this database with Sqlite
             options.UseSqlite(@"Data Source=" + dbPath);
             options.EnableSensitiveDataLogging();
         }
@@ -35,8 +37,6 @@ namespace Air_3550.Repo
             Console.WriteLine("Entered OnModelCreating");
 
             // Seeding airport data
-            // note: Elevation is in units of feet, this gets converted in the Haversine formula but could probably
-            // converted in seeding for a cleaner haversine if wanted, just will need to update that function
             var cle = new Airport { AirportId = 1, AirportCode = "CLE", City = "Cleveland", State = "Ohio", Country = "USA", Latitude = 41.411667M, Longitude = -81.849722M, Elevation = 791 };
             var atl = new Airport { AirportId = 2, AirportCode = "ATL", City = "Atlanta", State = "Georgia", Country = "USA", Latitude = 33.636667M, Longitude = -84.428056M, Elevation = 1027 };
             var lax = new Airport { AirportId = 3, AirportCode = "LAX", City = "Los Angeles", State = "California", Country = "USA", Latitude = 33.9425M, Longitude = -118.408056M, Elevation = 125 };
@@ -62,7 +62,7 @@ namespace Air_3550.Repo
 
             // Seeding Staff Accounts
             // note: passwords are hashed with SHA-512
-            // currently staff passwords are the exact same as their loginid
+            // staff passwords are the exact same as their loginid
             modelBuilder.Entity<User>().HasData(
                 new User { UserId = 1, LoginId = "marketing_manager", HashedPass = "360caebd9edb68609c0933bade3565350e59e284cc503ce61bf0eebd42fb7e5bd657a71ed1498225168757e7f1095920411cce27779e0c778ec52535deae2040", UserRole = Role.MARKETING_MANAGER },
                 new User { UserId = 2, LoginId = "load_engineer", HashedPass = "41ec260efa3aa054a91cc6cf9441e3652637f75946c8fa6c2e926f289e095f46e62e19a28e02fb0fc25dd047b1f04e6e03cf930d464b540c40c0045eb6b7e252", UserRole = Role.LOAD_ENGINEER },

@@ -1,14 +1,12 @@
 ﻿using Air_3550.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Database.Utiltities
 {
     public class CostHandler
     {
+        // Calculates a price of a list of flights
         public static int PriceListOfFlights(List<Flight> flights)
         {
             int basePrice = 5000; // base price of $50 in cents

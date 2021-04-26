@@ -1,10 +1,8 @@
 ﻿using Air_3550.Repo;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Database.Utiltities
 {
@@ -26,19 +24,17 @@ namespace Database.Utiltities
         {
             using (var db = new AirContext())
             {
+                // grab the user with this loginid
                 var user = db.Users.Where(user => user.LoginId == loginID).FirstOrDefault();
                 if (user == null)
                 {
+                    // if there isn't a user return false
+                    // because we don't have anything to compare
                     return false;
                 }
 
-                if (user.HashedPass == hashedPassword)
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                }
+                // return whether or not the hashed password matches the password in the db
+                return user.HashedPass == hashedPassword;
             }
         }
     }

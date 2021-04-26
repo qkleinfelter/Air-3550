@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Database.Utiltities
 {
@@ -40,6 +38,7 @@ namespace Database.Utiltities
                 for (int i = 0; i < directPaths.Count; i++)
                 {
                     var f1 = directPaths[i].flights[0];
+                    // remove flights that have already taken off
                     if (date == today && f1.DepartureTime < currentTime)
                     {
                         toRemoveOne.Add(directPaths[i]);
@@ -93,6 +92,7 @@ namespace Database.Utiltities
                     FlightPath route = twoLeggedFlights[i];
                     Flight f1 = route.flights[0];
                     Flight f2 = route.flights[1];
+                    // remove flight paths where 1 or more flights have already taken off
                     if (date == today && f1.DepartureTime < currentTime || f2.DepartureTime < currentTime)
                     {
                         toRemoveTwo.Add(route);
@@ -170,7 +170,7 @@ namespace Database.Utiltities
                     Flight f1 = route.flights[0];
                     Flight f2 = route.flights[1];
                     Flight f3 = route.flights[2];
-
+                    // remove paths where 1 or more flights have already taken off
                     if (date == today && f1.DepartureTime < currentTime || f2.DepartureTime < currentTime || f3.DepartureTime < currentTime)
                     {
                         toRemoveThree.Add(route);

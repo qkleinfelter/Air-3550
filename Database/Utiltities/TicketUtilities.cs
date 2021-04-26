@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Database.Utiltities
 {
@@ -88,6 +86,7 @@ namespace Database.Utiltities
                     db.SaveChanges();
                 }
 
+                // return the tickets we made
                 return tickets;
             }
         }
@@ -95,6 +94,7 @@ namespace Database.Utiltities
         public static void HandlePurchase(FlightPath leavingPath, FlightPath? returningPath, DateTime leavingDate, DateTime? returningDate, PaymentType paymentType, bool oneWay)
         {
             List<Ticket> tickets = new List<Ticket>();
+            // make tickets for the appropriate flight paths
             if (oneWay)
             {
                 tickets = CreateListOfTickets(leavingPath, paymentType, leavingDate);
@@ -109,8 +109,10 @@ namespace Database.Utiltities
                 }
             }
 
+            // determine the total cost by whether or not the trip is one way
             int totalCost = oneWay ? leavingPath.IntPrice : leavingPath.IntPrice + returningPath.IntPrice;
 
+            // make a new trip with the appropriate info
             Trip trip = new Trip
             {
                 OriginAirportId = leavingPath.flights[0].Origin.AirportId,

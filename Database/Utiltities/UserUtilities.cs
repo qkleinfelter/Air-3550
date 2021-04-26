@@ -1,16 +1,13 @@
 ﻿using Air_3550.Models;
 using Air_3550.Repo;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Database.Utiltities
 {
     public class UserUtilities
     {
+        // adds the specified amount of credit to the specified user
         public static void AwardCredit(User user, int amount)
         {
             using var db = new AirContext();
@@ -20,6 +17,7 @@ namespace Database.Utiltities
             db.SaveChanges();
         }
 
+        // adds the specified amount of points to the specified user
         public static void AwardPoints(User user, int amount)
         {
             using var db = new AirContext();
@@ -29,6 +27,7 @@ namespace Database.Utiltities
             db.SaveChanges();
         }
 
+        // subtracts the specified amount of points from the specified user
         public static void UsePoints(User user, int amount)
         {
             using var db = new AirContext();
@@ -41,6 +40,7 @@ namespace Database.Utiltities
             db.SaveChanges();
         }
 
+        // subtracts the specified amount of credit from the specified user
         public static void UseCredit(User user, int amount)
         {
             using var db = new AirContext();
@@ -52,6 +52,7 @@ namespace Database.Utiltities
             db.SaveChanges();
         }
 
+        // checks if a specified login id exists in the db
         public static bool LoginIDExists(string loginId)
         {
             using (var db = new AirContext())
@@ -65,6 +66,7 @@ namespace Database.Utiltities
             return false;
         }
 
+        // adds a user to the db
         public static void AddUserToDB(User user)
         {
             using var db = new AirContext();

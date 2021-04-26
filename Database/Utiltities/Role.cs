@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Air_3550
+﻿namespace Air_3550
 {
     public enum Role
     {
