@@ -30,6 +30,42 @@ namespace Air_3550.Pages
         public LoadEngineerPage()
         {
             this.InitializeComponent();
+            departurePicker.MinDate = DateTime.Now;
+        }
+
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ValidateSearchParameters())
+            {
+                // Bring up list of flights for Origin Airport
+                using var db = new AirContext();
+                // valid search params, so actually search
+                string originCode = StripAirportCode(originPicker.Text);
+                var originAirport = db.Airports.Single(airport => airport.AirportCode == originCode);
+
+
+                var depDate = departurePicker.Date.Value.Date; // this gets only the date portion of the departure pickers chosen date
+                LEManageFlightsPage.LEParameters passIn;
+
+                passIn = new LEManageFlightsPage.LEParameters(originAirport, depDate);
+
+
+
+                Frame.Navigate(typeof(LEManageFlightsPage), passIn);
+
+                // probably get rid of these messages
+                OutputInfoTop.Message = "We can work with this!";
+
+                OutputInfoTop.Title = "Success!";
+                OutputInfoTop.Severity = InfoBarSeverity.Success;
+                OutputInfoTop.IsOpen = true;
+            }
+            else
+            {
+                OutputInfoTop.Title = "Invalid Input!";
+                OutputInfoTop.Severity = InfoBarSeverity.Error;
+                OutputInfoTop.IsOpen = true;
+            }
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -87,6 +123,24 @@ namespace Air_3550.Pages
                 OutputInfo.IsOpen = true;
             }
 
+        }
+
+        private bool ValidateSearchParameters()
+        {
+            // start with our return as true, it will get changed to false if either of our input parameters are bad
+            bool valid = true;
+            OutputInfoTop.Message = "Your search could not be processed due to invalid parameters: ";
+            if (string.IsNullOrEmpty(originPicker.Text))
+            {
+                OutputInfoTop.Message += "\nYou must select an origin airport";
+                valid = false;
+            }
+            if (!departurePicker.Date.HasValue)
+            {
+                OutputInfoTop.Message += "\nYou must select a valid date";
+                valid = false;
+            }
+            return valid;
         }
 
         private bool EnsureExistingRoute(Airport originAirport, Airport destinationAirport)

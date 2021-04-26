@@ -11,12 +11,15 @@
     <RelativePanel>
         <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true" RelativePanel.AlignVerticalCenterWithPanel="true">
             <TextBlock x:Name="Title" FontFamily="Sans-Serif" FontSize="56" Text="Load Engineer" Margin="2"/>
-            <TextBlock x:Name="selectflight" FontFamily="Sans-Serif" FontSize="18" Text="Please select airport and date" Margin="2"/>
+            <TextBlock x:Name="selectflight" FontFamily="Sans-Serif" FontSize="18" Text="Delete or Edit Flights" Margin="2"/>
             <StackPanel x:Name="stack" Orientation="Horizontal" HorizontalAlignment="Left" Margin="4">
                 <local:AirportSuggest x:Name="originPicker" Label="Airport" Margin="3" VerticalAlignment="Bottom"/>
                 <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3" VerticalAlignment="Bottom"/>
-                <Button x:Name="searchButton"  Margin="3" VerticalAlignment="Bottom">Search</Button>
+                <Button x:Name="searchButton" Click="searchButton_Click" Margin="3" VerticalAlignment="Bottom">Search</Button>
             </StackPanel>
+
+            <InfoBar x:Name="OutputInfoTop" IsOpen="False" Margin="3"/>
+            
             <TextBlock x:Name="addflights" FontFamily="Sans-Serif" FontSize="18" Text="Add routes" Margin="2"/>
             <StackPanel x:Name="stack2" Orientation="Horizontal" HorizontalAlignment="Center">
                 <local:AirportSuggest x:Name="originPickerAdd" Label="Origin Airport" Margin="3" VerticalAlignment="Bottom"/>
