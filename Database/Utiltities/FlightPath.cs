@@ -163,7 +163,7 @@ namespace Database.Utiltities
 
         public string FlightId
         {
-            // returns the flight id of the first string
+            // returns the flight id of the first flight as a string
             get
             {
                 return flights[0].FlightId.ToString();
