@@ -84,12 +84,18 @@ namespace Air_3550.Pages
                 // Make sure that this isn't a new route
                 if (EnsureExistingRoute(originAirport, destAirport))
                 {
+                    // Randomly adding plane because it is necessary to add flights
+                    // without causing trouble elsewhere...
+                    var rand = new Random();
+
+                    int planeID = rand.Next(1, 5);
+
                     // Add new flight
                     Flight flight = new()
                     {
                         Origin = originAirport,
                         Destination = destAirport,
-                        //PlaneType = ,
+                        PlaneType = db.Planes.Single(plane => plane.PlaneId == planeID),
                         DepartureTime = selectedTime
                     };
                     db.Flights.Add(flight);
