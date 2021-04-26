@@ -18,6 +18,7 @@ namespace Air_3550.Models
         public bool isCanceled { get; set; }
         public int totalCost { get; set; }
         public bool pointsClaimed { get; set; }
+        public int CustomerInfoId { get; set; }
 
         public string getFormattedCancelation()
         {

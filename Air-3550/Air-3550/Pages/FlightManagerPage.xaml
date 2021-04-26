@@ -18,11 +18,6 @@
                     <SymbolIcon Symbol="Forward"/>
                     <TextBlock Text="{x:Bind Flight.Destination.AirportCode}" x:Phase="3" Margin="5" FontSize="18"/>
                     <TextBlock Text="{x:Bind DepartureTime.ToString()}" x:Phase="4" Margin="5" FontSize="18"/>
-                    <!--<TextBlock Text="{x:Bind PercentCapacity()}" x:Phase="5" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:Bind AvgCost()}" x:Phase="6" Margin="5" FontSize="18"/>
-                    <TextBlock Text="{x:Bind TotalMoney()}" x:Phase="7" Margin="5" FontSize="18"/>-->
-
-
                 </StackPanel>
             </RelativePanel>
         </DataTemplate>
@@ -31,13 +26,12 @@
 
 
     <RelativePanel>
-
         <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true" RelativePanel.AlignVerticalCenterWithPanel="true">
             <TextBlock x:Name="Title" FontFamily="Sans-Serif" FontSize="56" Text="Flight Manifest" Margin="2"/>
-            <TextBlock Text="Current List:" FontSize="26" Margin="5"/>
-            <ListView x:Name="Manifest" ItemTemplate="{StaticResource FlightManifest}" SelectionMode="none" />
-
-
+            <InfoBar x:Name="OutputInfo" IsOpen="False"/>
+            <TextBlock x:Name="ListHeader" Text="Current List:" FontSize="26" Margin="5"/>
+            <ListView x:Name="AvailableFlights" ItemTemplate="{StaticResource FlightManifest}" SelectionMode="Single" />
+            <Button x:Name="ShowManifest" Margin="3" Click="ShowManifest_Click">Show Manifest</Button>
         </StackPanel>
         
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">

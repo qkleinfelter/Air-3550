@@ -4,27 +4,13 @@ using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Air_3550.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class FlightManagerPage : Page
     {
         public FlightManagerPage()
@@ -34,22 +20,46 @@ namespace Air_3550.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Manifest.ItemsSource = GenerateFlights();
+            var departedFlights = GenerateFlights();
+
+            if (departedFlights.Count == 0)
+            {
+                ListHeader.Visibility = Visibility.Collapsed;
+                AvailableFlights.Visibility = Visibility.Collapsed;
+                OutputInfo.Title = "Sorry no flights to show!";
+                OutputInfo.Message = "No flights have departed yet";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
+            }
+            AvailableFlights.ItemsSource = departedFlights;
         }
 
         private List<ScheduledFlight> GenerateFlights()
         {
             using (var db = new AirContext())
             {
-                List<ScheduledFlight> SchedFLights = db.ScheduledFlights.Include(flight => flight.Flight)
-                                                                        .ThenInclude(fl => fl.Origin)
-                                                                        .Include(flight => flight.Flight)
-                                                                        .ThenInclude(fl => fl.Destination)
-                                                                        .Include(flight => flight.Flight)
-                                                                        .ThenInclude(fl => fl.PlaneType)
-                                                                        .Where(flight => flight.DepartureTime.CompareTo(DateTime.Now) < 0)
-                                                                        .ToList();
-                return SchedFLights;
+                List<ScheduledFlight> ScheduledFlights = db.ScheduledFlights.Include(flight => flight.Flight)
+                                                                                .ThenInclude(fl => fl.Origin)
+                                                                            .Include(flight => flight.Flight)
+                                                                                .ThenInclude(fl => fl.Destination)
+                                                                            .Include(flight => flight.Flight)
+                                                                                .ThenInclude(fl => fl.PlaneType)
+                                                                            .ToList();
+                List<ScheduledFlight> toRemove = new List<ScheduledFlight>();
+                foreach (ScheduledFlight sf in ScheduledFlights)
+                {
+                    if (sf.DepartureTime > DateTime.Now)
+                    {
+                        toRemove.Add(sf);
+                    }
+                }
+
+                foreach (ScheduledFlight sf in toRemove)
+                {
+                    ScheduledFlights.Remove(sf);
+                }
+
+                return ScheduledFlights;
             }
         }
 
@@ -64,6 +74,19 @@ namespace Air_3550.Pages
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
+        }
+
+        private void ShowManifest_Click(object sender, RoutedEventArgs e)
+        {
+            if (AvailableFlights.SelectedItem == null)
+            {
+                return;
+            }
+            else
+            {
+                ScheduledFlight sf = AvailableFlights.SelectedItem as ScheduledFlight;
+                Frame.Navigate(typeof(FlightManifestPage), sf);
+            }
         }
     }
 }
