@@ -110,6 +110,7 @@ namespace Air_3550.Pages
             UserUtilities.UseCredit(user, totalCost * 100);
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_BALANCE, oneWay);
             DisplaySuccess();
+            DisablePurchaseButtons();
         }
 
         private void usePoints_Click(object sender, RoutedEventArgs e)
@@ -119,12 +120,14 @@ namespace Air_3550.Pages
             UserUtilities.UsePoints(user, 100 * totalCost);
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.POINTS, oneWay);
             DisplaySuccess();
+            DisablePurchaseButtons();
         }
 
         private void useCreditCard_Click(object sender, RoutedEventArgs e)
         {
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_CARD, oneWay);
             DisplaySuccess();
+            DisablePurchaseButtons();
         }
 
         private void DisplaySuccess()
@@ -133,6 +136,13 @@ namespace Air_3550.Pages
             successBar.Message = $"Thanks for flying with Air-3550, please choose us again soon!";
             successBar.Severity = InfoBarSeverity.Success;
             successBar.IsOpen = true;
+        }
+
+        private void DisablePurchaseButtons()
+        {
+            useCredit.IsEnabled = false;
+            useCreditCard.IsEnabled = false;
+            usePoints.IsEnabled = false;
         }
 
         private void backHome_Click(object sender, RoutedEventArgs e)

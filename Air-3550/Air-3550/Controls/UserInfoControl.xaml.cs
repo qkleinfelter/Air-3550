@@ -1,38 +1,35 @@
 ﻿using Air_3550.Models;
-using Air_3550.Pages;
 using Air_3550.Repo;
 using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace Air_3550.Controls
 {
+    /**
+     * This UserControl that we have called UserInfoControl is used a couple times 
+     * in our app, when creating accounts or editing account information
+     * instead of copy and pasting the same giant form and validation
+     */
     public sealed partial class UserInfoControl : UserControl
     {
         public delegate void MyEventHandler(object source, EventArgs e);
         public static event MyEventHandler OnNavigateParentReady;
 
+        // determines if the userinfocontrol is a register box
         public bool IsRegister { get; set; }
 
         public UserInfoControl()
         {
             this.InitializeComponent();
 
+            // After the component is loaded, we need to do a few things
             this.Loaded += (sender, e) =>
             {
+                // Change some text depending on whether or not its a register box
                 if (IsRegister)
                 {
                     TitleText.Text = "Register";
@@ -42,10 +39,12 @@ namespace Air_3550.Controls
                 {
                     TitleText.Text = "Update Account Info";
                     confirmButton.Content = "Update Information";
+                    // If theres a user logged in, we need to adjust some things
                     if (UserSession.userLoggedIn)
                     {
                         var db = new AirContext();
                         var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
+                        // grab the user thats logged in from the db ^
                         if (user.UserRole != Role.CUSTOMER)
                         {
                             // only show password fields if they aren't a customer
@@ -60,6 +59,8 @@ namespace Air_3550.Controls
                             return;
                         }
 
+                        // if they are a customer & logged in, fill out their info
+                        // so they can update it easily
                         CustomerInfo customerInfo = user.CustInfo;
                         NameInput.Text = customerInfo.Name;
                         AddressInput.Text = customerInfo.Address;
@@ -79,6 +80,8 @@ namespace Air_3550.Controls
 
         private void confirmButton_Click(Object sender, RoutedEventArgs e)
         {
+            // Depending on whether or not its a register box we need to handle
+            // the confirm button click differently
             if (IsRegister)
             {
                 HandleNewAccount();
@@ -94,12 +97,14 @@ namespace Air_3550.Controls
             OnNavigateParentReady(this, null);
         }
 
+        // private helper function to validate the input
         private bool ValidateInput()
         {
             bool valid = true;
             outputInfo.Title = "Errors creating account!";
             outputInfo.Message = "Please fix the following errors and try again: ";
             var db = new AirContext();
+            // grab the user if they exist
             var user = db.Users.Include(dbuser => dbuser.CustInfo).SingleOrDefault(dbuser => dbuser.UserId == UserSession.userId);
             if (!(UserSession.userLoggedIn && user.UserRole != Role.CUSTOMER))
             {
@@ -178,12 +183,15 @@ namespace Air_3550.Controls
                 }
             }
             
+            // if any of the checks above failed, change the outputinfo's severity
+            // and display it
             if (!valid)
             {
                 outputInfo.Severity = InfoBarSeverity.Error;
                 outputInfo.IsOpen = true;
             }
 
+            // then return whether or not its valid
             return valid;
         }
 
@@ -216,6 +224,8 @@ namespace Air_3550.Controls
                 // Get Random UserID
                 int userID = MakeUserID();
 
+                // fill out a new customer info object with their info from
+                // the fields
                 CustomerInfo customerInfo = new()
                 {
                     Name = NameInput.Text,
@@ -228,6 +238,7 @@ namespace Air_3550.Controls
                     CreditCardNumber = CreditCardInput.Text
                 };
 
+                // fill out a new user object with their info
                 User user = new()
                 {
                     LoginId = userID.ToString(),
@@ -236,8 +247,10 @@ namespace Air_3550.Controls
                     CustInfo = customerInfo
                 };
 
+                // add the user to the database
                 UserUtilities.AddUserToDB(user);
 
+                // and display information to the user about their account being created
                 outputInfo.Title = "Account Creation Successful!";
                 outputInfo.Message = $"Your Login ID is: {userID}, please remember it for future logins!";
                 outputInfo.Severity = InfoBarSeverity.Success;
@@ -257,6 +270,7 @@ namespace Air_3550.Controls
                     var db = new AirContext();
                     var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
                     currentUser = user;
+                    // if the current user is a customer, then update their information from the fields
                     if (user.UserRole == Role.CUSTOMER)
                     {
                         custInfo = currentUser.CustInfo;
@@ -271,6 +285,7 @@ namespace Air_3550.Controls
                     }
                 }
                 
+                // if they are updating their password then we need to update their hashed password
                 if (!string.IsNullOrWhiteSpace(PasswordInput.Password) && !string.IsNullOrWhiteSpace(ConfirmPasswordInput.Password))
                 {
                     currentUser.HashedPass = PasswordHandler.HashPassword(PasswordInput.Password);
@@ -278,6 +293,7 @@ namespace Air_3550.Controls
 
                 using (var db = new AirContext())
                 {
+                    // save the updated customer info in the database
                     var dbuser = db.Users.Single(user => user.LoginId == currentUser.LoginId);
                     if (custInfo != null)
                         dbuser.CustInfo = custInfo;
@@ -285,6 +301,7 @@ namespace Air_3550.Controls
                     db.SaveChanges();
                 }
 
+                // display to the user that we updated their info successfull
                 outputInfo.Title = "Account Information Updated!";
                 outputInfo.Message = "Your Account Information was updated successfully!";
                 outputInfo.Severity = InfoBarSeverity.Success;
