@@ -79,12 +79,86 @@ namespace Air_3550.Pages
         {
             using (var db = new AirContext())
             {
+                // grab object that was selected from list
                 var deleteFlight = DepartList.SelectedItem as FlightPath;
-                // get plane from db to delete from list
-                db.Remove(db.Flights.Single(flight => flight.FlightId == deleteFlight.flights[0].FlightId));
-                db.SaveChanges();
+                
+                // check that something was selected
+                if (deleteFlight != null)
+                {
+                    // get plane from db to delete from list
+                    db.Remove(db.Flights.Single(flight => flight.FlightId == deleteFlight.flights[0].FlightId));
+                    db.SaveChanges();
+
+                    // refresh list
+                    Frame.Navigate(typeof(LEManageFlightsPage), passedLEParams);
+                }
+                else
+                {
+                    OutputInfo.Message = "You must select a flight first.";
+
+                    OutputInfo.Title = "Invalid Input!";
+                    OutputInfo.Severity = InfoBarSeverity.Error;
+                    OutputInfo.IsOpen = true;
+                }
             }
-            Frame.Navigate(typeof(LEManageFlightsPage), passedLEParams);
+            
+        }
+
+        private void editDepartButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ValidateEditParameters())
+            {
+                // Ready to change time.
+                using (var db = new AirContext())
+                {
+                    // grab object that was selected from list
+                    var editFlight = DepartList.SelectedItem as FlightPath;
+
+                    // check that something was selected
+                    if (editFlight != null)
+                    {
+                        // get time from time picker
+                        TimeSpan selectedTime = (TimeSpan)timePickerAdd.SelectedTime;
+
+                        // get plane from db to delete from list
+                        db.Flights.Single(flight => flight.FlightId == editFlight.flights[0].FlightId).DepartureTime = selectedTime;
+                        db.SaveChanges();
+
+                        // refresh list
+                        Frame.Navigate(typeof(LEManageFlightsPage), passedLEParams);
+                    }
+                    else
+                    {
+                        OutputInfo.Message = "You must select a flight first.";
+
+                        OutputInfo.Title = "Invalid Input!";
+                        OutputInfo.Severity = InfoBarSeverity.Error;
+                        OutputInfo.IsOpen = true;
+                    }
+                }
+            }
+            else
+            {
+                OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
+            }
+        }
+
+        private bool ValidateEditParameters()
+        {
+            // start with our return as true, it will get changed to false if either of our input parameters are bad
+            bool valid = true;
+            OutputInfo.Message = "Your search could not be processed due to invalid parameters: ";
+            
+            // might need check to make sure something was clicked here...
+
+            if (!timePickerAdd.SelectedTime.HasValue)
+            {
+                OutputInfo.Message += "\nYou must select a valid time";
+                valid = false;
+            }
+            return valid;
         }
     }
 }

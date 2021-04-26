@@ -36,7 +36,11 @@
         <StackPanel Orientation="Horizontal" RelativePanel.Below="FlightPanels" x:Name="Buttons">
             <Button x:Name="BackButton" RelativePanel.Below="FlightPanels" Click="BackButton_Click" Margin="3">Back</Button>
             <Button x:Name="DeleteFlight" Click="DeleteFlight_Click" Margin="3" Content="Delete Flight" />
+            <TimePicker x:Name="timePickerAdd" ClockIdentifier="24HourClock" Margin="3" VerticalAlignment="Bottom"/>
+            <Button x:Name="editDepartButton" Click="editDepartButton_Click" Margin="3" VerticalAlignment="Bottom">Edit Depart Time</Button>
         </StackPanel>
+
+        <InfoBar x:Name="OutputInfo" IsOpen="False" Margin="3" RelativePanel.Below="Buttons"/>
 
     </RelativePanel>
 </Page>
