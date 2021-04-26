@@ -1,7 +1,9 @@
 ﻿using Air_3550.Models;
 using Air_3550.Repo;
 using Database.Models;
+using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.Linq;
@@ -36,6 +38,24 @@ namespace Air_3550.Pages
                     }
                 }
             }
+        }
+
+        // Manage Account & logout at top right of page
+        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ChangeAccountInfoPage));
+        }
+
+        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        {
+            UserSession.userId = 0;
+            UserSession.userLoggedIn = false;
+            Frame.Navigate(typeof(MainPage));
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
         }
     }
 }

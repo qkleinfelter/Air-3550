@@ -35,12 +35,12 @@
         </StackPanel>
         
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">
-        <DropDownButton.Flyout>
-            <MenuFlyout Placement="Bottom">
-                <MenuFlyoutItem Text="Change Account Info" Click="changeAccountInfoButton_Click"/>
-                <MenuFlyoutItem Text="Logout" Click="logoutNavigator_Click"/>
-            </MenuFlyout>
-        </DropDownButton.Flyout>
-    </DropDownButton>
+            <DropDownButton.Flyout>
+                <MenuFlyout Placement="Bottom">
+                    <MenuFlyoutItem Text="Change Account Info" Click="changeAccountInfoButton_Click"/>
+                    <MenuFlyoutItem Text="Logout" Click="logoutNavigator_Click"/>
+                </MenuFlyout>
+            </DropDownButton.Flyout>
+        </DropDownButton>
     </RelativePanel>
 </Page>
