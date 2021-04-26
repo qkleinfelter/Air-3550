@@ -1,4 +1,8 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Air_3550.Repo;
+using Database.Utiltities;
+using Database.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -26,6 +30,40 @@ namespace Air_3550.Pages
         public AccountingManagerPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            FlightMoney.ItemsSource = GenerateFlights();
+        }
+
+        private List<ScheduledFlight> GenerateFlights()
+        {
+            using(var db = new AirContext())
+            {
+                List<ScheduledFlight> SchedFLights = db.ScheduledFlights.Include(flight => flight.Flight)
+                                                        .ThenInclude(fl => fl.Origin)
+                                                      .Include(flight => flight.Flight)
+                                                        .ThenInclude(fl => fl.Destination)
+                                                      
+                                                      .Where(flight => flight.DepartureTime.CompareTo(DateTime.Now) < 0)
+                                                      .ToList();
+                return SchedFLights;
+            }
+        }
+
+        //.Include(flight => flight.DepartureTime)
+
+        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ChangeAccountInfoPage));
+        }
+
+        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        {
+            UserSession.userId = 0;
+            UserSession.userLoggedIn = false;
+            Frame.Navigate(typeof(MainPage));
         }
     }
 }

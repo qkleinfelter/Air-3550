@@ -13,5 +13,23 @@ namespace Database.Models
         [Required]
         public DateTime DepartureTime { get; set; }
         public int TicketsPurchased { get; set; }
+
+        public string PercentCapacity()
+        {
+            int Perc = (TicketsPurchased / Flight.PlaneType.MaxSeats) * 100;
+            string percent = Perc.ToString();
+            return percent;
+        }
+
+        public string TotalMoney()
+        {
+            double money = (TicketsPurchased * Flight.GetCost()) / 100;
+            return money.ToString();
+        }
+
+        public string AvgCost()
+        {
+            return (Flight.GetCost() / 100).ToString();
+        }
     }
 }
