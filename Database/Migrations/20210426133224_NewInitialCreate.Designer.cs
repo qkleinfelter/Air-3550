@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(AirContext))]
-    [Migration("20210425203319_Migration01042521")]
-    partial class Migration01042521
+    [Migration("20210426133224_NewInitialCreate")]
+    partial class NewInitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -3346,6 +3346,9 @@ namespace Database.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("isCanceled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("pointsClaimed")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("totalCost")
