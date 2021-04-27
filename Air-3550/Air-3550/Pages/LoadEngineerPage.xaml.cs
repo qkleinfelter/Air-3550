@@ -157,7 +157,7 @@ namespace Air_3550.Pages
                 var direct = db.Flights // on the entire flights table of the db
                                .Include(flight => flight.Origin) // ensure that we have access to the origin airports info later
                                .Include(flight => flight.Destination) // ensure that we have access to the destination airports info later
-                               .Where(flight => !flight.isCanceled // only take flights that are not canceled (by staff member)
+                               .Where(flight => !flight.IsCanceled // only take flights that are not canceled (by staff member)
                                && flight.Origin == originAirport // the origin of the flight should match the origin airport passed in
                                && flight.Destination == destinationAirport) // and the destination airports should match
                                .ToList(); // then turn it into a list

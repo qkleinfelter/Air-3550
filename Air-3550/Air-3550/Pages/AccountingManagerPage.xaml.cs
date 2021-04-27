@@ -67,12 +67,12 @@ namespace Air_3550.Pages
             int Total = 0;
             using (var db = new AirContext())
             {
-                var Trips = db.Trips.Where(trip => !trip.isCanceled && (trip.Tickets.First().Flight.DepartureTime.CompareTo(DateTime.Now) < 0))
+                var Trips = db.Trips.Where(trip => !trip.IsCanceled && (trip.Tickets.First().Flight.DepartureTime.CompareTo(DateTime.Now) < 0))
                                     .ToList();
                 //var Trips = db.Trips.ToList();
                 foreach (var trip in Trips)
                 {
-                    Total += trip.totalCost;
+                    Total += trip.TotalCost;
                 }
             }
 

@@ -66,7 +66,7 @@ namespace Air_3550.Pages
                                   .Include(flight => flight.Origin)
                                   .Include(flight => flight.Destination)
                                   .Include(flight => flight.PlaneType)
-                                  .Where(flight => !flight.isCanceled
+                                  .Where(flight => !flight.IsCanceled
                                   && flight.Origin == originAirport)
                                   .ToList();
                 return MMFlights.Select(flight => new FlightPath(flight)).ToList();

@@ -18,8 +18,8 @@ namespace Database.Utiltities
             // options to our consumers, so we provide ALL paths from originAirport
             // to destinationAirport with the smallest amount of connections possible
 
-            TimeSpan minLayover = new TimeSpan(0, 40, 0); // 40 minute minimum layover
-            TimeSpan maxLayover = new TimeSpan(8, 0, 0); // 8 hour maximum layover -- not in specification, but will make for nicer trips
+            TimeSpan minLayover = new(0, 40, 0); // 40 minute minimum layover
+            TimeSpan maxLayover = new(8, 0, 0); // 8 hour maximum layover -- not in specification, but will make for nicer trips
             TimeSpan currentTime = DateTime.Now.TimeOfDay; // current time, so we don't show you flights from earlier in the day
             DateTime today = DateTime.Today.Date; // current date, used with current time to not show flights you can't get to
 
@@ -29,7 +29,7 @@ namespace Database.Utiltities
                 var direct = db.Flights // on the entire flights table of the db
                                .Include(flight => flight.Origin) // ensure that we have access to the origin airports info later
                                .Include(flight => flight.Destination) // ensure that we have access to the destination airports info later
-                               .Where(flight => !flight.isCanceled // only take flights that are not canceled (by staff member)
+                               .Where(flight => !flight.IsCanceled // only take flights that are not canceled (by staff member)
                                && flight.Origin == originAirport // the origin of the flight should match the origin airport passed in
                                && flight.Destination == destinationAirport) // and the destination airports should match
                                .ToList(); // then turn it into a list
@@ -72,10 +72,10 @@ namespace Database.Utiltities
                 var flights = db.Flights // on the entire flights table of the db
                                .Include(flight => flight.Origin) // ensure that we have access to the origin airports info later
                                .Include(flight => flight.Destination) // ensure that we have access to the destination airports info later
-                               .Where(flight => !flight.isCanceled); // only take flights that are not canceled (by staff member)
+                               .Where(flight => !flight.IsCanceled); // only take flights that are not canceled (by staff member)
                 // this query uses the flights query we just made to grab all flights
                 // with 2 legs, i.e. 1 connection from the db
-                TimeSpan ts = new TimeSpan(0, 40, 0);
+                TimeSpan ts = new(0, 40, 0);
                 var twoLeggedQuery = from flight in flights // for each flight in the flights variable
                                      where flight.Origin == originAirport // where the origin of the flight is our origin airport
                                      // join in a new flight "connection" from the flights variable, that has the same origin as our first flights destination
