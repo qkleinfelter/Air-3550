@@ -58,6 +58,13 @@ namespace Air_3550.Pages
                                                 .ThenInclude(trip => trip.Tickets)
                                                     .ThenInclude(ticket => ticket.Flight)
                                                         .ThenInclude(scheduledFlight => scheduledFlight.Flight)
+                                                            .ThenInclude(flight => flight.Origin)
+                                        .Include(user => user.CustInfo)
+                                            .ThenInclude(custInfo => custInfo.Trips)
+                                                .ThenInclude(trip => trip.Tickets)
+                                                    .ThenInclude(ticket => ticket.Flight)
+                                                        .ThenInclude(scheduledFlight => scheduledFlight.Flight)
+                                                            .ThenInclude(flight => flight.Destination)
                                                             .Single(dbuser => dbuser.UserId == UserSession.userId);
                 CustomerInfo customerInfo = user.CustInfo;
                 // award points for any trips that have departed & were not yet claimed
