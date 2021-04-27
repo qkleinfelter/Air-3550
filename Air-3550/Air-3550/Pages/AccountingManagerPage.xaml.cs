@@ -17,14 +17,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Air_3550.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AccountingManagerPage : Page
     {
         public AccountingManagerPage()
@@ -70,7 +64,7 @@ namespace Air_3550.Pages
 
         private string getTotalMoney()
         {
-            double Total = 0;
+            int Total = 0;
             using (var db = new AirContext())
             {
                 var Trips = db.Trips.Where(trip => !trip.isCanceled && (trip.Tickets.First().Flight.DepartureTime.CompareTo(DateTime.Now) < 0))
@@ -82,7 +76,7 @@ namespace Air_3550.Pages
                 }
             }
 
-            return Total.ToString();
+            return (Total / 100).ToString();
         }
     }
 }

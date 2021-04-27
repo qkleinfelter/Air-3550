@@ -112,18 +112,22 @@ namespace Database.Utiltities
             // determine the total cost by whether or not the trip is one way
             int totalCost = oneWay ? leavingPath.IntPrice : leavingPath.IntPrice + returningPath.IntPrice;
 
-            // make a new trip with the appropriate info
-            Trip trip = new Trip
-            {
-                OriginAirportId = leavingPath.flights[0].Origin.AirportId,
-                DestinationAirportId = leavingPath.flights[leavingPath.flights.Count - 1].Destination.AirportId,
-                Tickets = tickets,
-                totalCost = totalCost
-            };
+            
 
             // add the trip to the db table, and to the customer in the db
             using (var db = new AirContext())
             {
+                var custInfo = db.Users.Include(user => user.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId).CustInfo;
+                // make a new trip with the appropriate info
+                Trip trip = new Trip
+                {
+                    OriginAirportId = leavingPath.flights[0].Origin.AirportId,
+                    DestinationAirportId = leavingPath.flights[leavingPath.flights.Count - 1].Destination.AirportId,
+                    Tickets = tickets,
+                    totalCost = totalCost,
+                    CustomerInfoId = custInfo.CustomerInfoId
+                };
+
                 db.Tickets.AttachRange(tickets);
                 db.Trips.Add(trip);
                 db.SaveChanges();

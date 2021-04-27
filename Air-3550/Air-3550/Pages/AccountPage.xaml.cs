@@ -72,7 +72,7 @@ namespace Air_3550.Pages
                         if (!trip.pointsClaimed)
                         {
                             // Award the appropriate points to the user
-                            UserUtilities.AwardPoints(user, trip.totalCost * 10);
+                            UserUtilities.AwardPoints(user, (trip.totalCost / 100) * 10);
                             newPoints = trip.totalCost / 100; // keep track of this for the ui
                             trip.pointsClaimed = true; // set the points claimed to true
                             var dbtrip = db.Trips.Single(dbtripinterior => dbtripinterior.TripId == trip.TripId);
