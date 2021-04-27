@@ -4,18 +4,8 @@ using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace Air_3550.Pages
 {
@@ -24,21 +14,26 @@ namespace Air_3550.Pages
         public BoardingPass()
         {
             this.InitializeComponent();
+            // grab the user for the current session to display boarding passes for
             var db = new AirContext();
             var user = db.Users.Include(dbuser => dbuser.CustInfo)
-                                .ThenInclude(custInfo => custInfo.Trips)
+                                    .ThenInclude(custInfo => custInfo.Trips)
                                 .Single(dbuser => dbuser.UserId == UserSession.userId);
             BPuser = user;
         }
         private User BPuser;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // turn the parameter we passed in into a Trip variable so we can use it properly
             Trip Btrip = e.Parameter as Trip;
+            // Fill out the appropriate information from the trip & user data
             FlightNumber.Text += Btrip.TripId;
             FullName.Text += BPuser.CustInfo.Name;
             AccountId.Text += BPuser.LoginId;
             Origin.Text = Btrip.Origin.AirportCode;
             Destination.Text = Btrip.Destination.AirportCode;
+            // Determine whether or not the trip is one way or two way
+            // by checking if the origin is equivalent to the final flights destination
             if(Btrip.OriginAirportId != Btrip.Tickets.Last().Flight.Flight.Destination.AirportId)
             {
                 RoundTrip.Text = "One Way";
@@ -47,6 +42,7 @@ namespace Air_3550.Pages
             {
                 RoundTrip.Text = "Two Way";
             }
+            // set the items source to the list of tickets
             flightList.ItemsSource = Btrip.Tickets;
         }
 

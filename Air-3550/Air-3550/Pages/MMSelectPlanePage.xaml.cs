@@ -3,30 +3,14 @@ using Air_3550.Repo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Networking.Connectivity;
 using Database.Utiltities;
-using System.ComponentModel;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Air_3550.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MMSelectPlanePage : Page //INotifyPropertyChanged
     {
         public class MMParameters
@@ -49,14 +33,14 @@ namespace Air_3550.Pages
 
         override protected void OnNavigatedTo(NavigationEventArgs e)
         {
+            // grab the parameters in the appropriate format
             passedMMParams = e.Parameter as MMParameters;
-
+            // fill out the header
             DepartHeader.Text = $"{passedMMParams.origin.City} : {passedMMParams.departDate.ToShortDateString()}";
-
+            // and the items source
             DepartList.ItemsSource = GenerateFlights(passedMMParams.origin);
         }
 
-        //private  MMFlights;
         private static List<FlightPath> GenerateFlights(Airport originAirport)
         {
             using var db = new AirContext();
@@ -73,7 +57,6 @@ namespace Air_3550.Pages
 
         private void B737_Click(object sender, RoutedEventArgs e)
         {
-
             using var db = new AirContext();
             var planeChangeflight = DepartList.SelectedItem as FlightPath;
 
@@ -90,9 +73,8 @@ namespace Air_3550.Pages
             }
             else
             {
-                OutputInfo.Message = "You must select a flight first.";
-
                 OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Message = "You must select a flight first.";
                 OutputInfo.Severity = InfoBarSeverity.Error;
                 OutputInfo.IsOpen = true;
             }
@@ -116,9 +98,8 @@ namespace Air_3550.Pages
             }
             else
             {
-                OutputInfo.Message = "You must select a flight first.";
-
                 OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Message = "You must select a flight first.";
                 OutputInfo.Severity = InfoBarSeverity.Error;
                 OutputInfo.IsOpen = true;
             }
@@ -144,9 +125,8 @@ namespace Air_3550.Pages
             }
             else
             {
-                OutputInfo.Message = "You must select a flight first.";
-
                 OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Message = "You must select a flight first.";
                 OutputInfo.Severity = InfoBarSeverity.Error;
                 OutputInfo.IsOpen = true;
             }
@@ -170,9 +150,8 @@ namespace Air_3550.Pages
             }
             else
             {
-                OutputInfo.Message = "You must select a flight first.";
-
                 OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Message = "You must select a flight first.";
                 OutputInfo.Severity = InfoBarSeverity.Error;
                 OutputInfo.IsOpen = true;
             }

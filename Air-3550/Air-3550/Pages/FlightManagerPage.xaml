@@ -30,8 +30,8 @@
             <TextBlock x:Name="Title" FontFamily="Sans-Serif" FontSize="56" Text="Flight Manifest" Margin="2"/>
             <InfoBar x:Name="OutputInfo" IsOpen="False"/>
             <TextBlock x:Name="ListHeader" Text="Current List:" FontSize="26" Margin="5"/>
-            <ListView x:Name="AvailableFlights" ItemTemplate="{StaticResource FlightManifest}" SelectionMode="Single" />
-            <Button x:Name="ShowManifest" Margin="3" Click="ShowManifest_Click">Show Manifest</Button>
+            <ListView x:Name="AvailableFlights" ItemTemplate="{StaticResource FlightManifest}" SelectionMode="Single" SelectionChanged="AvailableFlights_SelectionChanged"/>
+            <Button x:Name="ShowManifest" Margin="3" Click="ShowManifest_Click" Visibility="Collapsed">Show Manifest</Button>
         </StackPanel>
         
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">

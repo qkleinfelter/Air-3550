@@ -20,8 +20,11 @@ namespace Air_3550.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // grab all the departed flights
             var departedFlights = GenerateFlights();
 
+            // if we don't have any departed flights,
+            // hide some things and display an error
             if (departedFlights.Count == 0)
             {
                 ListHeader.Visibility = Visibility.Collapsed;
@@ -31,11 +34,13 @@ namespace Air_3550.Pages
                 OutputInfo.Severity = InfoBarSeverity.Error;
                 OutputInfo.IsOpen = true;
             }
+            // set the items source for the flights list
             AvailableFlights.ItemsSource = departedFlights;
         }
 
         private static List<ScheduledFlight> GenerateFlights()
         {
+            // generate a list of all the scheduled flights that have departed
             using var db = new AirContext();
             List<ScheduledFlight> ScheduledFlights = db.ScheduledFlights.Include(flight => flight.Flight)
                                                                             .ThenInclude(fl => fl.Origin)
@@ -45,6 +50,7 @@ namespace Air_3550.Pages
                                                                             .ThenInclude(fl => fl.PlaneType)
                                                                         .ToList();
             List<ScheduledFlight> toRemove = new();
+            // remove any flight where the departure time is after now
             foreach (ScheduledFlight sf in ScheduledFlights)
             {
                 if (sf.DepartureTime > DateTime.Now)
@@ -58,6 +64,7 @@ namespace Air_3550.Pages
                 ScheduledFlights.Remove(sf);
             }
 
+            // then return the updated list
             return ScheduledFlights;
         }
 
@@ -69,6 +76,7 @@ namespace Air_3550.Pages
 
         private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
+            // update session and send the user to the main page
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
@@ -76,14 +84,25 @@ namespace Air_3550.Pages
 
         private void ShowManifest_Click(object sender, RoutedEventArgs e)
         {
+            // if there is no selected item return
             if (AvailableFlights.SelectedItem == null)
             {
                 return;
             }
             else
             {
+                // otherwise, send them to the appropriate flight manifest page
                 ScheduledFlight sf = AvailableFlights.SelectedItem as ScheduledFlight;
                 Frame.Navigate(typeof(FlightManifestPage), sf);
+            }
+        }
+
+        private void AvailableFlights_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // only show the manifest button if they have selected a flight
+            if (AvailableFlights.SelectedItem != null)
+            {
+                ShowManifest.Visibility = Visibility.Visible;
             }
         }
     }

@@ -19,19 +19,32 @@ namespace Air_3550.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // grab the scheduled flight parameter
             ScheduledFlight sf = e.Parameter as ScheduledFlight;
+            // display some header text
             HeaderText.Text = $"Flight: {sf.Flight.FlightNumber} from {sf.Flight.Origin.City} to {sf.Flight.Destination.City} on {sf.DepartureTime.ToShortDateString()}";
+            // and a base for the passengers list
             PassengersText.Text = "Passengers:";
 
             using var db = new AirContext();
-            var trips = db.Trips.Include(trip => trip.Tickets).ThenInclude(ticket => ticket.Flight);
+            // grab all the trips in the db, making sure to include their tickets and scheduled flights
+            var trips = db.Trips.Include(trip => trip.Tickets)
+                                    .ThenInclude(ticket => ticket.Flight);
+            // loop through every trip
             foreach (Trip trip in trips)
             {
-                CustomerInfo customer = db.Users.Include(user => user.CustInfo).Single(user => user.CustInfo.CustomerInfoId == trip.CustomerInfoId).CustInfo;
+                // grab the user that is associated with this trip's customer info
+                CustomerInfo customer = db.Users.Include(user => user.CustInfo)
+                                                .Single(user => user.CustInfo.CustomerInfoId == trip.CustomerInfoId).CustInfo;
                 foreach (Ticket ticket in trip.Tickets)
                 {
+                    // loop through every ticket in the trip
+                    // if the ticket isn't canceled
+                    // and the scheduled flight associated with it is
+                    // the one we are looking to display the manifest for
                     if (!ticket.IsCanceled && ticket.Flight.ScheduledFlightId == sf.ScheduledFlightId)
                     {
+                        // if they match, then add them to the passengers display
                         PassengersText.Text += $"\n{customer.Name}";
                     }
                 }
@@ -46,6 +59,7 @@ namespace Air_3550.Pages
 
         private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
+            // reset the users session and send them to the main page
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
@@ -53,6 +67,7 @@ namespace Air_3550.Pages
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
+            // send them back a page
             Frame.GoBack();
         }
     }

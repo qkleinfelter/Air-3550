@@ -4,18 +4,10 @@ using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace Air_3550.Pages
 {
@@ -41,10 +33,13 @@ namespace Air_3550.Pages
 
         override protected void OnNavigatedTo(NavigationEventArgs e)
         {
+            // save the params
             passedLEParams = e.Parameter as LEParameters;
 
+            // and update the header text
             DepartHeader.Text = $"{passedLEParams.origin.City} : {passedLEParams.departDate.ToShortDateString()}";
 
+            // also generate flights around the airport and add them to the list
             DepartList.ItemsSource = GenerateFlights(passedLEParams.origin);
         }
 
@@ -72,8 +67,11 @@ namespace Air_3550.Pages
             using var db = new AirContext();
             // grab object that was selected from list
             var deleteFlight = DepartList.SelectedItem as FlightPath;
-
-            var existingFlights = db.ScheduledFlights.Include(sf => sf.Flight).Where(sf => sf.Flight.FlightId == deleteFlight.flights[0].FlightId).ToList();
+            // check if the flight has already been scheduled at least once
+            var existingFlights = db.ScheduledFlights.Include(sf => sf.Flight)
+                                                     .Where(sf => sf.Flight.FlightId == deleteFlight.flights[0].FlightId)
+                                                     .ToList();
+            // if the flight already exists, display an error and return
             if (existingFlights.Count > 0)
             {
                 OutputInfo.Title = "You cannot delete this flight!";
@@ -112,7 +110,11 @@ namespace Air_3550.Pages
                 // grab object that was selected from list
                 var editFlight = DepartList.SelectedItem as FlightPath;
 
-                var existingFlights = db.ScheduledFlights.Include(sf => sf.Flight).Where(sf => sf.Flight.FlightId == editFlight.flights[0].FlightId).ToList();
+                // check if the flight has already been scheduled
+                var existingFlights = db.ScheduledFlights.Include(sf => sf.Flight)
+                                                         .Where(sf => sf.Flight.FlightId == editFlight.flights[0].FlightId)
+                                                         .ToList();
+                // if the flight has been scheduled you can't edit it
                 if (existingFlights.Count > 0)
                 {
                     OutputInfo.Title = "You cannot edit this flight!";

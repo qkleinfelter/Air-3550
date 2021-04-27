@@ -4,32 +4,17 @@ using Database.Utiltities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Air_3550.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class LoadEngineerPage : Page
     {
         public LoadEngineerPage()
         {
             this.InitializeComponent();
+            // make sure the minimum date of the departure picker is now
             departurePicker.MinDate = DateTime.Now;
         }
 
@@ -49,16 +34,8 @@ namespace Air_3550.Pages
 
                 passIn = new LEManageFlightsPage.LEParameters(originAirport, depDate);
 
-
-
+                // send them to the manage flights page
                 Frame.Navigate(typeof(LEManageFlightsPage), passIn);
-
-                // probably get rid of these messages
-                OutputInfoTop.Message = "We can work with this!";
-
-                OutputInfoTop.Title = "Success!";
-                OutputInfoTop.Severity = InfoBarSeverity.Success;
-                OutputInfoTop.IsOpen = true;
             }
             else
             {
@@ -84,43 +61,30 @@ namespace Air_3550.Pages
                 // Make sure that this isn't a new route
                 if (EnsureExistingRoute(originAirport, destAirport))
                 {
-                    // Randomly adding plane because it is necessary to add flights
-                    // without causing trouble elsewhere...
-                    var rand = new Random();
-
-                    int planeID = rand.Next(1, 5);
-
                     // Add new flight
+                    // plane type defaults to 737
                     Flight flight = new()
                     {
                         Origin = originAirport,
                         Destination = destAirport,
-                        PlaneType = db.Planes.Single(plane => plane.PlaneId == planeID),
+                        PlaneType = db.Planes.Single(plane => plane.PlaneId == 1),
                         DepartureTime = selectedTime
                     };
                     db.Flights.Add(flight);
                     db.SaveChanges();
-
-                    OutputInfo.Message = $"Flight was successfully added!";
-
-                    // may not need this stuff later
+                    
                     OutputInfo.Title = "Success!";
+                    OutputInfo.Message = $"Flight was successfully added!";
                     OutputInfo.Severity = InfoBarSeverity.Success;
                     OutputInfo.IsOpen = true;
                 }
                 else
                 {
-                    OutputInfo.Message = $"Talk to your manager if you really think we should add a brand new route.";
-
                     OutputInfo.Title = "Route Doesn't Exist!";
+                    OutputInfo.Message = $"Talk to your manager if you really think we should add a brand new route.";
                     OutputInfo.Severity = InfoBarSeverity.Error;
                     OutputInfo.IsOpen = true;
                 }
-
-
-
-
-                
             }
             else
             {
@@ -165,7 +129,6 @@ namespace Air_3550.Pages
             // This makes them safe to add new flights.
             if (direct.Count > 0)
             {
-
                 return true;
             }
             return false;
@@ -207,6 +170,7 @@ namespace Air_3550.Pages
 
         private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
+            // reset the session and send the user to the main page
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
