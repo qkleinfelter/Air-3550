@@ -43,6 +43,6 @@
             </StackPanel>
             <ListView x:Name="flightList" ItemTemplate="{StaticResource FlightView}" RelativePanel.Below="TripPath" SelectionMode="None"/>
         </RelativePanel>
-        <Button x:Name="backButton" Click="backButton_Click" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">Back</Button>
+        <Button x:Name="backButton" Click="BackButton_Click" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">Back</Button>
     </RelativePanel>
 </Page>

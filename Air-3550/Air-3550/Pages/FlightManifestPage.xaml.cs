@@ -23,30 +23,28 @@ namespace Air_3550.Pages
             HeaderText.Text = $"Flight: {sf.Flight.FlightNumber} from {sf.Flight.Origin.City} to {sf.Flight.Destination.City} on {sf.DepartureTime.ToShortDateString()}";
             PassengersText.Text = "Passengers:";
 
-            using (var db = new AirContext())
+            using var db = new AirContext();
+            var trips = db.Trips.Include(trip => trip.Tickets).ThenInclude(ticket => ticket.Flight);
+            foreach (Trip trip in trips)
             {
-                var trips = db.Trips.Include(trip => trip.Tickets).ThenInclude(ticket => ticket.Flight);
-                foreach (Trip trip in trips)
+                CustomerInfo customer = db.Users.Include(user => user.CustInfo).Single(user => user.CustInfo.CustomerInfoId == trip.CustomerInfoId).CustInfo;
+                foreach (Ticket ticket in trip.Tickets)
                 {
-                    CustomerInfo customer = db.Users.Include(user => user.CustInfo).Single(user => user.CustInfo.CustomerInfoId == trip.CustomerInfoId).CustInfo;
-                    foreach (Ticket ticket in trip.Tickets)
+                    if (!ticket.IsCanceled && ticket.Flight.ScheduledFlightId == sf.ScheduledFlightId)
                     {
-                        if (!ticket.isCanceled && ticket.Flight.ScheduledFlightId == sf.ScheduledFlightId)
-                        {
-                            PassengersText.Text += $"\n{customer.Name}";
-                        }
+                        PassengersText.Text += $"\n{customer.Name}";
                     }
                 }
             }
         }
 
         // Manage Account & logout at top right of page
-        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeAccountInfoButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(ChangeAccountInfoPage));
         }
 
-        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;

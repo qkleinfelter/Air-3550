@@ -15,18 +15,18 @@ namespace Air_3550.Models
         [Required]
         public TimeSpan DepartureTime { get; set; }
         public int FlightNumber { get; set; }
-        public bool isCanceled { get; set; }
+        public bool IsCanceled { get; set; }
 
         public TimeSpan GetDuration()
         {
             // 30 minutes flat per flight, for takeoff and landing
-            TimeSpan duration = new TimeSpan(0, 30, 0);
+            TimeSpan duration = new(0, 30, 0);
             if (Origin == null)
             {
                 return new TimeSpan(0, 0, 0);
             }
             double distance = Origin.DistanceToOtherAirport(Destination); // Distance between the airports in meters
-            distance = distance / 1609; // convert meters to miles
+            distance /= 1609; // convert meters to miles
             double hours = distance / 500; // assuming 500mph in the air
             double seconds = hours * 3600; // convert to seconds
             duration = duration.Add(new TimeSpan(0, 0, (int)seconds)); // cast seconds to an int, we lose miniscule amounts of time so don't worry about it
@@ -40,7 +40,7 @@ namespace Air_3550.Models
                 return 0;
             }
             double distance = Origin.DistanceToOtherAirport(Destination); // distance between our airports in meters
-            distance = distance / 1609; // convert meters to miles
+            distance /= 1609; // convert meters to miles
             double milePrice = distance * 12; // 12 cents per mile
             return (int)milePrice; // cast to an int and return it
         }

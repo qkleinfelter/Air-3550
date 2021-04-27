@@ -78,7 +78,7 @@ namespace Air_3550.Controls
             };
         }
 
-        private void confirmButton_Click(Object sender, RoutedEventArgs e)
+        private void ConfirmButton_Click(Object sender, RoutedEventArgs e)
         {
             // Depending on whether or not its a register box we need to handle
             // the confirm button click differently
@@ -92,7 +92,7 @@ namespace Air_3550.Controls
             }
         }
 
-        private void backButton_Click(Object sender, RoutedEventArgs e)
+        private void BackButton_Click(Object sender, RoutedEventArgs e)
         {
             OnNavigateParentReady(this, null);
         }
@@ -195,7 +195,7 @@ namespace Air_3550.Controls
             return valid;
         }
 
-        private int MakeUserID()
+        private static int MakeUserID()
         {
             // Make 6-digit random int without leading 0s
             // Instantiate random number generator using system-supplied value as seed.

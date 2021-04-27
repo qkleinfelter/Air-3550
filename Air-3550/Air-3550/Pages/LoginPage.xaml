@@ -12,8 +12,8 @@
         <TextBlock Text="Login" FontSize="48" x:Name="loginText"/>
         <TextBox x:Name="userID" Width="300" Header="Enter your UserID:" PlaceholderText="UserID" Margin="3" RelativePanel.Below="loginText"/>
         <PasswordBox x:Name="passwordBox" Width="300" Header="Enter your password:" PlaceholderText="Password" RelativePanel.Below="userID" Margin="3"/>
-        <Button x:Name="loginButton" Click="loginButton_Click" Content="Login" RelativePanel.Below="passwordBox" Margin="3" Width="147"/>
-        <Button x:Name="createAccountButton" Click="createAccountButton_Click" Content="Create Account" RelativePanel.Below="passwordBox" RelativePanel.RightOf="loginButton" Margin="3" Width="147"/>
+        <Button x:Name="loginButton" Click="LoginButton_Click" Content="Login" RelativePanel.Below="passwordBox" Margin="3" Width="147"/>
+        <Button x:Name="createAccountButton" Click="CreateAccountButton_Click" Content="Create Account" RelativePanel.Below="passwordBox" RelativePanel.RightOf="loginButton" Margin="3" Width="147"/>
 
         <InfoBar x:Name="outputInfo" RelativePanel.Below="loginButton" Width="300" IsOpen="False" Margin="3"/>
     </RelativePanel>

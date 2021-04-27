@@ -53,141 +53,128 @@ namespace Air_3550.Pages
 
             DepartHeader.Text = $"{passedMMParams.origin.City} : {passedMMParams.departDate.ToShortDateString()}";
 
-            DepartList.ItemsSource = generateFlights(passedMMParams.origin);
+            DepartList.ItemsSource = GenerateFlights(passedMMParams.origin);
         }
 
         //private  MMFlights;
-        private List<FlightPath> generateFlights(Airport originAirport)
+        private static List<FlightPath> GenerateFlights(Airport originAirport)
         {
-            using( var db = new AirContext())
-            {
-                //query database for flights with correct origin and departure date
-                var MMFlights = db.Flights
-                                  .Include(flight => flight.Origin)
-                                  .Include(flight => flight.Destination)
-                                  .Include(flight => flight.PlaneType)
-                                  .Where(flight => !flight.isCanceled
-                                  && flight.Origin == originAirport)
-                                  .ToList();
-                return MMFlights.Select(flight => new FlightPath(flight)).ToList();
-            }
+            using var db = new AirContext();
+            //query database for flights with correct origin and departure date
+            var MMFlights = db.Flights
+                              .Include(flight => flight.Origin)
+                              .Include(flight => flight.Destination)
+                              .Include(flight => flight.PlaneType)
+                              .Where(flight => !flight.IsCanceled
+                              && flight.Origin == originAirport)
+                              .ToList();
+            return MMFlights.Select(flight => new FlightPath(flight)).ToList();
         }
 
         private void B737_Click(object sender, RoutedEventArgs e)
         {
-            
-            using (var db = new AirContext())
+
+            using var db = new AirContext();
+            var planeChangeflight = DepartList.SelectedItem as FlightPath;
+
+            // check that a flight was selected
+            if (planeChangeflight != null)
             {
-                var planeChangeflight = DepartList.SelectedItem as FlightPath;
-                
-                // check that a flight was selected
-                if (planeChangeflight != null)
-                {
-                    // get plane from db to change to change plane
-                    var NewPlane = db.Planes.Single(plane => plane.PlaneId == 1);
-                    db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                    db.SaveChanges();
-                    
-                    // refresh list
-                    Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
-                }
-                else
-                {
-                    OutputInfo.Message = "You must select a flight first.";
+                // get plane from db to change to change plane
+                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 1);
+                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                db.SaveChanges();
 
-                    OutputInfo.Title = "Invalid Input!";
-                    OutputInfo.Severity = InfoBarSeverity.Error;
-                    OutputInfo.IsOpen = true;
-                }
+                // refresh list
+                Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+            }
+            else
+            {
+                OutputInfo.Message = "You must select a flight first.";
 
+                OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
             }
         }
 
         private void B747_Click(object sender, RoutedEventArgs e)
         {
-            using (var db = new AirContext())
+            using var db = new AirContext();
+            var planeChangeflight = DepartList.SelectedItem as FlightPath;
+
+            // check that a flight was selected
+            if (planeChangeflight != null)
             {
-                var planeChangeflight = DepartList.SelectedItem as FlightPath;
-                
-                // check that a flight was selected
-                if (planeChangeflight != null)
-                {
-                    // get plane from db to change to change plane
-                    var NewPlane = db.Planes.Single(plane => plane.PlaneId == 2);
-                    db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                    db.SaveChanges();
+                // get plane from db to change to change plane
+                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 2);
+                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                db.SaveChanges();
 
-                    // refresh list
-                    Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
-                }
-                else
-                {
-                    OutputInfo.Message = "You must select a flight first.";
+                // refresh list
+                Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+            }
+            else
+            {
+                OutputInfo.Message = "You must select a flight first.";
 
-                    OutputInfo.Title = "Invalid Input!";
-                    OutputInfo.Severity = InfoBarSeverity.Error;
-                    OutputInfo.IsOpen = true;
-                }
-                
+                OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
             }
 
-            
+
         }
 
         private void B757_Click(object sender, RoutedEventArgs e)
         {
-            using (var db = new AirContext())
+            using var db = new AirContext();
+            var planeChangeflight = DepartList.SelectedItem as FlightPath;
+
+            // check that a flight was selected
+            if (planeChangeflight != null)
             {
-                var planeChangeflight = DepartList.SelectedItem as FlightPath;
-                
-               // check that a flight was selected
-               if (planeChangeflight != null)
-                {
-                    // get plane from db to change to change plane
-                    var NewPlane = db.Planes.Single(plane => plane.PlaneId == 3);
-                    db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                    db.SaveChanges();
+                // get plane from db to change to change plane
+                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 3);
+                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                db.SaveChanges();
 
-                    // refresh list
-                    Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
-                }
-                else
-                {
-                    OutputInfo.Message = "You must select a flight first.";
+                // refresh list
+                Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+            }
+            else
+            {
+                OutputInfo.Message = "You must select a flight first.";
 
-                    OutputInfo.Title = "Invalid Input!";
-                    OutputInfo.Severity = InfoBarSeverity.Error;
-                    OutputInfo.IsOpen = true;
-                }
-
+                OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
             }
         }
 
         private void B777_Click(object sender, RoutedEventArgs e)
         {
-            using (var db = new AirContext())
+            using var db = new AirContext();
+            var planeChangeflight = DepartList.SelectedItem as FlightPath;
+
+            // check that a flight was selected
+            if (planeChangeflight != null)
             {
-                var planeChangeflight = DepartList.SelectedItem as FlightPath;
-                
-                // check that a flight was selected
-                if (planeChangeflight != null)
-                {
-                    // get plane from db to change to change plane
-                    var NewPlane = db.Planes.Single(plane => plane.PlaneId == 4);
-                    db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
-                    db.SaveChanges();
+                // get plane from db to change to change plane
+                var NewPlane = db.Planes.Single(plane => plane.PlaneId == 4);
+                db.Flights.Single(flight => flight.FlightId == planeChangeflight.flights[0].FlightId).PlaneType = NewPlane;
+                db.SaveChanges();
 
-                    // refresh list
-                    Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
-                }
-                else
-                {
-                    OutputInfo.Message = "You must select a flight first.";
+                // refresh list
+                Frame.Navigate(typeof(MMSelectPlanePage), passedMMParams);
+            }
+            else
+            {
+                OutputInfo.Message = "You must select a flight first.";
 
-                    OutputInfo.Title = "Invalid Input!";
-                    OutputInfo.Severity = InfoBarSeverity.Error;
-                    OutputInfo.IsOpen = true;
-                }
+                OutputInfo.Title = "Invalid Input!";
+                OutputInfo.Severity = InfoBarSeverity.Error;
+                OutputInfo.IsOpen = true;
             }
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)

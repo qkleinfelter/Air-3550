@@ -15,7 +15,7 @@
             <StackPanel x:Name="stack" Orientation="Horizontal" HorizontalAlignment="Center">
                 <local:AirportSuggest x:Name="originPicker" Label="Airport" Margin="3" VerticalAlignment="Bottom"/>
                 <CalendarDatePicker x:Name="departurePicker"  PlaceholderText="Departing Date" Margin="3" VerticalAlignment="Bottom"/>
-                <Button x:Name="searchButton" Click="searchButton_Click" Margin="3" VerticalAlignment="Bottom">Search</Button>
+                <Button x:Name="searchButton" Click="SearchButton_Click" Margin="3" VerticalAlignment="Bottom">Search</Button>
             </StackPanel>
             <InfoBar x:Name="OutputInfo" IsOpen="False" Margin="3"/>
 
@@ -24,8 +24,8 @@
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">
             <DropDownButton.Flyout>
                 <MenuFlyout Placement="Bottom">
-                    <MenuFlyoutItem Text="Change Account Info" Click="changeAccountInfoButton_Click"/>
-                    <MenuFlyoutItem Text="Logout" Click="logoutNavigator_Click"/>
+                    <MenuFlyoutItem Text="Change Account Info" Click="ChangeAccountInfoButton_Click"/>
+                    <MenuFlyoutItem Text="Logout" Click="LogoutNavigator_Click"/>
                 </MenuFlyout>
             </DropDownButton.Flyout>
         </DropDownButton>

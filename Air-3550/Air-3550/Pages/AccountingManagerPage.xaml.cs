@@ -31,48 +31,46 @@ namespace Air_3550.Pages
             List<ScheduledFlight> flights = GenerateFlights();
             FlightMoney.ItemsSource = flights;
             TotalFlights.Text += flights.Count;
-            Earnings.Text += getTotalMoney();
+            Earnings.Text += GetTotalMoney();
         }
 
-        private List<ScheduledFlight> GenerateFlights()
+        private static List<ScheduledFlight> GenerateFlights()
         {
-            using(var db = new AirContext())
-            {
-                List<ScheduledFlight> SchedFLights = db.ScheduledFlights.Include(flight => flight.Flight)
-                                                        .ThenInclude(fl => fl.Origin)
-                                                      .Include(flight => flight.Flight)
-                                                        .ThenInclude(fl => fl.Destination)
-                                                      .Include(flight => flight.Flight)
-                                                        .ThenInclude(fl => fl.PlaneType)
-                                                      .Where(flight => flight.DepartureTime.CompareTo(DateTime.Now) < 0)
-                                                      .ToList();
-                return SchedFLights;
-            }
+            using var db = new AirContext();
+            List<ScheduledFlight> SchedFLights = db.ScheduledFlights.Include(flight => flight.Flight)
+                                                    .ThenInclude(fl => fl.Origin)
+                                                  .Include(flight => flight.Flight)
+                                                    .ThenInclude(fl => fl.Destination)
+                                                  .Include(flight => flight.Flight)
+                                                    .ThenInclude(fl => fl.PlaneType)
+                                                  .Where(flight => flight.DepartureTime.CompareTo(DateTime.Now) < 0)
+                                                  .ToList();
+            return SchedFLights;
         }
 
-        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeAccountInfoButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(ChangeAccountInfoPage));
         }
 
-        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
         }
 
-        private string getTotalMoney()
+        private static string GetTotalMoney()
         {
             int Total = 0;
             using (var db = new AirContext())
             {
-                var Trips = db.Trips.Where(trip => !trip.isCanceled && (trip.Tickets.First().Flight.DepartureTime.CompareTo(DateTime.Now) < 0))
+                var Trips = db.Trips.Where(trip => !trip.IsCanceled && (trip.Tickets.First().Flight.DepartureTime.CompareTo(DateTime.Now) < 0))
                                     .ToList();
                 //var Trips = db.Trips.ToList();
                 foreach (var trip in Trips)
                 {
-                    Total += trip.totalCost;
+                    Total += trip.TotalCost;
                 }
             }
 

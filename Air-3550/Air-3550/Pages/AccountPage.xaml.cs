@@ -28,12 +28,12 @@ namespace Air_3550.Pages
             }
         }
 
-        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeAccountInfoButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(ChangeAccountInfoPage));
         }
 
-        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
             // log the user out of the session and send them to the main page
             UserSession.userId = 0;
@@ -73,17 +73,17 @@ namespace Air_3550.Pages
                 foreach (Trip trip in customerInfo.Trips)
                 {
                     // check if the trip has departed
-                    if (trip.getFormattedDeparted() == "Trip has departed!")
+                    if (trip.GetFormattedDeparted() == "Trip has departed!")
                     {
                         // make sure they haven't claimed the points already
-                        if (!trip.pointsClaimed)
+                        if (!trip.PointsClaimed)
                         {
                             // Award the appropriate points to the user
-                            UserUtilities.AwardPoints(user, (trip.totalCost / 100) * 10);
-                            newPoints = trip.totalCost / 100; // keep track of this for the ui
-                            trip.pointsClaimed = true; // set the points claimed to true
+                            UserUtilities.AwardPoints(user, (trip.TotalCost / 100) * 10);
+                            newPoints = trip.TotalCost / 100; // keep track of this for the ui
+                            trip.PointsClaimed = true; // set the points claimed to true
                             var dbtrip = db.Trips.Single(dbtripinterior => dbtripinterior.TripId == trip.TripId);
-                            dbtrip.pointsClaimed = true; // and update the db as well
+                            dbtrip.PointsClaimed = true; // and update the db as well
                             db.SaveChanges();
                         }
                     }
@@ -100,12 +100,12 @@ namespace Air_3550.Pages
             }
         }
 
-        private void backHome_Click(object sender, RoutedEventArgs e)
+        private void BackHome_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
         }
 
-        private void cancelTrip_Click(object sender, RoutedEventArgs e)
+        private void CancelTrip_Click(object sender, RoutedEventArgs e)
         {
             if (cancelTrip.Flyout is Flyout f)
             {
@@ -132,7 +132,7 @@ namespace Air_3550.Pages
                 }
             }
 
-            if (takenOff || SelectedTrip.isCanceled)
+            if (takenOff || SelectedTrip.IsCanceled)
             {
                 // Not allowed to cancel, so display an error
                 OutputInfo.Title = "No cancellation possible";
@@ -162,17 +162,17 @@ namespace Air_3550.Pages
             }
         }
 
-        private void boardingPass_Click(object sender, RoutedEventArgs e)
+        private void BoardingPass_Click(object sender, RoutedEventArgs e)
         {
             // send the user to the boarding pass page if its allowed
             Trip BPTrip = TripList.SelectedItem as Trip;
-            if(!BPTrip.isCanceled && (DateTime.Now.CompareTo(BPTrip.Tickets[0].Flight.DepartureTime.AddDays(-1)) > 0) 
+            if(!BPTrip.IsCanceled && (DateTime.Now.CompareTo(BPTrip.Tickets[0].Flight.DepartureTime.AddDays(-1)) > 0) 
                 && (DateTime.Now.CompareTo(BPTrip.Tickets[0].Flight.DepartureTime) < 0))
             {
                 Frame.Navigate(typeof(BoardingPass), BPTrip);
             }
             // otherwise display an appropriate error
-            else if (BPTrip.isCanceled)
+            else if (BPTrip.IsCanceled)
             {
                 OutputInfo.Title = "Flight Cancelled!";
                 OutputInfo.Message = "You can not print a boarding pass for a cancelled flight";

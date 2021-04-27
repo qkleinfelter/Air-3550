@@ -33,7 +33,7 @@ namespace Air_3550.Pages
         }
 
 
-        private void searchButton_Click(object sender, RoutedEventArgs e)
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             
             if (ValidateSearchParameters())
@@ -62,7 +62,7 @@ namespace Air_3550.Pages
             
         }
 
-        private string StripAirportCode(string full)
+        private static string StripAirportCode(string full)
         {
             return full.Substring(full.IndexOf("(") + 1, 3);
         }
@@ -86,12 +86,12 @@ namespace Air_3550.Pages
             return valid;
         }
 
-        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeAccountInfoButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(ChangeAccountInfoPage));
         }
 
-        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;

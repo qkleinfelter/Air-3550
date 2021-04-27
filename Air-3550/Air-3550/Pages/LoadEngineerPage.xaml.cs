@@ -33,7 +33,7 @@ namespace Air_3550.Pages
             departurePicker.MinDate = DateTime.Now;
         }
 
-        private void searchButton_Click(object sender, RoutedEventArgs e)
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateSearchParameters())
             {
@@ -68,7 +68,7 @@ namespace Air_3550.Pages
             }
         }
 
-        private void addButton_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateAddParameters())
             {
@@ -149,28 +149,26 @@ namespace Air_3550.Pages
             return valid;
         }
 
-        private bool EnsureExistingRoute(Airport originAirport, Airport destinationAirport)
+        private static bool EnsureExistingRoute(Airport originAirport, Airport destinationAirport)
         {
-            using (var db = new AirContext())
-            {
-                // This query grabs all direct flights, comments follow inline
-                var direct = db.Flights // on the entire flights table of the db
-                               .Include(flight => flight.Origin) // ensure that we have access to the origin airports info later
-                               .Include(flight => flight.Destination) // ensure that we have access to the destination airports info later
-                               .Where(flight => !flight.isCanceled // only take flights that are not canceled (by staff member)
-                               && flight.Origin == originAirport // the origin of the flight should match the origin airport passed in
-                               && flight.Destination == destinationAirport) // and the destination airports should match
-                               .ToList(); // then turn it into a list
+            using var db = new AirContext();
+            // This query grabs all direct flights, comments follow inline
+            var direct = db.Flights // on the entire flights table of the db
+                           .Include(flight => flight.Origin) // ensure that we have access to the origin airports info later
+                           .Include(flight => flight.Destination) // ensure that we have access to the destination airports info later
+                           .Where(flight => !flight.IsCanceled // only take flights that are not canceled (by staff member)
+                           && flight.Origin == originAirport // the origin of the flight should match the origin airport passed in
+                           && flight.Destination == destinationAirport) // and the destination airports should match
+                           .ToList(); // then turn it into a list
 
-                // If there are flights at this point, they are existing routes.
-                // This makes them safe to add new flights.
-                if (direct.Count > 0)
-                {
-                    
-                    return true;
-                }
-                return false;
+            // If there are flights at this point, they are existing routes.
+            // This makes them safe to add new flights.
+            if (direct.Count > 0)
+            {
+
+                return true;
             }
+            return false;
         }
 
         private bool ValidateAddParameters()
@@ -202,19 +200,19 @@ namespace Air_3550.Pages
             return valid;
         }
 
-        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeAccountInfoButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(ChangeAccountInfoPage));
         }
 
-        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;
             Frame.Navigate(typeof(MainPage));
         }
 
-        private string StripAirportCode(string full)
+        private static string StripAirportCode(string full)
         {
             return full.Substring(full.IndexOf("(") + 1, 3);
         }

@@ -15,14 +15,14 @@ namespace Air_3550.Models
         public int DestinationAirportId { get; set; }
         [Required]
         public Airport Destination { get; set; }
-        public bool isCanceled { get; set; }
-        public int totalCost { get; set; }
-        public bool pointsClaimed { get; set; }
+        public bool IsCanceled { get; set; }
+        public int TotalCost { get; set; }
+        public bool PointsClaimed { get; set; }
         public int CustomerInfoId { get; set; }
 
-        public string getFormattedCancelation()
+        public string GetFormattedCancelation()
         {
-            if (isCanceled)
+            if (IsCanceled)
             {
                 return "Trip Canceled!";
             } 
@@ -32,9 +32,9 @@ namespace Air_3550.Models
             }
         }
 
-        public string getFormattedDeparted()
+        public string GetFormattedDeparted()
         {
-            if (isCanceled)
+            if (IsCanceled)
             {
                 // if the trip is canceled we don't want to display both messages
                 return "";
@@ -54,10 +54,10 @@ namespace Air_3550.Models
             return "";
         }
 
-        public string getFormattedDateString()
+        public string GetFormattedDateString()
         {
             Ticket first = Tickets[0];
-            Ticket last = Tickets[Tickets.Count - 1];
+            Ticket last = Tickets[^1];
 
             if (first.Flight.DepartureTime.ToShortDateString() != last.Flight.DepartureTime.ToShortDateString())
             {
