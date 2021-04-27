@@ -17,14 +17,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Air_3550.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class LEManageFlightsPage : Page
     {
         public class LEParameters
@@ -81,6 +75,16 @@ namespace Air_3550.Pages
             {
                 // grab object that was selected from list
                 var deleteFlight = DepartList.SelectedItem as FlightPath;
+
+                var existingFlights = db.ScheduledFlights.Include(sf => sf.Flight).Where(sf => sf.Flight.FlightId == deleteFlight.flights[0].FlightId).ToList();
+                if (existingFlights.Count > 0)
+                {
+                    OutputInfo.Title = "You cannot delete this flight!";
+                    OutputInfo.Message = "This flight has already been scheduled at least once so it cannot be deleted!";
+                    OutputInfo.Severity = InfoBarSeverity.Error;
+                    OutputInfo.IsOpen = true;
+                    return;
+                }
                 
                 // check that something was selected
                 if (deleteFlight != null)
@@ -94,9 +98,8 @@ namespace Air_3550.Pages
                 }
                 else
                 {
-                    OutputInfo.Message = "You must select a flight first.";
-
                     OutputInfo.Title = "Invalid Input!";
+                    OutputInfo.Message = "You must select a flight first.";
                     OutputInfo.Severity = InfoBarSeverity.Error;
                     OutputInfo.IsOpen = true;
                 }
@@ -114,6 +117,16 @@ namespace Air_3550.Pages
                     // grab object that was selected from list
                     var editFlight = DepartList.SelectedItem as FlightPath;
 
+                    var existingFlights = db.ScheduledFlights.Include(sf => sf.Flight).Where(sf => sf.Flight.FlightId == editFlight.flights[0].FlightId).ToList();
+                    if (existingFlights.Count > 0)
+                    {
+                        OutputInfo.Title = "You cannot edit this flight!";
+                        OutputInfo.Message = "This flight has already been scheduled at least once so it cannot be edited!";
+                        OutputInfo.Severity = InfoBarSeverity.Error;
+                        OutputInfo.IsOpen = true;
+                        return;
+                    }
+
                     // check that something was selected
                     if (editFlight != null)
                     {
@@ -129,9 +142,8 @@ namespace Air_3550.Pages
                     }
                     else
                     {
-                        OutputInfo.Message = "You must select a flight first.";
-
                         OutputInfo.Title = "Invalid Input!";
+                        OutputInfo.Message = "You must select a flight first.";
                         OutputInfo.Severity = InfoBarSeverity.Error;
                         OutputInfo.IsOpen = true;
                     }
