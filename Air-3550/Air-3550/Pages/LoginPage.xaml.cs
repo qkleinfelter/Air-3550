@@ -15,7 +15,7 @@ namespace Air_3550.Pages
             this.InitializeComponent();
         }
 
-        private void loginButton_Click(object sender, RoutedEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             //get user input
             string userIdInput = userID.Text.ToString();
@@ -68,7 +68,7 @@ namespace Air_3550.Pages
             }
         }
 
-        private void createAccountButton_Click(object sender, RoutedEventArgs e)
+        private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(RegisterPage));
         }

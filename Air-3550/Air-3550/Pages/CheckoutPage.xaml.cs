@@ -46,7 +46,7 @@ namespace Air_3550.Pages
             // set our passed in params value to the parameters casted to the correct class
             passedInParams = e.Parameter as Parameters;
             // parse out the costs
-            leavingPathCost = int.Parse(passedInParams.leavingPath.Price.Substring(1));
+            leavingPathCost = int.Parse(passedInParams.leavingPath.Price[1..]);
             if (passedInParams.returningPath == null)
             {
                 returningPathCost = 0;
@@ -54,7 +54,7 @@ namespace Air_3550.Pages
             }
             else
             {
-                oneWay = !int.TryParse(passedInParams.returningPath.Price.Substring(1), out returningPathCost);
+                oneWay = !int.TryParse(passedInParams.returningPath.Price[1..], out returningPathCost);
             }
             var db = new AirContext();
             var user = db.Users.Include(dbuser => dbuser.CustInfo).Single(dbuser => dbuser.UserId == UserSession.userId);
@@ -107,7 +107,7 @@ namespace Air_3550.Pages
             userInfo.Text = $"Your balances: Credit: ${custInfo.CreditBalance / 100}, Points: {custInfo.PointsAvailable}";
         }
 
-        private void useCredit_Click(object sender, RoutedEventArgs e)
+        private void UseCredit_Click(object sender, RoutedEventArgs e)
         {
             // grab the user
             var db = new AirContext();
@@ -121,7 +121,7 @@ namespace Air_3550.Pages
             DisablePurchaseButtons();
         }
 
-        private void usePoints_Click(object sender, RoutedEventArgs e)
+        private void UsePoints_Click(object sender, RoutedEventArgs e)
         {
             // grab the user
             var db = new AirContext();
@@ -135,7 +135,7 @@ namespace Air_3550.Pages
             DisablePurchaseButtons();
         }
 
-        private void useCreditCard_Click(object sender, RoutedEventArgs e)
+        private void UseCreditCard_Click(object sender, RoutedEventArgs e)
         {
             // handle the purchase
             TicketUtilities.HandlePurchase(passedInParams.leavingPath, passedInParams.returningPath, passedInParams.departingDate, passedInParams.returningDate, PaymentType.CREDIT_CARD, oneWay);
@@ -161,7 +161,7 @@ namespace Air_3550.Pages
             usePoints.IsEnabled = false;
         }
 
-        private void backHome_Click(object sender, RoutedEventArgs e)
+        private void BackHome_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
         }

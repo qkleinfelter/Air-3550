@@ -18,8 +18,8 @@
         <TextBox PlaceholderText="Credit Card Number" x:Name="CreditCardInput" RelativePanel.Below="PhoneInput" Margin="3" Width="300"/>
         <PasswordBox PlaceholderText="Password" x:Name="PasswordInput" RelativePanel.Below="CreditCardInput" Margin="3" Width="300"/>
         <PasswordBox PlaceholderText="Confirm Password" x:Name="ConfirmPasswordInput" RelativePanel.Below="PasswordInput" Margin="3" Width="300"/>
-        <Button x:Name="confirmButton" RelativePanel.Below="ConfirmPasswordInput" Margin="3" Width="147" Click="confirmButton_Click" />
-        <Button Content="Back to Home" x:Name="backButton" RelativePanel.Below="ConfirmPasswordInput" RelativePanel.RightOf="confirmButton" Margin="3" Width="147" Click="backButton_Click"/>
+        <Button x:Name="confirmButton" RelativePanel.Below="ConfirmPasswordInput" Margin="3" Width="147" Click="ConfirmButton_Click" />
+        <Button Content="Back to Home" x:Name="backButton" RelativePanel.Below="ConfirmPasswordInput" RelativePanel.RightOf="confirmButton" Margin="3" Width="147" Click="BackButton_Click"/>
 
         <InfoBar x:Name="outputInfo" RelativePanel.Below="confirmButton" IsOpen="False" Width="300" Margin="3"/>
     </RelativePanel>

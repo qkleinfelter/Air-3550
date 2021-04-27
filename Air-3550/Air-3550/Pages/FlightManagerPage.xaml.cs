@@ -34,42 +34,40 @@ namespace Air_3550.Pages
             AvailableFlights.ItemsSource = departedFlights;
         }
 
-        private List<ScheduledFlight> GenerateFlights()
+        private static List<ScheduledFlight> GenerateFlights()
         {
-            using (var db = new AirContext())
+            using var db = new AirContext();
+            List<ScheduledFlight> ScheduledFlights = db.ScheduledFlights.Include(flight => flight.Flight)
+                                                                            .ThenInclude(fl => fl.Origin)
+                                                                        .Include(flight => flight.Flight)
+                                                                            .ThenInclude(fl => fl.Destination)
+                                                                        .Include(flight => flight.Flight)
+                                                                            .ThenInclude(fl => fl.PlaneType)
+                                                                        .ToList();
+            List<ScheduledFlight> toRemove = new();
+            foreach (ScheduledFlight sf in ScheduledFlights)
             {
-                List<ScheduledFlight> ScheduledFlights = db.ScheduledFlights.Include(flight => flight.Flight)
-                                                                                .ThenInclude(fl => fl.Origin)
-                                                                            .Include(flight => flight.Flight)
-                                                                                .ThenInclude(fl => fl.Destination)
-                                                                            .Include(flight => flight.Flight)
-                                                                                .ThenInclude(fl => fl.PlaneType)
-                                                                            .ToList();
-                List<ScheduledFlight> toRemove = new List<ScheduledFlight>();
-                foreach (ScheduledFlight sf in ScheduledFlights)
+                if (sf.DepartureTime > DateTime.Now)
                 {
-                    if (sf.DepartureTime > DateTime.Now)
-                    {
-                        toRemove.Add(sf);
-                    }
+                    toRemove.Add(sf);
                 }
-
-                foreach (ScheduledFlight sf in toRemove)
-                {
-                    ScheduledFlights.Remove(sf);
-                }
-
-                return ScheduledFlights;
             }
+
+            foreach (ScheduledFlight sf in toRemove)
+            {
+                ScheduledFlights.Remove(sf);
+            }
+
+            return ScheduledFlights;
         }
 
         // Manage Account & logout at top right of page
-        private void changeAccountInfoButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeAccountInfoButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(ChangeAccountInfoPage));
         }
 
-        private void logoutNavigator_Click(object sender, RoutedEventArgs e)
+        private void LogoutNavigator_Click(object sender, RoutedEventArgs e)
         {
             UserSession.userId = 0;
             UserSession.userLoggedIn = false;

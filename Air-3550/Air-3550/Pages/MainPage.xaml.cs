@@ -27,7 +27,7 @@ namespace Air_3550.Pages
             returnPicker.MaxDate = DateTime.Now.AddMonths(6);
         }
 
-        private void searchButton_Click(object sender, RoutedEventArgs e)
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateSearchParameters())
             {
@@ -63,12 +63,12 @@ namespace Air_3550.Pages
             }
         }
 
-        private void loginNavigator_Click(object sender, RoutedEventArgs e)
+        private void LoginNavigator_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(LoginPage));
         }
 
-        private void accountNavigator_Click(object sender, RoutedEventArgs e)
+        private void AccountNavigator_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(AccountPage));
         }
@@ -118,7 +118,7 @@ namespace Air_3550.Pages
         }
 
         // helper method to grab the airport code from a string that matches the format of our input boxes
-        private string StripAirportCode(string full)
+        private static string StripAirportCode(string full)
         {
             return full.Substring(full.IndexOf("(") + 1, 3);
         }
