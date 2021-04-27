@@ -53,11 +53,11 @@ namespace Air_3550.Pages
 
             DepartHeader.Text = $"{passedMMParams.origin.City} : {passedMMParams.departDate.ToShortDateString()}";
 
-            DepartList.ItemsSource = generateFlights(passedMMParams.origin);
+            DepartList.ItemsSource = GenerateFlights(passedMMParams.origin);
         }
 
         //private  MMFlights;
-        private List<FlightPath> generateFlights(Airport originAirport)
+        private List<FlightPath> GenerateFlights(Airport originAirport)
         {
             using( var db = new AirContext())
             {
