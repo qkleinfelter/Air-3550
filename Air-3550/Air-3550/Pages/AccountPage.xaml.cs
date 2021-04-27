@@ -100,6 +100,11 @@ namespace Air_3550.Pages
 
         private void cancelTrip_Click(object sender, RoutedEventArgs e)
         {
+            if (cancelTrip.Flyout is Flyout f)
+            {
+                f.Hide();
+            }
+
             // Can only see this button if a trip is selected, so don't need
             // to check
             var db = new AirContext();
