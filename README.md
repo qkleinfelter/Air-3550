@@ -8,3 +8,6 @@ Initial project statement is located in Air-3550.pdf.
 3. Download the Project Reunion Extension for Visual Studio, you can do this by clicking Extensions at the top of the page => Manage Extensions => Search for Project Reunion download it and close visual studio to install it.
 4. Open the solution for Air-3550 once you have updated & installed the extension then you should be able to edit & run the project.
     - When running the project, ensure at the top of your screen you are running in Debug - x86 - Air-3550 (Package)
+
+## Database access
+If you need to manually access the database, to change things such as making flights full, I recommend the use of [DB Browser for SQLite](https://sqlitebrowser.org/). You can find the local database on your machine in the path `%appdata%/Air 3550 Team 11`, or if for some reason it decided not to save there it may also be located in `%localappdata%/Packages/Most Recently Modified Package Folder/Local Cache/Roaming/Air 3550 Team 11`.
