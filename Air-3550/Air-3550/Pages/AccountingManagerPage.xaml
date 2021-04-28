@@ -40,14 +40,14 @@
     
     
     <RelativePanel>
-        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="true" RelativePanel.AlignVerticalCenterWithPanel="true">
+        <StackPanel  x:Name="Header">
             <TextBlock x:Name="Title" FontFamily="Sans-Serif" FontSize="56" Text="Accounting Report" Margin="2"/>
             <TextBlock Text="Flight Data (only money for miles, does not include fees and discounts):" FontSize="26" Margin="5"/>
-            <ListView x:Name="FlightMoney" ItemTemplate="{StaticResource FlightMoneyTemplete}" SelectionMode="none" />
+        </StackPanel>
+        <ListView x:Name="FlightMoney" ItemTemplate="{StaticResource FlightMoneyTemplete}" SelectionMode="none" RelativePanel.Below="Header" Height="500"/>
+        <StackPanel RelativePanel.Below="FlightMoney">
             <TextBlock x:Name="TotalFlights" Text="Total number of flights: " FontSize="26" Margin="5"/>
             <TextBlock x:Name="Earnings" Text="Total money made after fees and discounts: $" FontSize="26" Margin="5"/>
-
-
         </StackPanel>
         <DropDownButton Content="Account Info" Margin="3" RelativePanel.AlignTopWithPanel="true" RelativePanel.AlignRightWithPanel="True">
             <DropDownButton.Flyout>
