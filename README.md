@@ -19,3 +19,6 @@ Our staff members have seeded accounts that are able to be logged into via their
     - flight_manager
     - load_engineer
     - marketing_manager
+
+## Youtube video link
+As part of the class we recorded this Youtube video showing off our project as well as talking about some overall design choices, you can view the video [here](https://www.youtube.com/watch?v=jE15qY8E4q0).
