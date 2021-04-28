@@ -11,3 +11,11 @@ Initial project statement is located in Air-3550.pdf.
 
 ## Database access
 If you need to manually access the database, to change things such as making flights full, I recommend the use of [DB Browser for SQLite](https://sqlitebrowser.org/). You can find the local database on your machine in the path `%appdata%/Air 3550 Team 11`, or if for some reason it decided not to save there it may also be located in `%localappdata%/Packages/Most Recently Modified Package Folder/Local Cache/Roaming/Air 3550 Team 11`.
+
+## Staff Accounts seeded logins
+Our staff members have seeded accounts that are able to be logged into via their job title as both username and password. The legal accounts are:
+
+    - accounting_manager
+    - flight_manager
+    - load_engineer
+    - marketing_manager
